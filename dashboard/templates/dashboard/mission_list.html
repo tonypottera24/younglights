@@ -1,0 +1,68 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block content %}
+<div class="am-g">
+	<div class="am-u-sm-12 am-u-md-6">
+		<div class="am-btn-toolbar">
+			<div class="am-btn-group am-btn-group-xs">
+				{% if request.user.groups.first.name != "学生" %}
+				<a class="am-btn am-btn-default" href="{{ page_add }}"><span class="am-icon-plus"></span> 新增</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="am-u-sm-12 am-u-md-3">
+		<form class="am-form" method="get" action="">
+			<div class="am-input-group am-input-group-sm">
+				<input type="text" class="am-form-field" value="{{search_text}}" name="search_text">
+				<span class="am-input-group-btn">
+					<input class="am-btn am-btn-default" type="submit" name="submit" value="搜索"/>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="am-g">
+	<div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+			<thead>
+				<tr>
+					<th>标题</th>
+					<th class="am-hide-sm-only">期限</th>
+					{% if request.user.groups.first.name != "学生" %}
+					<th>学生姓名</th>
+					{% endif %}
+					<th>导师姓名</th>
+					<th class="am-hide-sm-only">创建日期</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for object in object_list %}
+				<tr>
+					<td>{{ object.title }}</td>
+					<td class="am-hide-sm-only">{{ object.end_date }}</td>
+					{% if request.user.groups.first.name != "学生" %}
+					<td>{{ object.student.userprofile.chinese_name }}</td>
+					{% endif %}
+					<td>{{ object.teacher.userprofile.chinese_name }}</td>
+					<td class="am-hide-sm-only">{{ object.added_datetime }}</td>
+					<td>
+						<div class="am-btn-toolbar">
+							<div class="am-btn-group am-btn-group-xs">
+								<a class="am-btn am-btn-default am-btn-xs" href="{% url 'dashboard:MissionDetailView' object.id %}"><span class="am-icon-search"></span> 查看</a>
+								{% if request.user.groups.first.name != "学生" %}
+								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:MissionUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:MissionDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+								{% endif %}
+							</div>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% include "dashboard/paginator.html" %}
+	</div>
+</div>
+{% endblock %}

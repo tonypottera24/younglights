@@ -1,0 +1,71 @@
+from django.db import models
+from django.contrib.auth.models import User
+
+# Create your models here.
+
+class MyUser(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    chinese_name = models.CharField(max_length=128, default="")
+    school = models.CharField(max_length=100, blank=True, default='')
+    
+    phone = models.CharField(max_length=100, blank=True, default='')
+    qq = models.CharField(max_length=100, blank=True, default='')
+    wechat = models.CharField(max_length=100, blank=True, default='')
+
+    def save( self, *args, **kw ):
+        self.chinese_name = self.user.last_name + self.user.first_name
+        super( MyUser, self ).save( *args, **kw )
+
+    def __str__(self):
+        return self.chinese_name
+
+    class Meta:
+        abstract = True
+
+class Administrator(MyUser):
+    title = "管理员"
+    class Meta:
+        permissions = (
+            ("view_administrator", "Can view administrator"),
+        )
+
+class Teacher(MyUser):
+    title = "导师"
+    research_field = models.TextField(max_length=1000)
+    research_experience = models.TextField(max_length=10000)
+    thesis_experience = models.TextField(max_length=10000)
+    class Meta:
+        permissions = (
+            ("view_teacher", "Can view teacher"),
+        )
+
+class Student(MyUser):
+    title = "学员"
+    class Meta:
+        permissions = (
+            ("view_student", "Can view student"),
+        )
+
+class Mission(models.Model):
+    title = "任务"
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    student = models.ForeignKey(Student, on_delete=models.CASCADE)
+
+    teacher_task = models.TextField(max_length=1000)
+    student_task = models.TextField(max_length=1000)
+
+    teaching_start = models.DateTimeField('teaching datetime start')
+    teaching_end = models.DateTimeField('teaching datetime end')
+    
+    def teaching_duration(self):
+        return self.teaching_end - self.teaching_start
+
+    deadline = models.DateTimeField('deadline')
+
+    def __str__(self):
+        return "Mission deadline %s, teacher %s, student %s" % (self.deadline, self.teacher.user.get_full_name(), self.student.user.get_full_name())
+
+    class Meta:
+        permissions = (
+            ("view_mission", "Can view mission"),
+        )

@@ -1,0 +1,33 @@
+{% extends 'registration/registration.html' %}
+
+{% block panel %}
+<div class="am-panel am-panel-primary">
+	<div class="am-panel-hd"><h3 class="am-panel-title">登录</h3></div>
+	<div class="am-panel-bd">
+		{% if next %}
+			{% if user.is_authenticated %}
+			<p class="am-text-danger">权限不足，请使用另一个用户名登入</p>
+			{% else %}
+			<p class="am-text-danger">权限不足，请先登入</p>
+			{% endif %}
+		{% endif %}
+		<form method="POST" class="am-form" action="{% url 'dashboard:login' %}">
+			{% csrf_token %}
+			{{ form.username.label_tag }}
+			{{ form.username }}
+			<br>
+			{{ form.password.label_tag }}
+			{{ form.password }}
+			{% if form.errors %}
+				<p class="am-text-danger">用户名或密码错误</p>
+			{% endif %}
+			<br>
+			<div class="am-cf">
+				<a class="am-btn am-btn-default am-fl" href="{% url 'dashboard:password_reset' %}">忘记密码</a>
+				<input class="am-btn am-btn-primary am-fr" type="submit" value="登 录">
+				<input type="hidden" name="next" value="{{ next }}"/>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}

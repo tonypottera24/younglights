@@ -1,0 +1,25 @@
+{% block paginator %}
+<div class="am-cf">
+	第{{page_obj.start_index}}~{{page_obj.end_index}}条记录，共 {{page_obj.paginator.count}} 条记录
+	<div class="am-fr">
+		{% if is_paginated %}
+		<ul class="am-pagination">
+			{% if page_obj.has_previous %}
+			<li><a href="?page={{ page_obj.previous_page_number }}">«</a></li>
+			{% endif %}
+			{% for i in page_obj.paginator.page_range %}
+			{% if page_obj.number == i %}
+			<li class="am-active"><a href="#">{{ page_obj.number }}</a></li>
+			{% else %}
+			<li class="am-inactive"><a href="?page={{ i }}">{{ i }}</a></li>
+			{% endif %}
+			{% endfor %}
+
+			{% if page_obj.has_next %}
+			<li><a href="?page={{ page_obj.next_page_number }}">»</a></li>
+			{% endif %}
+		</ul>
+		{% endif %}
+	</div>
+</div>
+{% endblock %}

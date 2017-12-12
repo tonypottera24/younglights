@@ -1,0 +1,11 @@
+{% extends 'registration/registration.html' %}
+
+{% block panel %}
+<div class="am-panel am-panel-primary">
+	<div class="am-panel-hd"><h3 class="am-panel-title">成功登出</h3></div>
+	<div class="am-panel-bd">
+		<p>感谢您使用 洋光教育 咨询辅导系统</p>
+		<a class="am-btn am-btn-primary am-u-sm-centered" href="{% url 'dashboard:login' %}">再次登录</a>
+	</div>
+</div>
+{% endblock %}

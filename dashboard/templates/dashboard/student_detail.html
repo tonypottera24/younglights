@@ -1,0 +1,28 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block content %}
+
+<div class="am-g">
+	<div class="am-u-sm-12 am-u-md-10 am-u-md-centered">
+		<article class="am-article">
+			<div class="am-article-hd">
+				<h1 class="am-article-title">{{object.userprofile.chinese_name}}</h1>
+				<p class="am-article-meta">用户名 {{object.username}}</p>
+			</div>
+
+			<div class="am-article-bd">
+				<p><strong>电子邮件地址: </strong>{{object.email}}</p>
+				<p><strong>电话号码: </strong>{{object.userprofile.phone}}</p>
+				<p><strong>QQ: </strong>{{object.userprofile.qq}}</p>
+				<p><strong>WeChat: </strong>{{object.userprofile.wechat}}</p>
+				<hr class="am-article-divider">
+				<p><strong>学校: </strong>{{object.userprofile.school}}</p>
+				<p><strong>学院: </strong>{{object.userprofile.college}}</p>
+				<p><strong>专业: </strong>{{object.userprofile.major}}</p>
+			</div>
+		</article>
+		<div class="am-form-group">
+			<a class="am-btn am-btn-default am-fl" href={{ page_cancel }}>返 回</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

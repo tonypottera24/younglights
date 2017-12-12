@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="no-js fixed-layout">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>洋光教育</title>
+  <meta name="description" content="overview">
+  <meta name="keywords" content="overview">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-title" content="younglights" />
+
+  {% load static %}
+  <link rel="icon" type="image/png" href="{% static 'dashboard/img/favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'dashboard/css/amazeui.min.css' %}"/>
+  <link rel="stylesheet" href="{% static 'dashboard/css/admin.css' %}">
+</head>
+<body>
+	{% block body %}
+	{% endblock %}
+<script src="{% static 'dashboard/js/jquery.min.js' %}"></script>
+<script src="{% static 'dashboard/js/amazeui.min.js' %}"></script>
+<script>
+	{% if form %}
+	$(".datepicker").each(function(){
+		var val = $(this).val();
+		if (val) {
+			val = new Date(val);
+		}
+		else {
+			val = new Date();
+		}
+		$(this).datepicker('setValue', val);
+	});
+	$(function() {
+		{% if form.start_date %}
+		//var start_date = new Date('{{form.start_date.value|date:"m d Y"}}');
+		var start_date = $( "#id_start_date" ).val();
+		if (start_date) {
+			$( "#id_start_date" ).datepicker('setValue', new Date(start_date));
+		}
+		{% endif %}
+		{% if form.end_date %}
+		var end_date = $( "#id_end_date" ).val();
+		if (end_date) {
+			$( "#id_end_date" ).datepicker('setValue', end_date);
+		}
+		{% endif %}
+	});
+	{% endif %}
+</script>
+</body>
+</html>
