@@ -9,10 +9,9 @@
 			</div>
 
 			<div class="am-article-bd">
-				<blockquote>
-					<p>导师: {{object.teacher.userprofile.chinese_name}}</p>
-					<p>结束日期: {{object.end_date}}</p>
-				</blockquote>
+				<p><strong>导师: </strong>{{object.teacher.userprofile.chinese_name}}</p>
+				<p><strong>结束日期: </strong>{{object.end_date}}</p>
+				<hr class="am-article-divider">
 				<h2>内容:</h2>
 				<p>{{object.content|linebreaks}}</p>
 			</div>

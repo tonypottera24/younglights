@@ -27,17 +27,19 @@
 				<tr>
 					<th>导师姓名</th>
 					<th>学生姓名</th>
-					<th>备注</th>
-					<th>创建日期</th>
+					<th class="am-hide-sm-only">备注</th>
+					<th class="am-hide-sm-only">輔導状态</th>
+					<th class="am-hide-sm-only">创建日期</th>
 					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for object in object_list %}
 				<tr>
-					<td>{{ object.teacher.userprofile.chinese_name }}</td>
-					<td>{{ object.student.userprofile.chinese_name }}</td>
-					<td class="am-hide-sm-only">{{ object.comment }}</td>
+					<td>{{ object.teacher.last_name }} {{ object.teacher.first_name }}</td>
+					<td>{{ object.student.last_name }} {{ object.student.first_name }}</td>
+					<td class="am-hide-sm-only">{{ object.comment|truncatechars:15 }}</td>
+					<td class="am-hide-sm-only">{{ object.relationship_status }}</td>
 					<td class="am-hide-sm-only">{{ object.added_datetime }}</td>
 					<td>
 						<div class="am-btn-toolbar">

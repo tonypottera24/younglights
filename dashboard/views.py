@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.decorators import login_required, permission_required
@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse, reverse_lazy
 from .models import MentoringRelationship, MentoringRecord, Mission
 from .user_forms import AdministratorCreationForm, AdministratorChangeForm
 from .user_forms import TeacherCreationForm, TeacherChangeForm
@@ -18,13 +18,13 @@ from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.utils.translation import gettext as _
+import datetime
 
 # Create your views here.
 
 @login_required
 def overview(request):
-    context = {}
-    return render(request, 'dashboard/overview.html', context)
+    return redirect(reverse('dashboard:MissionListView'))
 
 class MentoringRelationshipListView(LoginRequiredMixin, ListView):
     page_title = "导生关系"
@@ -121,6 +121,49 @@ class MentoringRecordListView(LoginRequiredMixin, ListView):
     model = MentoringRecord
     paginate_by = 10
     editable = True
+    def get_mentoring_record(self):
+        teacher_id = self.request.GET.get('teacher_id', 'all')
+        if teacher_id != 'all':
+            try:
+                int(teacher_id)
+            except ValueError:
+                raise Http404("教师id格式错误")
+        student_id = self.request.GET.get('student_id', 'all')
+        if student_id != 'all':
+            try:
+                int(student_id)
+            except ValueError:
+                raise Http404("学生id格式错误")
+
+        teachers = User.objects.filter(groups__name="导师")
+        students = User.objects.filter(groups__name="学生")
+        if self.request.user.groups.first().name == "导师":
+            m = MentoringRecord.objects.filter(teacher = self.request.user)
+            if student_id != 'all':
+                mr = MentoringRelationship.objects.filter(teacher__id = self.request.user.id)
+                try:
+                    student = students.get(MentoringRelationship_student__in = mr, id = student_id)
+                    m = m.filter(student__id = student.id)
+                except students.model.DoesNotExist:
+                    raise Http404(_("No %(verbose_name)s found matching the query") %
+                                {'verbose_name': students.model._meta.verbose_name})
+        elif self.request.user.groups.first().name == "管理员":
+            m = MentoringRecord.objects.all()
+            if teacher_id != 'all':
+                try:
+                    teacher = teachers.get(id = teacher_id)
+                    m = m.filter(teacher__id = teacher.id)
+                except teachers.model.DoesNotExist:
+                    raise Http404(_("No %(verbose_name)s found matching the query") %
+                                {'verbose_name': teachers.model._meta.verbose_name})
+            if student_id != 'all':
+                try:
+                    student = students.get(id = student_id)
+                    m = m.filter(student__id = student.id)
+                except students.model.DoesNotExist:
+                    raise Http404(_("No %(verbose_name)s found matching the query") %
+                                {'verbose_name': students.model._meta.verbose_name})
+        return m
     def get_context_data(self, **kwargs):
         context = super(MentoringRecordListView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
@@ -128,17 +171,36 @@ class MentoringRecordListView(LoginRequiredMixin, ListView):
         context['page_add'] = self.page_add
         context['editable'] = self.editable
         context['search_text'] = self.request.GET.get('search_text', '')
+        context['teacher_id'] = self.request.GET.get('teacher_id', 'all')
+        context['student_id'] = self.request.GET.get('student_id', 'all')
         context['orderby'] = self.request.GET.get('orderby', '-mentoring_date')
+        teachers = User.objects.filter(groups__name="导师")
+        students = User.objects.filter(groups__name="学生")
+        if self.request.user.groups.first().name == "导师":
+            mr = MentoringRelationship.objects.filter(teacher__id = self.request.user.id)
+            teachers = teachers.filter(id = self.request.user.id)
+            students = students.filter(MentoringRelationship_student__in = mr)
+        context['query_teachers'] = teachers
+        context['query_students'] = students
+        mr = self.get_mentoring_record()
+        time_sum = datetime.timedelta(0, 0, 0)
+        for m in mr:
+            t = m.mentoring_time
+            dt = datetime.timedelta(0, t.second, 0, 0, t.minute, t.hour)
+            time_sum += dt
+        s = time_sum.seconds
+        hour = s // 3600
+        s -= hour * 3600
+        minute = s // 60
+        context['query_mentoring_time'] = "%02d:%02d" % (hour, minute)
         return context
     def get_queryset(self):
         search_text = self.request.GET.get('search_text', '')
         order_by = self.request.GET.get('order_by', '-mentoring_date')
-        if self.request.user.groups.first().name == "导师":
-            m = MentoringRecord.objects.filter(teacher = self.request.user)
-        elif self.request.user.groups.first().name == "管理员":
-            m = MentoringRecord.objects.all()
         query = Q(teacher__userprofile__chinese_name__icontains = search_text)
         query.add(Q(student__userprofile__chinese_name__icontains = search_text), Q.OR)
+        query.add(Q(content__icontains = search_text), Q.OR)
+        m = self.get_mentoring_record()
         new_context = m.filter(query).order_by(order_by)
         return new_context
 

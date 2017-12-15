@@ -1,57 +1,91 @@
 {% extends 'dashboard/dashboard.html' %}
 {% block content %}
-<div class="am-g">
-	<div class="am-u-sm-12 am-u-md-6">
-		<div class="am-btn-toolbar">
-			<div class="am-btn-group am-btn-group-xs">
-				<a class="am-btn am-btn-default" href="{{ page_add }}"><span class="am-icon-plus"></span> 新增</a>
+<form class="am-form" method="get" action="">
+	<div class="am-g">
+		<div class="am-u-sm-12 am-u-md-6">
+			<div class="am-btn-toolbar">
+				<div class="am-btn-group am-btn-group-xs">
+					<a class="am-btn am-btn-default" href="{{ page_add }}"><span class="am-icon-plus"></span> 新增</a>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="am-u-sm-12 am-u-md-3">
-		<form class="am-form" method="get" action="">
+		<div class="am-u-sm-12 am-u-md-3">
 			<div class="am-input-group am-input-group-sm">
 				<input type="text" class="am-form-field" value="{{search_text}}" name="search_text">
 				<span class="am-input-group-btn">
-					<input class="am-btn am-btn-default" type="submit" name="submit" value="搜索"/>
+					<input class="am-btn am-btn-default" type="submit" name="submitBtn" value="搜索"/>
 				</span>
 			</div>
-		</form>
+		</div>
 	</div>
-</div>
 
-<div class="am-g">
-	<div class="am-u-sm-12">
-		<table class="am-table am-table-striped am-table-hover table-main">
-			<thead>
-				<tr>
-					<th>导师姓名</th>
-					<th>学生姓名</th>
-					<th>辅导日期</th>
-					<th>辅导时间</th>
-					<th>操作</th>
-				</tr>
-			</thead>
-			<tbody>
-				{% for object in object_list %}
-				<tr>
-					<td>{{ object.teacher.userprofile.chinese_name }}</td>
-					<td>{{ object.student.userprofile.chinese_name }}</td>
-					<td class="am-hide-sm-only">{{ object.mentoring_date }}</td>
-					<td class="am-hide-sm-only">{{ object.mentoring_time }}</td>
-					<td>
-						<div class="am-btn-toolbar">
-							<div class="am-btn-group am-btn-group-xs">
-								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:MentoringRecordUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:MentoringRecordDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<table class="am-table am-table-striped am-table-hover table-main">
+				<thead>
+					<tr>
+						{% if request.user.groups.first.name == "管理员" %}
+						<th>
+							<select name="teacher_id" data-am-selected="{btnWidth: '70%', btnSize: 'sm'}" onChange="form.submit();">
+								{% if query_teachers|length > 1 %}
+								<option value="all">全部</option>
+								{% endif %}
+								{% for t in query_teachers %}
+								<option value="{{t.id}}" {% if teacher_id == t.id|slugify %}selected="selected"{% endif %}>{{ t.last_name }} {{ t.first_name }}</option>
+								{% endfor %}
+							</select>
+						</th>
+						{% endif %}
+						<th>
+							<select name="student_id" data-am-selected="{btnWidth: '70%', btnSize: 'sm'}" onChange="form.submit();">
+								{% if query_students|length > 1 %}
+								<option value="all">全部</option>
+								{% endif %}
+								{% for s in query_students %}
+								<option value="{{s.id}}" {% if student_id == s.id|slugify %}selected="selected"{% endif %}>{{ s.last_name }} {{ s.first_name }}</option>
+								{% endfor %}
+							</select>
+						</th>
+						<th class="am-hide-sm-only"></th>
+						<th class="am-hide-sm-only"></th>
+						<th class="am-hide-sm-only">{{ query_mentoring_time }}</th>
+						<th></th>
+					</tr>
+					<tr>
+						{% if request.user.groups.first.name == "管理员" %}
+						<th>导师姓名</th>
+						{% endif %}
+						<th>学生姓名</th>
+						<th class="am-hide-sm-only">内容</th>
+						<th class="am-hide-sm-only">辅导日期</th>
+						<th class="am-hide-sm-only">辅导时长</th>
+						<th>操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for object in object_list %}
+					<tr>
+						{% if request.user.groups.first.name == "管理员" %}
+						<td>{{ object.teacher.last_name }} {{ object.teacher.first_name }}</td>
+						{% endif %}
+						<td>{{ object.student.last_name }} {{ object.student.first_name }}</td>
+						<td class="am-hide-sm-only">{{ object.content|truncatechars:15 }}</td>
+						<td class="am-hide-sm-only">{{ object.mentoring_date }}</td>
+						<td class="am-hide-sm-only">{{ object.mentoring_time }}</td>
+						<td>
+							<div class="am-btn-toolbar">
+								<div class="am-btn-group am-btn-group-xs">
+									<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:MentoringRecordUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+									<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:MentoringRecordDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+								</div>
 							</div>
-						</div>
-					</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		{% include "dashboard/paginator.html" %}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			{% include "dashboard/paginator.html" %}
+		</div>
 	</div>
-</div>
+</form>
 {% endblock %}

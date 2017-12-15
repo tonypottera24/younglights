@@ -86,10 +86,12 @@ class MyBasicField():
             self.fields['thesis_experience'].required = False
         if 'teacher' in self.fields:
             self.fields['teacher'].widget.attrs['data-am-selected']="{searchBox: 1}"
+            self.fields['teacher'].widget.attrs['placeholder'] = '请选择导师 / Teacher'
             self.fields['teacher'].label = '导师 / Teacher'
             self.fields['teacher'].required = True
         if 'student' in self.fields:
             self.fields['student'].widget.attrs['data-am-selected']="{searchBox: 1}"
+            self.fields['student'].widget.attrs['placeholder'] = '请选择学生 / Student'
             self.fields['student'].label = '学生 / Student'
             self.fields['student'].required = True
         if 'start_date' in self.fields:
@@ -103,28 +105,29 @@ class MyBasicField():
             self.fields['end_date'].label = '结束日期 / end_date'
             self.fields['end_date'].required = True
         if 'mentoring_date' in self.fields:
-            self.fields['mentoring_time'].widget.attrs['placeholder'] = '请输入亲的辅导日期 / Mentoring Date'
+            self.fields['mentoring_date'].widget.attrs['placeholder'] = '请选择亲的辅导日期 / Mentoring Date'
             self.fields['mentoring_date'].widget.attrs['class'] = 'datepicker'
             self.fields['mentoring_date'].widget.attrs['data-am-datepicker'] = "{format: 'yyyy/mm/dd'}"
             self.fields['mentoring_date'].label = '辅导日期 / Mentoring Date'
             self.fields['mentoring_date'].required = True
         if 'mentoring_time' in self.fields:
-            self.fields['mentoring_time'].widget.attrs['placeholder'] = '请输入亲的辅导时间 / 00:00'
-            self.fields['mentoring_time'].label = '辅导时间 / Mentoring time'
+            self.fields['mentoring_time'].widget.attrs['placeholder'] = '请选择亲的辅导时长'
+            self.fields['mentoring_time'].widget.attrs['data-am-selected']="{searchBox: 1}"
+            self.fields['mentoring_time'].label = '辅导时长 / Mentoring time'
             self.fields['mentoring_time'].required = True
-        if 'teacher_record' in self.fields:
-            self.fields['teacher_record'].widget.attrs['placeholder'] = '请输入亲的导师纪录 / Teacher record'
-            self.fields['teacher_record'].label = '导师纪录 / Teacher record'
-            self.fields['teacher_record'].required = True
-        if 'student_record' in self.fields:
-            self.fields['student_record'].widget.attrs['placeholder'] = '请输入亲的学生纪录 / student record'
-            self.fields['student_record'].label = '学生纪录 / student record'
-            self.fields['student_record'].required = True
         if 'title' in self.fields:
             self.fields['title'].widget.attrs['placeholder'] = '请输入标题 / Title'
             self.fields['title'].label = '标题 / Title'
             self.fields['title'].required = True
+        if 'relationship_status' in self.fields:
+            self.fields['relationship_status'].widget.attrs['data-am-selected'] = ""
+            self.fields['relationship_status'].label = '輔導状态 / Relationship Status'
+            self.fields['relationship_status'].required = True
         if 'content' in self.fields:
             self.fields['content'].widget.attrs['placeholder'] = '请输入内容 / Content'
             self.fields['content'].label = '内容 / Content'
             self.fields['content'].required = True
+        if 'comment' in self.fields:
+            self.fields['comment'].widget.attrs['placeholder'] = '请输入备注 / Comment'
+            self.fields['comment'].label = '备注 / Comment'
+            self.fields['comment'].required = True

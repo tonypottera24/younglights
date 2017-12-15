@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+import datetime
 
 # Create your models here.
 
@@ -59,6 +60,11 @@ class MentoringRelationship(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRelationship_teacher")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRelationship_student")
 
+    STATUS_CHOICES = (
+            ('辅导中', '辅导中'),
+            ('辅导完成', '辅导完成'),
+            )
+    relationship_status = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
     comment = models.TextField(max_length=1000)
     added_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
@@ -75,14 +81,29 @@ class MentoringRecord(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRecord_teacher")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRecord_student")
 
-    teacher_record = models.TextField(max_length=1000)
-    student_record = models.TextField(max_length=1000)
+    #teacher_record = models.TextField(max_length=1000)
+    #student_record = models.TextField(max_length=1000)
+    content = models.TextField(max_length=1000, default='')
 
     added_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
+    TIME_CHOICES = (
+            (datetime.time(0, 30), '00:30'),
+            (datetime.time(1, 0), '01:00'),
+            (datetime.time(1, 30), '01:30'),
+            (datetime.time(2, 0), '02:00'),
+            (datetime.time(2, 30), '02:30'),
+            (datetime.time(3, 0), '03:00'),
+            (datetime.time(3, 30), '03:30'),
+            (datetime.time(4, 0), '04:00'),
+            (datetime.time(4, 30), '04:30'),
+            (datetime.time(5, 0), '05:00'),
+            (datetime.time(5, 30), '05:30'),
+            )
     mentoring_date = models.DateField('mentoring date')
-    mentoring_time = models.TimeField('mentoring time')
+    #mentoring_time = models.TimeField('mentoring time')
+    mentoring_time = models.TimeField(choices=TIME_CHOICES)
 
     def __str__(self):
         return "辅导纪录：%s（导师）、%s（学生）" % (self.teacher.userprofile.chinese_name, self.student.userprofile.chinese_name)
@@ -96,7 +117,7 @@ class Mission(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Mission_teacher")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="Mission_student")
 
-    title = models.CharField(max_length=100, default='')
+    title = models.CharField(max_length=15, default='')
     content = models.TextField(max_length=5000, default='')
 
     added_datetime = models.DateTimeField(auto_now_add=True)
