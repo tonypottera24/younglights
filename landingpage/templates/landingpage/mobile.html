@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+		<meta property="qc:admins" content="1755101013252671411663757" />
+		<meta content="telephone=no" name="format-detection" />
+		<meta name="keywords" content="">
+		<meta name="description" content="">
+		<meta name="baidu-site-verification" content="" />
+		<meta content="yes" name="full-screen">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="yes" name="apple-touch-fullscreen">
+		<meta content="true" name="x5-fullscreen" >
+		<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes">
+		
+		{% load static %}
+		<link rel="apple-touch-icon-precomposed" href="http://u531433-f5299fde1786492486ec1c930e6d85f1.ktb.wqdian.net/qngroup001%2Fu531433%2F3%2F0%2F6f182b3b27db4975b0b2c96e2f0b08bc.ico"/>
+		<link rel="apple-touch-icon" href="http://u531433-f5299fde1786492486ec1c930e6d85f1.ktb.wqdian.net/qngroup001%2Fu531433%2F3%2F0%2F6f182b3b27db4975b0b2c96e2f0b08bc.ico"/>
+		<link rel="Shortcut Icon" href="http://u531433-f5299fde1786492486ec1c930e6d85f1.ktb.wqdian.net/qngroup001%2Fu531433%2F3%2F0%2F6f182b3b27db4975b0b2c96e2f0b08bc.ico"/>
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/font-awesome.min.css' %}">
+		
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/edit-mall.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/base.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/base_1.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/plugin.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/animate.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/wqdhost.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/component_phone.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/editshopping-m.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'landingpage/css/index.css' %}">
+		<!-- 商品搜索结果列表页样式 phone -->
+		<link rel="stylesheet" type="text/css" href="{% static 'css/searchresult_phone.css' %}">
+		
+		<style type="text/css" class="wqd1472894572337serial style-element style-e-common">#wqd1472894572337serial:before{content:' ';z-index:3;position:absolute;top:0;left:0;width:100%;height:100%;background-color:#e8deda;}</style><style class="style-element style-e-common" type="text/css" data-type="viewWidth">.wqdAreaView .wqdSectiondiv{min-width:1200px;} .wqdAreaView .yzmoveContent{min-width:1200px;}.hiwqd.pc .yzmoveContent{min-width:1200px;}.wqdAreaView .wqdBkEditos{width:1200px;}.fullscreen .bannerContainer{margin:0 auto;width:1200px!important;}</style><style class="wqd-style-common"></style><script class="wqd-script-common"></script><style type="text/css" class="wqd1472895300238serial style-element style-e-center">#wqd1472895300238serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:#fcfbfa;}</style><style type="text/css" class="wqd1473144003578serial style-element style-e-center">#wqd1473144003578serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:#eee5e1;}</style><style type="text/css" class="elementId1473150912640 style-element style-e-center">#elementId1473150912640 .wqd-freeRect{background-color:rgba(255,255,255,0.89)!important;}</style><style type="text/css" class="wqd1473150769406serial style-element style-e-center">#wqd1473150769406serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:#eee5e1;}</style><style type="text/css" class="elementId1473152499067 style-element style-e-center">#elementId1473152499067 .wqd-freeRect{background-color:#dad0cc!important;}</style><style type="text/css" class="wqd1473152219081serial style-element style-e-center">#wqd1473152219081serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:#eee5e1;}</style><style type="text/css" class="elementid14731525402170 style-element style-e-center">#elementid14731525402170 .wqd-freeRect{background-color:#2b4298!important;}</style><style type="text/css" class="elementid14731527206651 style-element style-e-center">#elementid14731527206651 .wqd-freeRect{background-color:#2b4298!important;}</style><style type="text/css" class="elementid14731527206652 style-element style-e-center">#elementid14731527206652 .wqd-freeRect{background-color:#dad0cc!important;}</style><style type="text/css" class="elementid14731527355531 style-element style-e-center">#elementid14731527355531 .wqd-freeRect{background-color:#2b4298!important;}</style><style type="text/css" class="elementid14731527355532 style-element style-e-center">#elementid14731527355532 .wqd-freeRect{background-color:#dad0cc!important;}</style><style type="text/css" class="elementId1473153097833 style-element style-e-center">#elementId1473153097833 .wqd-freeRect{background-color:#f7f1ef!important;}</style><style type="text/css" class="elementId1473154752932 style-element style-e-center">#elementId1473154752932 .wqd-freeRect{background-color:#e3d8d4!important;}</style><style type="text/css" class="elementid14731547959470 style-element style-e-center">#elementid14731547959470 .wqd-freeRect{background-color:#ae9d96!important;}</style><style type="text/css" class="elementid14731548189300 style-element style-e-center">#elementid14731548189300 .wqd-freeRect{background-color:#464861!important;}</style><style type="text/css" class="wqd1473155015266serial style-element style-e-center">#wqd1473155015266serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(70,72,97,0.78);background:rgba(255,255,255,0.15);z-index:2;background-attachment:scroll;}#wqd1473155015266serial:after{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url();background-repeat:repeat;z-index:3;}</style><style type="text/css" class="elementId1473155930826 style-element style-e-center">#elementId1473155930826 .wqd-svg>*{fill:#ffffff;}#elementId1473155930826  {transform:rotateZ(45deg);-webkit-transform:rotateZ(45deg);}</style><style type="text/css" class="elementId1473155915849 style-element style-e-center">#elementId1473155915849 .wqd-freeRect{background-color:rgb(255,255,255)!important;}</style><style type="text/css" class="wqd1473155537263serial style-element style-e-center">#wqd1473155537263serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(70,72,97,0.78);background:rgba(70,72,97,0.78);background-attachment:scroll;z-index:2;}#wqd1473155537263serial:after{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-image:url();background-repeat:repeat;z-index:3;}</style><style type="text/css" class="elementId1473159771878 style-element style-e-center">#elementId1473159771878 .wqd-freeRect{border-color:#f0f0f0!important;border-width:1px;border-style:solid;background-color:rgba(66,146,207,0)!important;}</style><style type="text/css" class="elementid14731598835640 style-element style-e-center">#elementid14731598835640 .wqd-freeRect{border-color:#f0f0f0!important;border-width:1px;border-style:solid;background-color:rgba(66,146,207,0)!important;}</style><style type="text/css" class="elementid14731602410840 style-element style-e-center">#elementid14731602410840 .wqd-freeRect{border-color:#f0f0f0!important;border-width:1px;border-style:solid;background-color:rgba(66,146,207,0)!important;}</style><style type="text/css" class="wqd1473160693642serial style-element style-e-center">#wqd1473160693642serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:#dbd4d1;}</style><style type="text/css" class="wqd1473161435616serial style-element style-e-center">#wqd1473161435616serial:before{content:' ';position:absolute;top:0;left:0;width:100%;height:100%;background-color:#dbd4d1;}</style><style type="text/css" class="style-element style-e-center elementId1513253197786951">#elementId1513253197786951 .wqd-freeRect{background-color:#f7f1ef!important;}</style><style type="text/css" class="elementId14728945723400 style-element style-e-center">#elementId14728945723400 svg>*{stroke:#e8deda;}#elementId14728945723400 path{fill:#2b4298;}#elementId14728945723400  {}</style><style class="wqd-style">#elementId15132646562540 .wqd-brw {border-width:2px;stroke-width:2px;}#elementId15132646562540 .wqd-brc {border-color:;stroke:;}#elementId15132646562540 .wqd-brs {border-style:solid;}#elementId15132646562540 .wqd-brr {border-radius:5px;}#elementId15132646562540 .wqd-brc:hover {border-color:;stroke:;}#elementId15132646562540 .wqd-bgclr:hover {background-color:;fill:;}#elementId15132646562540 .wqd-bgclr:hover .wqd-clr {color:;}#elementId15132646562540 .wqd-fst {font-style:normal;}#elementId15132646562540 .wqd-fw {font-weight:400;}#elementId15132646562540 .wqd-ff {font-family:微软雅黑, Verdana, Arial, Helvetica, sans-serif;}#elementId15132646562540 .wqd-lh {line-height:18.2px;}#elementId15132646562540 .wqd-fs {font-size:14px;}#elementId15132646562540 .wqd-bgclr {background-color:;fill:;}#elementId15132646562540 .wqd-clr {color:;}#elementId15132648266500 .wqd-brw {border-width:0px;stroke-width:0px;}#elementId15132648266500 .wqd-brc {border-color:;stroke:;}#elementId15132648266500 .wqd-brs {border-style:none;}#elementId15132648266500 .wqd-brr {border-radius:px;}#elementId15132648266500 .wqd-brc:hover {border-color:;stroke:;}#elementId15132648266500 .wqd-bgclr:hover {background-color:;fill:;}#elementId15132648266500 .wqd-bgclr:hover .wqd-clr {color:;}#elementId15132648266500 .wqd-fst {font-style:normal;}#elementId15132648266500 .wqd-fw {font-weight:400;}#elementId15132648266500 .wqd-ff {font-family:微软雅黑, Verdana, Arial, Helvetica, sans-serif;}#elementId15132648266500 .wqd-lh {line-height:18.2px;}#elementId15132648266500 .wqd-fs {font-size:14px;}#elementId15132648266500 .wqd-bgclr {background-color:;fill:;}#elementId15132648266500 .wqd-clr {color:;}#elementId1513264943948325 .wqd-brw {border-width:2px;stroke-width:2px;}#elementId1513264943948325 .wqd-brc {border-color:;stroke:;}#elementId1513264943948325 .wqd-brs {border-style:solid;}#elementId1513264943948325 .wqd-brr {border-radius:5px;}#elementId1513264943948325 .wqd-brc:hover {border-color:;stroke:;}#elementId1513264943948325 .wqd-bgclr:hover {background-color:;fill:;}#elementId1513264943948325 .wqd-bgclr:hover .wqd-clr {color:;}#elementId1513264943948325 .wqd-fst {font-style:normal;}#elementId1513264943948325 .wqd-fw {font-weight:400;}#elementId1513264943948325 .wqd-ff {font-family:微软雅黑, Verdana, Arial, Helvetica, sans-serif;}#elementId1513264943948325 .wqd-lh {line-height:18.2px;}#elementId1513264943948325 .wqd-fs {font-size:14px;}#elementId1513264943948325 .wqd-bgclr {background-color:;fill:;}#elementId1513264943948325 .wqd-clr {color:;}#elementId1513264949040282 .wqd-brw {border-width:2px;stroke-width:2px;}#elementId1513264949040282 .wqd-brc {border-color:;stroke:;}#elementId1513264949040282 .wqd-brs {border-style:solid;}#elementId1513264949040282 .wqd-brr {border-radius:5px;}#elementId1513264949040282 .wqd-brc:hover {border-color:;stroke:;}#elementId1513264949040282 .wqd-bgclr:hover {background-color:;fill:;}#elementId1513264949040282 .wqd-bgclr:hover .wqd-clr {color:;}#elementId1513264949040282 .wqd-fst {font-style:normal;}#elementId1513264949040282 .wqd-fw {font-weight:400;}#elementId1513264949040282 .wqd-ff {font-family:微软雅黑, Verdana, Arial, Helvetica, sans-serif;}#elementId1513264949040282 .wqd-lh {line-height:18.2px;}#elementId1513264949040282 .wqd-fs {font-size:14px;}#elementId1513264949040282 .wqd-bgclr {background-color:;fill:;}#elementId1513264949040282 .wqd-clr {color:;}</style><script class="wqd-script">var elementId15132646562540 = '{".wqd-tc":{"val":"56uL5Y2z5YWN6LS56aKE57qm"},".wqd-clr":{"default":"rgb(61, 155, 233)"},".wqd-bgclr":{"default":"rgb(255, 255, 255)"},".wqd-fs":{"lineVal":14,"inputVal":14},".wqd-lh":{"lineVal":18,"inputVal":18},".wqd-fw,_.wqd-fst":{"defFwClass":"on","defFstClass":""},".wqd-bgclr:hover_.wqd-clr":{"default":""},".wqd-bgclr:hover":{"default":""},".wqd-brc:hover":{"default":""},".wqd-href":{"checkIndex":3,"val":"aHR0cDovL2NuLm1pa2Vjcm0uY29tL1h0OEwweTA=","name":"","isShow":"on","isCheck":"on"},".wqd-brr":{"lineVal":5,"inputVal":5},".wqd-brs":{"defVal":"实线","index":1},".wqd-brc":{"default":"rgb(61, 155, 233)"},".wqd-brw":{"lineVal":2,"inputVal":2}}';var elementId15132648266500 = '{".wqd-tc":{"val":"5YWN6LS56aKE57qm5rWL6K+E6K++"},".wqd-clr":{"default":"rgb(255, 255, 255)"},".wqd-bgclr":{"default":"rgb(61, 155, 233)"},".wqd-fs":{"lineVal":14,"inputVal":14},".wqd-lh":{"lineVal":18,"inputVal":18},".wqd-fw,_.wqd-fst":{"defFwClass":"on","defFstClass":""},".wqd-bgclr:hover_.wqd-clr":{"default":""},".wqd-bgclr:hover":{"default":""},".wqd-brc:hover":{"default":""},".wqd-href":{"checkIndex":3,"val":"aHR0cDovL2NuLm1pa2Vjcm0uY29tL1h0OEwweTA=","name":"","isShow":"on","isCheck":"on"},".wqd-brr":{"lineVal":0,"inputVal":0},".wqd-brs":{"defVal":"无","index":0},".wqd-brc":{"default":"rgb(255, 255, 255)"},".wqd-brw":{"lineVal":0,"inputVal":0}}';var elementId1513264943948325 = '{".wqd-tc":{"val":"56uL5Y2z5YWN6LS56aKE57qm"},".wqd-clr":{"default":"rgb(61, 155, 233)"},".wqd-bgclr":{"default":"rgb(255, 255, 255)"},".wqd-fs":{"lineVal":14,"inputVal":14},".wqd-lh":{"lineVal":18,"inputVal":18},".wqd-fw,_.wqd-fst":{"defFwClass":"on","defFstClass":""},".wqd-bgclr:hover_.wqd-clr":{"default":""},".wqd-bgclr:hover":{"default":""},".wqd-brc:hover":{"default":""},".wqd-href":{"checkIndex":3,"val":"aHR0cDovL2NuLm1pa2Vjcm0uY29tL1h0OEwweTA=","name":"","isShow":"on","isCheck":"on"},".wqd-brr":{"lineVal":5,"inputVal":5},".wqd-brs":{"defVal":"实线","index":1},".wqd-brc":{"default":"rgb(61, 155, 233)"},".wqd-brw":{"lineVal":2,"inputVal":2}}';var elementId1513264949040282 = '{".wqd-tc":{"val":"56uL5Y2z5YWN6LS56aKE57qm"},".wqd-clr":{"default":"rgb(61, 155, 233)"},".wqd-bgclr":{"default":"rgb(255, 255, 255)"},".wqd-fs":{"lineVal":14,"inputVal":14},".wqd-lh":{"lineVal":18,"inputVal":18},".wqd-fw,_.wqd-fst":{"defFwClass":"on","defFstClass":""},".wqd-bgclr:hover_.wqd-clr":{"default":""},".wqd-bgclr:hover":{"default":""},".wqd-brc:hover":{"default":""},".wqd-href":{"checkIndex":3,"val":"aHR0cDovL2NuLm1pa2Vjcm0uY29tL1h0OEwweTA=","name":"","isShow":"on","isCheck":"on"},".wqd-brr":{"lineVal":5,"inputVal":5},".wqd-brs":{"defVal":"实线","index":1},".wqd-brc":{"default":"rgb(61, 155, 233)"},".wqd-brw":{"lineVal":2,"inputVal":2}}';</script><script type="text/javascript">
+			
+			var SAAS_SHOP = 'http://saas.wqdian.com'; 
+			var SAAS_NEWS = 'http://saas.wqdian.com'; 
+			
+			try {
+				var domain = "http://member.wqdian.com";
+					if(domain.indexOf("wqdian.com") != -1) {
+						document.domain = "wqdian.com";
+					}else if (domain.indexOf("wqdian.net") != -1) {
+						document.domain = "wqdian.net";
+					}
+			} catch (e) {
+				//console.log("跨域");
+			}
+
+(function () {
+	var userAgent = navigator.userAgent,
+		isMobile  = !!userAgent.match(/AppleWebKit.*Mobile.*/);
+		if(isMobile) {
+			var viewport  = document.querySelector('meta[name="viewport"]'),
+				wWidth    = document.documentElement.clientWidth || window.innerWidth || document.body.clientWidth;
+				sca       = wWidth/320,
+				displayMode = 'phone';
+				
+				if(displayMode == "phone") {
+					viewport.content='width=320,initial-scale='+sca+',minimum-scale='+sca+',maximum-scale='+sca+', user-scalable=no';
+				} else if(displayMode == "pc") {
+					var pcWidth = '' || 1600;
+						sca = wWidth / pcWidth;
+						viewport.content='width=320,initial-scale=1';
+						viewport.content='width=320,initial-scale='+sca+',minimum-scale='+sca;
+				}
+		}
+	//处理pc模版模版预览超链接新窗口打开问题 -- hjj
+	window.parent != window.self && $(document).find("a[target=_blank]").removeAttr("target");
+		
+})();
+</script>
+<title>清北家教-在线一对一辅导</title>
+</head>
+
+<body class="wqdPhoneContainer ">
+	<div style=" overflow:hidden; width:0px; height:0; margin:0 auto; position:absolute; top:-800px;">
+	<img src="{% static 'landingpage/picture/logo_large.jpg' %}">
+	</div>
+	<script type="text/javascript">
+		var CSSURLPATH = 'http://u531433-f5299fde1786492486ec1c930e6d85f1.ktb.wqdian.net/';
+		var companyInfo='{"id":0,"createDate":null,"updateDate":null,"userId":0,"name":null,"brandName":null,"companyType":"私有企业","commerceCode":null,"businessLicense":null,"introduction":null,"brandLogo":null,"companyScale":"5人以下","businessModel":"生产制造","businessModelText":null,"registerYear":null,"registerFund":null,"registerProvince":"北京市","registerCity":"北京市","registerArea":"东城区","legalPerson":null,"bankName":null,"bankAccount":null,"country":null,"province":null,"city":null,"area":null,"detailAddress":null,"email":null,"mobile":null,"telephone":null,"qq":null,"contacts":null,"faxes":null,"postCode":null}'||'{}'
+		var siteInfo=''||'{}';
+		var isAgentUser=false;
+	</script>
+	<!-- 页面主体内容  -->
+	<div class="wqdView wqdIphoneView"><div class="wqdAreaView"><div class="yzmoveContent"><div class="wqdSectiondiv" id="wqd1472894572337serial" partcategoryid="10021" sectionname="手机导航1" commonpartid="10647" partid="wqd1472894572337serial" sortid="15" data-type="wqdSectiondiv" style="z-index: 6;"><header class="wqdPhoneNav wqdBkEditos sectionV2 elementsContainer wqdCommonNav" style="position: relative; height: 0px;" data-maxzindex="2" data-coverphone="true" wqdheight="-1" bac_position="1" wqdwidthlimit="0" wqdbgcolor="#e8deda">
+
+						<div class="wqdelementEdit elementsContainer freeMove wqdPublisHidden wqdSecondNavbox" data-unused="copy,zindex" data-elementtype="secondNav" data-elemandgroup="true" style="width: 120px; height: 199px; z-index: 2; left: 50%; top: 76px; display: none;" wqdnavmark="mark1513253548227" data-zindex="2"><div class="wqdelementEditBox"><div class="wqdSecondNav elemContBox"></div></div></div></header></div></div></div></div>
+	<div class="wqdView wqdIphoneView"><div class="wqdAreaView" position="0"><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="2" partid="wqd1472895300238serial" commonpartid="10638" id="wqd1472895300238serial" sectionname="1" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 933px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="16" wqdheight="933" bac_position="1" wqdwidthlimit="0" wqdbgcolor="#fcfbfa"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 320px; height: 530px; left: 0px; top: 0px; z-index: 2;" elementid="elementId1472895316353" id="elementId1472895316353" data-zindex="2">
+							<div class="wqdelementEditBox">
+								<img class="wqd-img" src="{% static 'landingpage/picture/yq0kyffkl86apam9aabbcvlvkso793.jpg' %}" ondragstart="return false;">
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731404649960" id="elementid14731404649960" data-zindex="3" style="width: 218px; height: 131px; left: 57.5px; top: 225px; z-index: 3;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;"><h4 class="wqd-text-title4" style="display: block; font-style: normal;"><br>
+									<span style="font-size:24px;"><strong><span style="color:#2b4298;">中学在线一对一教育</span></strong><br>
+										<span style="color:#2b4298;">您最好的选择</span></span></h4>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731408922830" id="elementid14731408922830" data-zindex="4" style="width: 179px; height: 110px; left: 70.5px; top: 608px; z-index: 4;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+								<i style="text-align: center; display: block; font-style: normal;"><font color="#2b4298"><span style="font-size: 28px;"><b>关于我们</b></span></font></i>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731410900030" id="elementid14731410900030" data-zindex="5" style="width: 261px; height: 250px; left: 30px; top: 683px; z-index: 5;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+								<p class="wqd-text-article3" style="display: block; font-style: normal; text-align: justify;"><span style="font-size:14px;"><span style="color:#2b4298;">&nbsp; &nbsp; &nbsp; 洋光教育拥有杰出的师资团队，老师均来自清华大学和北京大学，有着丰富的教学经验。通过完善的教学内容和测评体系，实施有特色的课程辅导，针对各科特点，逐一击破考点，着重针对学生的学习短板，查漏补缺，帮助学生实现学习成绩质的飞跃，圆梦高考/中考。</span></span></p>
+							</div>
+									</div><div class="wqdelementEdit wqdGroup elementsContainer" id="elementId1513252586660" style="height: 139px; width: 252px; left: 64px; top: 5733.5px; z-index: 6;" data-maxzindex="8" data-zindex="6" data-elemandgroup="true" groupid="groupId1458540505858" elementid="elementId1513252586660"><div class="wqdelementEditBox" data-maxzindex="1"><div class="wqdelementEdit" id="elementId1513252763003312" style="width: 252px; height: 118px; left: 0px; top: 21px; z-index: 1;" data-elementtype="text" data-zindex="1" elementid="elementId1513252763003312" data-elemandgroup="true">
+									<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="article3"><p class="wqd-text-article3" style="text-align: center; display: block; font-style: normal;"><span style="color:#214076;">私人定制化一对一教学，使用“洋光教育客户端”在线上课，自动录屏，课后可回看课程和课件。每位学员除配有课程老师外，还配有助教一名，帮助学生微信群答疑解惑，时刻与家长保持联系，反馈学生学习情况。</span></p>
+									</div>
+									</div></div></div><div class="wqdelementEdit wqdGroup elementsContainer" id="elementId1513252586660" style="height: 139px; width: 252px; left: 64px; top: 5733.5px; z-index: 7;" data-maxzindex="8" data-zindex="7" data-elemandgroup="true" groupid="groupId1458540505858" elementid="elementId1513252586660"><div class="wqdelementEditBox" data-maxzindex="1"><div class="wqdelementEdit" id="elementId1513252765504329" style="width: 252px; height: 118px; left: 0px; top: 21px; z-index: 1;" data-elementtype="text" data-zindex="1" elementid="elementId1513252765504329" data-elemandgroup="true">
+									<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="article3"><p class="wqd-text-article3" style="text-align: center; display: block; font-style: normal;"><span style="color:#214076;">私人定制化一对一教学，使用“洋光教育客户端”在线上课，自动录屏，课后可回看课程和课件。每位学员除配有课程老师外，还配有助教一名，帮助学生微信群答疑解惑，时刻与家长保持联系，反馈学生学习情况。</span></p>
+									</div>
+									</div></div></div><div class="wqdelementEdit wqdGroup elementsContainer" id="elementId1513252586660" style="height: 139px; width: 252px; left: 69px; top: 5838.5px; z-index: 8;" data-maxzindex="8" data-zindex="8" data-elemandgroup="true" groupid="groupId1458540505858" elementid="elementId1513252586660"><div class="wqdelementEditBox" data-maxzindex="1"><div class="wqdelementEdit" id="elementId1513252765723690" style="width: 252px; height: 118px; left: 0px; top: 21px; z-index: 1;" data-elementtype="text" data-zindex="1" elementid="elementId1513252765723690" data-elemandgroup="true">
+									<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="article3"><p class="wqd-text-article3" style="text-align: center; display: block; font-style: normal;"><span style="color:#214076;">私人定制化一对一教学，使用“洋光教育客户端”在线上课，自动录屏，课后可回看课程和课件。每位学员除配有课程老师外，还配有助教一名，帮助学生微信群答疑解惑，时刻与家长保持联系，反馈学生学习情况。</span></p>
+									</div>
+								</div></div></div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513252967473330" id="elementId1513252967473330" data-zindex="9" style="width: 238px; height: 106px; left: 71px; top: 5968px; z-index: 9;"> <div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3"><span style="font-size:14px;">学生可选取辅导一门或多门，根据学生的教材版本，匹配合适的老师。学生首次听课为免费测评课</span>。</p>
+							</div> </div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1513253197786951" id="elementId1513253197786951" data-zindex="10" style="width: 259px; height: 524px; left: 60.5px; top: 2159px; z-index: 10;" wqdhref="0" wqdpathfill="#f7f1ef">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 320px; height: 832px; left: 30px; top: 7105px; z-index: 11;" elementid="elementId1513253205004210" id="elementId1513253205004210" data-zindex="11">
+							<div class="wqdelementEditBox">
+								<img class="wqd-img" src="{% static 'landingpage/picture/yq0kzvfora6ach63aaaiirtr0ri039.jpg' %}" ondragstart="return false;">
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513253300876386" id="elementId1513253300876386" data-zindex="12" style="width: 171px; height: 34px; left: 104.5px; top: 7526px; z-index: 12;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="display: block; font-style: normal;"><span style="color:#2b4298;"><strong><span style="font-size:18px;">立即免费预约测评课</span></strong></span></p>
+
+								<p>&nbsp;</p>
+							</div>
+							</div><div class="wqdelementEdit" id="elementId14728945723400" style="width: 40px; height: 40px; left: 23.9375px; top: 29px; z-index: 1;" data-elementtype="icon" wqdhref="0" data-zindex="1" data-unused="copy,dele,group" wqd-bgcolor="rgba(240,240,240,0.6)" elementid="elementId14728945723400" data-elemandgroup="true" viewx="-250" viewy="-250" viewwidth="2392" viewhei="2392" wqdpath_width="4.056603773584905" wqdpathstrok="#e8deda" wqdpathfill="#2b4298">
+							<div class="wqdelementEditBox">
+								<div class="wqdPhoneNavBtn">
+									<svg xmlns="http://www.w3.org/2000/svg" class="wqd-svgicon" style="display:inline-block;vertical-align: middle;margin:0 auto;width:40px;height:40px;" viewBox="-298.51698113207544 -298.51698113207544 2489.033962264151 2489.033962264151"><path stroke-linecap="square" stroke-width="97.03396226415094" d="M 1664 1344 v 128 q 0 26 -19 45 t -45 19 h -1408 q -26 0 -45 -19 t -19 -45 v -128 q 0 -26 19 -45 t 45 -19 h 1408 q 26 0 45 19 t 19 45 Z m 0 -512 v 128 q 0 26 -19 45 t -45 19 h -1408 q -26 0 -45 -19 t -19 -45 v -128 q 0 -26 19 -45 t 45 -19 h 1408 q 26 0 45 19 t 19 45 Z m 0 -512 v 128 q 0 26 -19 45 t -45 19 h -1408 q -26 0 -45 -19 t -19 -45 v -128 q 0 -26 19 -45 t 45 -19 h 1408 q 26 0 45 19 t 19 45 Z"></path></svg>
+								</div>
+							</div>
+							</div><div class="wqdelementEdit" id="elementId14728945723401" style="width: 152px; height: 63px; left: 164px; top: 23px; z-index: 13;" data-elementtype="img" data-zindex="13" elementid="elementId14728945723401" data-elemandgroup="true" newwindow="false" wqdlink="/home.html" linktype="innerPage">
+							<div class="wqdelementEditBox"><a href="/home.html"><img class="wqd-img" ondragstart="return false;" src="{% static 'landingpage/picture/373013a1961c40a19ebaa6072ae92bb5.jpg' %}"></a></div>
+							</div><div class="wqdelementEdit" id="elementId151325359976282" style="width: 146px; height: 63px; left: 80px; top: 562px; z-index: 14;" data-elementtype="img" data-zindex="14" elementid="elementId151325359976282" data-elemandgroup="true" newwindow="false" wqdlink="/home.html" linktype="innerPage">
+							<div class="wqdelementEditBox"><a href="/home.html"><img class="wqd-img" ondragstart="return false;" src="{% static 'landingpage/picture/373013a1961c40a19ebaa6072ae92bb5.jpg' %}"></a></div>
+							</div><div class="wqdelementEdit" data-elementtype="button" data-elemandgroup="true" elementid="elementId15132648266500" id="elementId15132648266500" data-zindex="15" style="width: 171px; height: 43px; left: 71px; top: 375px; z-index: 15;" data-conf="_elemBtn_normal"> <div class="wqdelementEditBox"> <a class="wqd-button wqdComponentBtn1 wqd-href wqd-bgclr wqd-brc wqd-brr wqd-brw wqd-brs" wqdbtnborder="false" ondragstart="return false;" href="http://cn.mikecrm.com/Xt8L0y0" target="_blank"> <em class="wqd-tc wqd-clr wqd-fs wqd-ff wqd-fw wqd-fst wqd-lh wqd-ta">免费预约测评课</em> </a> </div> </div><div class="wqdelementEdit" data-elementtype="button" data-elemandgroup="true" elementid="elementId1513264943948325" id="elementId1513264943948325" data-zindex="16" style="width: 141px; height: 36px; left: 119.5px; top: 7236px; z-index: 16;" data-conf="_elemBtn_normal"> <div class="wqdelementEditBox"> <a class="wqd-button wqdComponentBtn2 wqd-href wqd-bgclr wqd-brc wqd-brr wqd-brw wqd-brs" wqdbtnborder="false" ondragstart="return false;" href="http://cn.mikecrm.com/Xt8L0y0" target="_blank"> <em class="wqd-tc wqd-clr wqd-fs wqd-ff wqd-fw wqd-fst wqd-lh wqd-ta">立即免费预约</em> </a> </div> </div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="3" partid="wqd1473141345705serial" commonpartid="10638" id="wqd1473141345705serial" sectionname="2" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 0px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="1" wqdheight="-59"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731414283700" id="elementid14731414283700" data-zindex="1" style="width: 242px; height: 127px; left: 47px; top: 818px; z-index: 1;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;">
+								<h4 class="wqd-text-title4" style="display: block; font-style: normal;"><p class="wqd-text-article3" style="display: block; font-style: normal;"><span style="font-size:14px;"><span style="color:#2b4298;">公司融合了优质的教育资源和先进的信息技术，借着一流的师资队伍、专业的服务团队、先进的教育辅导系统，独特高效的教育方法和完善的管理模式，获得了广大家长的一致好评。</span></span></p>
+								</h4>
+							</div>
+							</div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="5" partid="wqd1473143263388serial" commonpartid="10638" id="wqd1473143263388serial" sectionname="3" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 0px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="1" wqdheight="-91"></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="6" partid="wqd1473144003578serial" commonpartid="10638" id="wqd1473144003578serial" sectionname="4" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 0px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="1" bac_position="1" wqdwidthlimit="0" wqdbgcolor="#eee5e1" wqdheight="-27"></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="6" partid="wqd1473152219081serial" commonpartid="10638" id="wqd1473152219081serial" sectionname="6" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 1px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="10" bac_position="1" wqdwidthlimit="0" wqdbgcolor="#eee5e1" wqdheight="1"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId14731522190843" id="elementId14731522190843" data-zindex="2" style="width: 126px; height: 31px; left: 17px; top: 245px; z-index: 2;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;">
+								<p class="wqd-text-article1" style="display: block; font-style: normal;"><i style="display: block; font-style: normal;"><span style="color:#2b4298;"><strong><span style="font-size:18px;">我们的优势</span></strong></span></i>
+								</p>
+							</div>
+									</div><div class="wqdelementEdit wqdGroup elementsContainer" data-elemandgroup="true" groupid="groupId1473152716713" id="groupId1473152716713" data-zindex="1" data-maxzindex="0" style="height: 42px; width: 289px; left: 17px; top: 288px; z-index: 1;"><div class="wqdelementEditBox"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId14731522190844" id="elementId14731522190844" data-zindex="3" style="width: 160px; height: 28px; left: 0px; top: 0px; z-index: 3;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+										<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: justify; display: block; font-style: normal;"><span style="font-size:14px;"><span style="color:#2b4298;">师资雄厚，行业领先</span></span></i>
+										</p>
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731525402170" id="elementid14731525402170" data-zindex="7" style="width: 226px; height: 14px; left: 0px; top: 28px; z-index: 7;" wqdhref="0" wqdpathfill="#2b4298">
+									<div class="wqdelementEditBox">
+										<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1473152499067" id="elementId1473152499067" data-zindex="6" style="width: 289px; height: 14px; left: 0px; top: 28px; z-index: 6;" wqdhref="0" wqdpathfill="#dad0cc">
+									<div class="wqdelementEditBox">
+										<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731526230490" id="elementid14731526230490" data-zindex="5" style="width: 35px; height: 28px; left: 254px; top: 0px; z-index: 5;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+										<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: justify; display: block; font-style: normal;"><span style="color:#A9A9A9;"><span style="font-size:14px;">75%</span></span></i>
+										</p>
+									</div>
+							</div></div></div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731527206650" id="elementid14731527206650" data-zindex="3" style="width: 160px; height: 28px; left: 17px; top: 355px; z-index: 3;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: justify; display: block; font-style: normal;"><span style="font-size:14px;"><span style="color:#2b4298;">好口碑，口口相传</span></span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731527206653" id="elementid14731527206653" data-zindex="4" style="width: 35px; height: 28px; left: 271px; top: 355px; z-index: 4;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: justify; display: block; font-style: normal;"><span style="color:#A9A9A9;"><span style="font-size:14px;">86%</span></span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731527206652" id="elementid14731527206652" data-zindex="5" style="width: 289px; height: 14px; left: 17px; top: 383px; z-index: 5;" wqdhref="0" wqdpathfill="#dad0cc">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731527206651" id="elementid14731527206651" data-zindex="6" style="width: 273px; height: 15px; left: 17px; top: 382px; z-index: 6;" wqdhref="0" wqdpathfill="#2b4298">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731527355530" id="elementid14731527355530" data-zindex="7" style="width: 160px; height: 28px; left: 17px; top: 425px; z-index: 7;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: justify; display: block; font-style: normal;"><span style="font-size:14px;"><span style="color:#2b4298;">市场占有，强在专业</span></span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731527355533" id="elementid14731527355533" data-zindex="8" style="width: 35px; height: 28px; left: 271px; top: 425px; z-index: 8;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: justify; display: block; font-style: normal;"><span style="color:#A9A9A9;"><span style="font-size:14px;">65%</span></span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731527355532" id="elementid14731527355532" data-zindex="9" style="width: 289px; height: 14px; left: 17px; top: 453px; z-index: 9;" wqdhref="0" wqdpathfill="#dad0cc">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731527355531" id="elementid14731527355531" data-zindex="10" style="width: 246px; height: 14px; left: 17px; top: 453px; z-index: 10;" wqdhref="0" wqdpathfill="#2b4298">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div></section></div></div><div class="yzmoveContent  "><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="6" partid="wqd1473150769406serial" commonpartid="10638" id="wqd1473150769406serial" sectionname="5" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 811px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="5" bac_position="1" wqdwidthlimit="0" wqdbgcolor="#eee5e1" wqdheight="811"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 289px; height: 703px; left: 31px; top: 421px; z-index: 1;" elementid="elementId1473150789473" id="elementId1473150789473" data-zindex="1">
+							<div class="wqdelementEditBox">
+								<img class="wqd-img" src="{% static 'landingpage/picture/yq0kyffoglmam7giaadezi33gs8014.png' %}" ondragstart="return false;">
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1473150912640" id="elementId1473150912640" data-zindex="2" style="width: 288px; height: 768px; left: 14.5px; top: 17px; z-index: 2;" wqdhref="0" wqdpathfill="rgba(255,255,255,0.89)">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473151724325" id="elementId1473151724325" data-zindex="3" style="width: 119px; height: 86px; left: 102px; top: 45px; z-index: 3;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="display: block; font-style: normal;"><span style="font-size:28px;"><span style="color:#2b4298;"><strong>师资队伍</strong></span></span></p>
+
+								<p>&nbsp;</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473151771918" id="elementId1473151771918" data-zindex="4" style="width: 210px; height: 155px; left: 53.5px; top: 102px; z-index: 4;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="display: block; font-style: normal;">&nbsp;</p>
+
+								<i style="display: block; font-style: normal; text-align: justify;"><span style="font-size:14px;"><span style="color:#2b4298;">所有师资均来自清北，经过1对1试讲面试备课教案审核，教学体系培训授课技能强化，层层选拔，老师录取率只有20%，只为您准备最合适的老师 。</span></span></i>
+
+								<p style="text-align: justify;">&nbsp;</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731519355560" id="elementid14731519355560" data-zindex="5" style="width: 216px; height: 503px; left: 53.5px; top: 257px; z-index: 5;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="display: block; font-style: normal; text-align: justify;">1. 北京大学工学院，夏老师：参与一对一辅导和团课教学长达九年，拥有学生受众上千人，曾帮助多名基础较差的学生在短期内培养数学和物理学习兴趣，提分50分以上，深受学生喜爱。<br>
+									<br>
+									2.北京大学金融系，王老师：北京大学本科双学位（软件，英语）国际安全工程会议随行翻译，新东方等英语培训机构兼职教师，全国英语辩论大赛一等奖，从事高中英语家教三年。<br>
+									&nbsp;<br>
+									3. 北京大学丘成桐数学研究中心，文老师：在纯理论数学有很高的天赋和造诣，常年从事高中数学的家教辅导。<br>
+									&nbsp;<br>
+									4.北京大学分子医学研究所，宋老师，拥有高中教师资格证，常年从事一对一数学和生物家教辅导。<br>
+									&nbsp;<br>
+									5.北京大学生命科学中心，朱老师：北京大学物理系本科，多交叉学科数理背景，从事高中生物家教辅导多年。<br>
+									&nbsp;</p>
+
+								<p style="text-align: justify;">&nbsp;</p>
+							</div>
+							</div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="7" partid="wqd1473152903945serial" commonpartid="10638" id="wqd1473152903945serial" sectionname="7" partcategoryid="10757" style="background-image: url({% static 'landingpage/images/yq0kyffoheuai4b3aacyzpz_fpw596.jpg' %}); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;" wqdback_position="1"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 310px; margin: 0px auto; position: relative;" wqdimgurlos="http://img.wqdian.com/group4/M00/92/57/yq0KYFfOheuAI4b3AACYZPz_Fpw596.jpg" wqdbgcoloros="#eee" data-maxzindex="2" bac_position="5" wqdwidthlimit="0" wqdheight="310"><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1473153097833" id="elementId1473153097833" data-zindex="1" style="width: 259px; height: 262px; left: 30.5px; top: 23px; z-index: 1;" wqdhref="0" wqdpathfill="#f7f1ef">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+									</div><div data-elemandgroup="true" data-elementtype="wqdGroup" data-unused="set" class="wqdelementEdit wqdGroup elementsContainer" id="elementId1513253250152" elementid="elementId1513253250152" data-maxzindex="4" data-zindex="2" style="width: 231.5px; height: 495px; top: 58px; left: 58.5px; z-index: 2;"><div class="wqdelementEditBox elemContBox" data-maxzindex="3"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473153244713" id="elementId1473153244713" data-zindex="1" style="width: 204px; height: 162px; left: 0px; top: 34px; z-index: 1;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="display: block; font-style: normal;">&nbsp;</p>
+
+										<i style="text-align: justify; display: block; font-style: normal;"><span style="color:#808080;">年级涵盖：初中，高中。科目涵盖：语文、数学、英语、物理、化学、生物、政治、历史、地理、科学、通用技术和信息技术</span></i>
+
+										<p>&nbsp;</p>
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473153142305" id="elementId1473153142305" data-zindex="2" style="width: 171px; height: 34px; left: 18.5px; top: 0px; z-index: 2;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="display: block; font-style: normal;"><span style="color:#2b4298;"><strong><span style="font-size:18px;">立即免费预约测评课</span></strong></span></p>
+
+										<p>&nbsp;</p>
+									</div>
+							</div><div class="wqdelementEdit" data-elementtype="button" data-elemandgroup="true" elementid="elementId15132646562540" id="elementId15132646562540" data-zindex="3" style="width: 141px; height: 36px; left: 31px; top: 161px; z-index: 3;" data-conf="_elemBtn_normal"> <div class="wqdelementEditBox"> <a class="wqd-button wqdComponentBtn2 wqd-href wqd-bgclr wqd-brc wqd-brr wqd-brw wqd-brs" wqdbtnborder="false" ondragstart="return false;" href="http://cn.mikecrm.com/Xt8L0y0" target="_blank"> <em class="wqd-tc wqd-clr wqd-fs wqd-ff wqd-fw wqd-fst wqd-lh wqd-ta">立即免费预约</em> </a> </div> </div></div></div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="8" partid="wqd1473154733851serial" commonpartid="10638" id="wqd1473154733851serial" sectionname="8" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 0px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="4" wqdheight="0"><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1473154752932" id="elementId1473154752932" data-zindex="1" style="width: 320px; height: 92px; left: 0px; top: 0px; z-index: 1;" wqdhref="0" wqdpathfill="#e3d8d4">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731547959470" id="elementid14731547959470" data-zindex="2" style="width: 320px; height: 92px; left: 0px; top: 92px; z-index: 2;" wqdhref="0" wqdpathfill="#ae9d96">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731548189300" id="elementid14731548189300" data-zindex="3" style="width: 320px; height: 92px; left: 0px; top: 184px; z-index: 3;" wqdhref="0" wqdpathfill="#464861">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473154850662" id="elementId1473154850662" data-zindex="4" style="width: 161px; height: 31px; left: 79.5px; top: 30.5px; z-index: 4;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;">
+								<p class="wqd-text-article1" style="display: block; font-style: normal;"><i style="text-align: center; display: block; font-style: normal;"><span style="font-size:18px;"><span style="color:#FFFFFF;"><strong>课程丰富多彩</strong></span></span></i>
+								</p>
+							</div>
+							</div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv sectionvideoInherit sectiondivInherit" data-type="wqdSectiondiv" sortid="9" partid="wqd1473155015266serial" commonpartid="10638" id="wqd1473155015266serial" sectionname="9" partcategoryid="10757" style="background-image: url(images/yq0kyfedbeeazmzcaadoe-rtowo494.png); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;" wqdback_position="1"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 489px; margin: 0px auto; position: relative;" wqdimgurlos="http://img.wqdian.com/group4/M00/8E/D1/yq0KYFedbeeAZMzcAADoE-RtOwo494.png" wqdbgcoloros="#eee" data-maxzindex="5" bac_position="5" wqdwidthlimit="0" wqdbgcolor="rgba(245,241,241,0)" wqdheight="489" data-style="imgColor:rgba(245,241,241,0);maskColor:rgba(245,241,241,0);toggle0:on;toggle1:;toggle2:;loop:on;colorMask:url();backgroundColor:rgba(255,255,255,0.15);imgMask:url();pureColor:rgba(255,255,255,0.15);" item1="1" item2="1"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473155118852" id="elementId1473155118852" data-zindex="1" style="width: 127px; height: 40px; left: 114px; top: 23px; z-index: 1;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title3" style="visibility: visible;"><h3 class="wqd-text-title3" style="display: block; font-style: normal;"><strong>课程体系</strong></h3>
+							</div>
+									</div><div class="wqdelementEdit wqdGroup elementsContainer" data-elemandgroup="true" groupid="groupId1473155449392" id="groupId1473155449392" data-zindex="2" data-maxzindex="0" style="height: 362px; width: 226px; left: 64.5px; top: 0px; z-index: 2;"><div class="wqdelementEditBox"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473155286851" id="elementId1473155286851" data-zindex="3" style="width: 226px; height: 28px; left: 0px; top: 202px; z-index: 3;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;">
+										<p class="wqd-text-article1" style="display: block; font-style: normal;"><i style="text-align: center; display: block; font-style: normal;"><strong><span style="font-size:16px;"><span style="color:#FFFFFF;">质量保证，教学要求严格</span></span></strong></i>
+										</p>
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731553271140" id="elementid14731553271140" data-zindex="4" style="width: 240px; height: 279px; left: -22px; top: 76.5px; z-index: 4;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="display: block; font-style: normal; text-align: justify;"><span style="font-size:14px;">洋光教育升学辅导项目适用于高中生和初中生，科目包括语文、数学、英语、物理、化学、生物、政治、历史、地理、科学、通用技术和信息技术。课程包括名师一对一授课、助教答疑、学习规划师制定学习规划、阶段性考试测评四大模块，全方位保障学生提升成绩。</span></p>
+
+										<p style="text-align: justify;">&nbsp;</p>
+									</div>
+							</div></div></div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731554549441" id="elementid14731554549441" data-zindex="3" style="width: 226px; height: 28px; left: 47px; top: 839px; z-index: 3;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;">
+								<p class="wqd-text-article1" style="display: block; font-style: normal;"><i style="text-align: center; display: block; font-style: normal;"><strong><span style="font-size:16px;"><span style="color:#FFFFFF;">一切资费透明，安心</span></span></strong></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731554549442" id="elementid14731554549442" data-zindex="4" style="width: 211px; height: 125px; left: 54.5px; top: 874px; z-index: 4;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;">
+								<p class="wqd-text-article1" style="display: block; font-style: normal;"></p><p class="wqd-text-article3" style="display: block; font-style: normal; text-align: justify;"><span style="font-size:14px;"><span style="color:#FFFFFF;">学生所要开发的机电产品均来自企业的真实项目，项目涉及机械结构、控制系统等专业的知识业，学生每个阶段都要完成产品设计、加工、装配、调试等环节。</span></span></p>
+								<p></p>
+							</div>
+									</div><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 245px; height: 169px; left: 37.5px; top: 299px; z-index: 5;" elementid="elementId15132515786200" id="elementId15132515786200" data-zindex="5"> <div class="wqdelementEditBox" style="border-radius:10px;"> <img class="wqd-img wqd-img-default" src="{% static 'landingpage/picture/7ac73fbdbeb24d5d852413915c181a3c.png' %}" ondragstart="return false;"> </div> </div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv sectionvideoInherit sectiondivInherit" data-type="wqdSectiondiv" sortid="9" partid="wqd1473155537263serial" commonpartid="10638" id="wqd1473155537263serial" sectionname="10" partcategoryid="10757" style="background-image: url(images/yq0kyfedbeeazmzcaadoe-rtowo494.png); background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;" wqdback_position="1"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 1975px; margin: 0px auto; position: relative;" wqdimgurlos="http://img.wqdian.com/group4/M00/8E/D1/yq0KYFedbeeAZMzcAADoE-RtOwo494.png" wqdbgcoloros="#eee" data-maxzindex="9" bac_position="5" wqdwidthlimit="0" wqdbgcolor="rgba(70,72,97,0.78)" wqdheight="1975" data-style="colorMask:url();backgroundColor:rgba(70,72,97,0.78);imgMask:url();pureColor:rgba(70,72,97,0.78);toggle0:;toggle1:on;toggle2:;loop:on;imgColor:rgba(70,72,97,0.78);maskColor:rgba(70,72,97,0.78);" item1="1" item2="1"><div class="wqdelementEdit wqdGroup elementsContainer" data-elemandgroup="true" groupid="groupId1473155786777" id="groupId1473155786777" data-zindex="1" data-maxzindex="0" style="height: 847px; width: 226px; left: 47px; top: 71px; z-index: 1;"><div class="wqdelementEditBox" data-maxzindex="2"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 206px; height: 193px; left: 5px; top: 0px; z-index: 1;" elementid="elementId14731555372662" id="elementId14731555372662" data-zindex="1">
+									<div class="wqdelementEditBox">
+										<img class="wqd-img" src="{% static 'landingpage/picture/yq0kyvedzooauyjtaaajatxwpvi301.png' %}" ondragstart="return false;">
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId14731555372664" id="elementId14731555372664" data-zindex="2" style="width: 226px; height: 638px; left: 0px; top: 177px; z-index: 2;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article3" style="display: block; font-style: normal; text-align: center;"><span style="color:#FFFFFF;"><strong><span style="font-size:16px;">高中课程</span></strong></span><br>
+											&nbsp;</p>
+
+										<p class="wqd-text-article3" style="display: block; font-style: normal; text-align: justify;"><span style="color:#FFFF00;"><span style="font-size:14px;"><strong>1. 学科辅导课程</strong></span></span><br>
+											<span style="color:#FFFFFF;"><span style="font-size:14px;">学科分类：语文、数学、英语、物理、化学、生物、政治、历史、地理、科学、通用技术和信息技术<br>
+													<br>
+													课程特点：根据高中知识点切片，同步学科辅导，提升学科成绩<br>
+													<br>
+													适合学生：高一高二学生，全面同步提升各门学科水平，为会考高考打下坚实的基础</span></span><br>
+											<br>
+											<span style="color:#FFFF00;"><span style="font-size:14px;"><strong>2.高考冲刺课程</strong></span></span><br>
+											<span style="color:#FFFFFF;"><span style="font-size:14px;">学科分类：语文、数学、英语、物理、化学、生物、政治、历史、地理<br>
+													<br>
+													课程特点：针对高考大纲，结合学生的实际学习情况，制定全面的一轮、二轮复习计划，沉浸式备考，实现成绩突破性增长。<br>
+													<br>
+													适合学生：高三学生，高分冲刺</span></span></p>
+
+										<p style="display: block; font-style: normal; text-align: justify;">&nbsp;</p>
+									</div>
+									</div></div></div><div class="wqdelementEdit wqdGroup elementsContainer" data-elemandgroup="true" groupid="groupId1473155801098" id="groupId1473155801098" data-zindex="2" data-maxzindex="0" style="height: 382px; width: 226px; left: 39.5px; top: 826px; z-index: 2;"><div class="wqdelementEditBox"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 206px; height: 193px; left: 12.5px; top: 0px; z-index: 1;" elementid="elementId14731555372665" id="elementId14731555372665" data-zindex="1">
+									<div class="wqdelementEditBox">
+										<img class="wqd-img" src="{% static 'landingpage/picture/yq0kyfedzdyanw8faaakugm_ujm929.png' %}" ondragstart="return false;">
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId14731555372666" id="elementId14731555372666" data-zindex="2" style="width: 226px; height: 28px; left: 88px; top: 193px; z-index: 2;">
+									<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="display: block; font-style: normal;"><span style="color:#FFFFFF;"><strong>初中课程</strong></span></p>
+
+										<p>&nbsp;</p>
+									</div>
+							</div></div></div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1473155915849" id="elementId1473155915849" data-zindex="3" style="width: 320px; height: 34px; left: 0px; top: 1975px; z-index: 3;" wqdhref="0" wqdpathfill="rgb(255,255,255)">
+							<div class="wqdelementEditBox">
+								<div class="wqd-freeRect" style="width:100%;height:100%;background:#4292cf;"></div>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="svg" data-elemandgroup="true" elementid="elementId1473155930826" id="elementId1473155930826" data-zindex="4" style="width: 45px; height: 43px; left: 138px; top: 1954px; z-index: 4;" wqdhref="0" wqdpathfill="#ffffff" data-rotate="45">
+							<div class="wqdelementEditBox">
+								<svg class="wqd-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 301"><rect fill="#2d689a" x="-0.32" y="-0.07" width="300.74" height="300.74"></rect></svg>
+							</div>
+								</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132518824090" id="elementId15132518824090" data-zindex="5" style="width: 121px; height: 43px; left: 113.5px; top: 16px; z-index: 5;"> <div class="wqdelementEditBox" data-emptytexttemplate="title3" style="visibility: visible;"><h3 class="wqd-text-title3"><strong><span style="color:#FFFFFF;">课程分类</span></strong></h3>
+							</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId14731555372667" id="elementId14731555372667" data-zindex="6" style="width: 223px; height: 556px; left: 47px; top: 1060px; z-index: 6;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article3" style="display: block; font-style: normal; text-align: justify;"><span style="font-size:14px;"><strong><span style="color:#FFFF00;">1. 学科辅导课程</span></strong><br>
+										<span style="color:#FFFFFF;">学科分类：语文、数学、英语、物理、化学、科学<br>
+											<br>
+											课程特点：根据初中知识点切片，同步学科辅导，提升学科成绩<br>
+											<br>
+											适合学生：初一初二学生，全面同步提升各门学科水平，为中考打下坚实的基础</span><br>
+										<br>
+										<strong><span style="color:#FFFF00;">2. 中考冲刺课程</span></strong><br>
+										<span style="color:#FFFFFF;">学科分类：语文、数学、英语、物理、化学<br>
+											<br>
+											课程特点：把握中考命题脉络，透析重点难点考点，针对中考大纲，结合学生的实际学习情况，制定全面的一轮、二轮复习计划，沉浸式备考，实现成绩突破性增长。<br>
+											<br>
+											适合学生：初三学生，全面备考中考，高分冲刺</span></span></p>
+
+								<p style="display: block; font-style: normal; text-align: justify;">&nbsp;</p>
+							</div>
+								</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132524320670" id="elementId15132524320670" data-zindex="7" style="width: 91px; height: 32px; left: 114.5px; top: 1655px; z-index: 7;"> <div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;"><h4 class="wqd-text-title4"><span style="color:#FFFF00;"><strong>洋光公开课</strong></span></h4>
+									</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132524668360" id="elementId15132524668360" data-zindex="8" style="width: 238px; height: 101px; left: 39.5px; top: 1703px; z-index: 8;"> <div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="text-align: justify;"><span style="color:#FFFFFF;"><span style="font-size:14px;">所有洋光教育的学生都可以免费参加洋光公开课，由清北名师分享学习经验和学习方法。部分往期公开课：</span></span><br>
+									&nbsp;</p>
+							</div> </div><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 260px; height: 115px; left: 31px; top: 1808px; z-index: 9;" elementid="elementId15132525105840" id="elementId15132525105840" data-zindex="9"> <div class="wqdelementEditBox" style="border-radius:10px;"> <img class="wqd-img wqd-img-default" src="{% static 'landingpage/picture/6f43262d1fb5445f8283feee4affa197.png' %}" ondragstart="return false;"> </div> </div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" id="wqd1513252586653serial" style="background-attachment: scroll;" partcategoryid="2" sectionname="内容特点10" commonpartid="10542" partid="wqd1513252586653serial" sortid="2" data-type="wqdSectiondiv"><section class="wqd1445504393013css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 1257px; margin: 0px auto; position: relative;" sectionwidth="320" data-coverphone="true" wqdwidthlimit="0" wqdbgattachment="0" bac_position="1" wqdheight="1257" data-maxzindex="15" wqdbgcoloros="#eee" wqdimgurlos="http" data-style="toggle0:;toggle1:on;toggle2:;loop:on;"><div class="wqdelementEdit" id="elementId1513252586654" style="width: 318px; height: 54px; left: 2px; top: 10px; z-index: 1;" data-elementtype="text" data-zindex="1" elementid="elementId1513252586654" data-elemandgroup="true">
+							<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="title3"><h3 class="wqd-text-title3" style="text-align: center; font-style: normal; display: block;"><span style="font-size:26px;"><font color="#214076">课程设置</font></span></h3>
+							</div>
+									</div><div class="wqdelementEdit wqdGroup elementsContainer" id="elementId1513252586660" style="height: 184px; width: 281px; left: 39px; top: 121px; z-index: 2;" data-maxzindex="8" data-zindex="2" data-elemandgroup="true" groupid="groupId1458540505858" elementid="elementId1513252586660"><div class="wqdelementEditBox" data-maxzindex="1"><div class="wqdelementEdit" id="elementId1513252586661" style="width: 249px; height: 174px; left: 0px; top: 10px; z-index: 1;" data-elementtype="text" data-zindex="1" elementid="elementId1513252586661" data-elemandgroup="true">
+									<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="article3"><p class="wqd-text-article3" style="display: block; font-style: normal; text-align: justify;"><span style="font-size:14px;">私人定制化<strong>一对一</strong>教学，使用“洋光教育客户端”在线上课，自动录屏，课后可回看课程和课件。每位学员除配有课程老师外，还配有助教一名，帮助学生微信群答疑解惑，时刻与家长保持联系，反馈学生学习情况。</span></p>
+									</div>
+									</div></div></div><div class="wqdelementEdit wqdGroup elementsContainer" id="elementId1513252586666" style="height: 77px; width: 252px; left: 9px; top: 432px; z-index: 3;" data-maxzindex="0" data-zindex="3" data-elemandgroup="true" groupid="groupId1458540748989" elementid="elementId1513252586666"><div class="wqdelementEditBox"><div class="wqdelementEdit" id="elementId1513252586668" style="width: 156px; height: 120px; left: 61.5px; top: 0px; z-index: 7;" data-elementtype="text" data-zindex="7" elementid="elementId1513252586668" data-elemandgroup="true">
+									<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="title3"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+										<p class="wqd-text-article1" style="text-align: center;"><span style="font-size:24px;"><strong><span style="color: rgb(179, 197, 227);">03 </span></strong><font color="#01d79f">上课时间</font></span></p>
+									</div>
+							</div></div></div><div class="wqdelementEdit" id="elementId1513252586662" style="width: 186px; height: 134px; left: 59.5px; top: 44px; z-index: 4;" data-elementtype="text" data-zindex="4" elementid="elementId1513252586662" data-elemandgroup="true">
+							<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="title3"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+								<p class="wqd-text-article1" style="text-align: center;"><span style="font-size:24px;"><strong><span style="color: rgb(179, 197, 227);">01 </span></strong><font color="#01d79f">上课模式</font></span></p>
+							</div>
+							</div><div class="wqdelementEdit" id="elementId1513252586665" style="width: 189px; height: 141px; left: 57px; top: 269px; z-index: 5;" data-elementtype="text" data-zindex="5" elementid="elementId1513252586665" data-elemandgroup="true">
+							<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="title3"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+								<p class="wqd-text-article1" style="text-align: center;"><span style="font-size:24px;"><strong><span style="color: rgb(179, 197, 227);">02 </span></strong><font color="#01d79f">科目与老师</font></span></p>
+							</div>
+								</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132527789620" id="elementId15132527789620" data-zindex="6" style="width: 245px; height: 106px; left: 39.5px; top: 364px; z-index: 6;"> <div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="text-align: justify;"><span style="font-size:14px;">学生可选取辅导一门或多门，根据学生的教材版本，匹配合适的老师。学生首次听课为免费测评课</span>。</p>
+								</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513252968079446" id="elementId1513252968079446" data-zindex="7" style="width: 243px; height: 106px; left: 42.5px; top: 537px; z-index: 7;"> <div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3"><span style="font-size:14px;">由学生和课程老师协商制定，一般安排在周末。</span></p>
+							</div> </div><div class="wqdelementEdit" id="elementId1513252997008865" style="width: 156px; height: 120px; left: 72px; top: 590px; z-index: 7;" data-elementtype="text" data-zindex="7" elementid="elementId1513252997008865" data-elemandgroup="true">
+							<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="title3"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+								<p class="wqd-text-article1" style="text-align: center;"><span style="font-size:24px;"><strong><span style="color: rgb(179, 197, 227);">04&nbsp;</span></strong><font color="#01d79f">教学大纲</font></span></p>
+							</div>
+								</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513253024778843" id="elementId1513253024778843" data-zindex="8" style="width: 243px; height: 226px; left: 40px; top: 685px; z-index: 8;"> <div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="text-align: justify;"><span style="font-size:14px;">课程老师以高考/中考大纲为基础，结合学生基础和课程实际掌握情况，制定个性化的课程辅导方案，做到有的放矢。同时，学生在课程期间可以向课程老师提出部分章节优先或重点辅导，实现教学安排的灵活调整，真正满足学生的学习需求。</span></p>
+							</div> </div><div class="wqdelementEdit" id="elementId1513253057740554" style="width: 156px; height: 120px; left: 69.5px; top: 861px; z-index: 9;" data-elementtype="text" data-zindex="9" elementid="elementId1513253057740554" data-elemandgroup="true">
+							<div class="wqdelementEditBox" style="visibility: visible;" data-emptytexttemplate="title3"><h4 class="wqd-text-title4" style="display: block; font-style: normal;">&nbsp;</h4>
+
+								<p class="wqd-text-article1" style="text-align: center;"><span style="font-size:24px;"><strong><span style="color: rgb(179, 197, 227);">05&nbsp;</span></strong><font color="#01d79f">课程价格</font></span></p>
+							</div>
+								</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId151325308515068" id="elementId151325308515068" data-zindex="11" style="width: 243px; height: 68px; left: 42.5px; top: 954px; z-index: 11;"> <div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3"><span style="font-size:14px;">分<strong>40</strong>课时，<strong>80</strong>课时，<strong>120</strong>课时三种课时包，学生可根据自身需求灵活选择。</span></p>
+								</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132590283070" id="elementId15132590283070" data-zindex="12" style="width: 127px; height: 32px; left: 112.5px; top: 1034px; z-index: 12;"> <div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;"><h4 class="wqd-text-title4"><strong>200元/课时</strong></h4>
+								</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132590630080" id="elementId15132590630080" data-zindex="13" style="width: 139px; height: 62px; left: 92px; top: 1130px; z-index: 13;"> <div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="text-align: center;">不同课时包会有不同优惠&nbsp; 具体联系课程顾问</p>
+								</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15132591116020" id="elementId15132591116020" data-zindex="14" style="width: 163px; height: 32px; left: 77.5px; top: 1087px; z-index: 14;"> <div class="wqdelementEditBox" data-emptytexttemplate="title4" style="visibility: visible;"><h4 class="wqd-text-title4">清北老师给你做家教</h4>
+								</div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId15133404347270" id="elementId15133404347270" data-zindex="15" style="width: 168px; height: 43px; left: 80px; top: 1186px; z-index: 15;"> <div class="wqdelementEditBox" data-emptytexttemplate="title3" style="visibility: visible;"><h3 class="wqd-text-title3"><strong><span style="font-size:18px;">名额有限，报完即止</span></strong></h3>
+							</div> </div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="10" partid="wqd1473155872751serial" commonpartid="10638" id="wqd1473155872751serial" sectionname="11" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 887px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="9" wqdheight="887"><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473156114018" id="elementId1473156114018" data-zindex="1" style="width: 214px; height: 84px; left: 53px; top: 8px; z-index: 1;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title3" style="visibility: visible;"><h3 class="wqd-text-title3" style="display: block; font-style: normal;"><span style="font-size:24px;"><span style="color:#2b4298;"><strong>君子有三乐</strong><br>
+											而王天下不与存焉</span></span></h3>
+							</div>
+									</div><div class="wqdelementEdit wqdGroup elementsContainer" data-groupstatus="off" data-elemandgroup="true" groupid="groupId1473160334331" id="groupId1473160334331" data-zindex="2" data-maxzindex="0" style="height: 128px; width: 128px; left: 96px; top: 150px; z-index: 2;"><div class="wqdelementEditBox"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 123px; height: 112px; left: 2.5px; top: 8px; z-index: 4;" elementid="elementId1473159674289" id="elementId1473159674289" data-zindex="4">
+									<div class="wqdelementEditBox">
+										<img class="wqd-img" src="{% static 'landingpage/picture/yq0kx1foohiazmm_aaakenix95i108.png' %}" ondragstart="return false;">
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731598835640" id="elementid14731598835640" data-zindex="2" style="width: 128px; height: 128px; left: 0px; top: 0px; z-index: 2;" wqdhref="0" wqdpathstrok="#f0f0f0" wqdpath_width="4.90566037735849" wqdpathfill="rgba(66,146,207,0)">
+									<div class="wqdelementEditBox">
+										<div class="wqd-freeRect" style="width: 100%; height: 100%; border-radius: 50%; border: 4.90566037735849px solid rgb(255, 255, 255); background: rgb(66, 146, 207);"></div>
+									</div>
+									</div></div></div><div class="wqdelementEdit wqdGroup elementsContainer" data-groupstatus="off" data-elemandgroup="true" groupid="groupId1473160339131" id="groupId1473160339131" data-zindex="3" data-maxzindex="0" style="height: 128px; width: 128px; left: 96px; top: 390.5px; z-index: 3;"><div class="wqdelementEditBox"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 113px; height: 107px; left: 6.5px; top: 10.5px; z-index: 5;" elementid="elementid14731600523150" id="elementid14731600523150" data-zindex="5">
+									<div class="wqdelementEditBox">
+										<img class="wqd-img" src="{% static 'landingpage/picture/yq0kyffooceaxjbhaaam2a3kgsu017.png' %}" ondragstart="return false;">
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementId1473159771878" id="elementId1473159771878" data-zindex="3" style="width: 128px; height: 128px; left: 0px; top: 0px; z-index: 3;" wqdhref="0" wqdpathstrok="#f0f0f0" wqdpath_width="3.584905660377358" wqdpathfill="rgba(66,146,207,0)">
+									<div class="wqdelementEditBox">
+										<div class="wqd-freeRect" style="width: 100%; height: 100%; border-radius: 50%; border: 3.58490566037736px solid rgb(255, 255, 255); background: rgb(66, 146, 207);"></div>
+									</div>
+									</div></div></div><div class="wqdelementEdit wqdGroup elementsContainer" data-groupstatus="off" data-elemandgroup="true" groupid="groupId1473160344498" id="groupId1473160344498" data-zindex="4" data-maxzindex="0" style="height: 128px; width: 128px; left: 96px; top: 632px; z-index: 4;"><div class="wqdelementEditBox"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 112px; height: 102px; left: 7.5px; top: 13px; z-index: 4;" elementid="elementid14731601399550" id="elementid14731601399550" data-zindex="4">
+									<div class="wqdelementEditBox">
+										<img class="wqd-img" src="{% static 'landingpage/picture/yq0kyffooewaafbnaaah5pwdguq528.png' %}" ondragstart="return false;">
+									</div>
+									</div><div class="wqdelementEdit" data-elementtype="freeRect" data-elemandgroup="true" elementid="elementid14731602410840" id="elementid14731602410840" data-zindex="2" style="width: 128px; height: 128px; left: 0px; top: 0px; z-index: 2;" wqdhref="0" wqdpathstrok="#f0f0f0" wqdpath_width="4.90566037735849" wqdpathfill="rgba(66,146,207,0)">
+									<div class="wqdelementEditBox">
+										<div class="wqd-freeRect" style="width: 100%; height: 100%; border-radius: 50%; border: 4.90566037735849px solid rgb(255, 255, 255); background: rgb(66, 146, 207);"></div>
+									</div>
+							</div></div></div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1473160366974" id="elementId1473160366974" data-zindex="5" style="width: 230px; height: 48px; left: 45px; top: 299px; z-index: 5;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: center; display: block; font-style: normal;"><span style="color:#A9A9A9;">父母俱存，兄弟无故，<br>
+											一乐也</span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731604324670" id="elementid14731604324670" data-zindex="6" style="width: 230px; height: 48px; left: 45px; top: 540px; z-index: 6;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: center; display: block; font-style: normal;"><span style="color:#A9A9A9;">仰不愧于天，俯不怍于人，<br>
+											二乐也</span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731604988750" id="elementid14731604988750" data-zindex="7" style="width: 230px; height: 48px; left: 45px; top: 782px; z-index: 7;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="text-align: center; display: block; font-style: normal;"><span style="color:#A9A9A9;">得天下英才而教育之，<br>
+											三乐也</span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731605796340" id="elementid14731605796340" data-zindex="8" style="width: 156px; height: 28px; left: 48px; top: 92px; z-index: 8;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;">
+								<p class="wqd-text-article3" style="display: block; font-style: normal;"><i style="display: block; font-style: normal;"><span style="color:#808080;">《孟子·尽心上》</span></i>
+								</p>
+							</div>
+							</div><div class="wqdelementEdit newLine" data-elementtype="line" data-elemandgroup="true" wqdpath_width="1" wqdpathfill="#3d9be9" elementid="elementId15132546321770" id="elementId15132546321770" data-zindex="9" style="width: 319px; height: 1px; left: 1px; top: 0px; z-index: 9;"> <div class="wqdelementEditBox"> <div class="wqd-line" style="height:0;border-top:1px solid #3d9be9;position:relative;"> </div> </div> </div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="11" partid="wqd1473160693642serial" commonpartid="10638" id="wqd1473160693642serial" sectionname="12" partcategoryid="10757" style="background-size: cover; background-position: 50% 50%; background-repeat: no-repeat;" wqdback_position="1" wqdbgset="0"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 877px; margin: 0px auto; position: relative;" wqdimgurlos="http://img.wqdian.com/group4/M00/8E/D1/yq0KYFedbeeAZMzcAADoE-RtOwo494.png" wqdbgcoloros="#eee" data-maxzindex="9" bac_position="5" wqdwidthlimit="0" wqdheight="877" wqdbgcolor="#dbd4d1"><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 320px; height: 883px; left: 0px; top: 0px; z-index: 1;" elementid="elementId1473162091641" id="elementId1473162091641" data-zindex="1">
+							<div class="wqdelementEditBox">
+								<img class="wqd-img" src="{% static 'landingpage/picture/yq0kzvfora6ach63aaaiirtr0ri039.jpg' %}" ondragstart="return false;">
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="img" data-elemandgroup="true" style="width: 234px; height: 316px; left: 44.5px; top: 284px; z-index: 2;" elementid="elementId1513253253020397" id="elementId1513253253020397" data-zindex="2"> <div class="wqdelementEditBox" style="border-radius:10px;"> <img class="wqd-img wqd-img-default" src="{% static 'landingpage/picture/1ccc7f7bb79c416ab6f0c4e08eb0e74f.png' %}" ondragstart="return false;"> </div> </div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513253272279479" id="elementId1513253272279479" data-zindex="3" style="width: 227px; height: 162px; left: 45.5px; top: 63px; z-index: 3;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article3" style="visibility: visible;"><p class="wqd-text-article3" style="display: block; font-style: normal;">&nbsp;</p>
+
+								<i style="text-align: justify; display: block; font-style: normal;"><span style="color:#808080;">年级涵盖：初中，高中。科目涵盖：语文、数学、英语、物理、化学、生物、政治、历史、地理、科学、通用技术和信息技术</span></i>
+
+								<p>&nbsp;</p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513253307158910" id="elementId1513253307158910" data-zindex="4" style="width: 171px; height: 34px; left: 79.5px; top: 29px; z-index: 4;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1" style="display: block; font-style: normal;"><span style="color:#2b4298;"><strong><span style="font-size:18px;">立即免费预约测评课</span></strong></span></p>
+
+								<p>&nbsp;</p>
+							</div>
+							</div><div class="wqdelementEdit" id="elementId1513253609017352" style="width: 166px; height: 66px; left: 78px; top: 666px; z-index: 5;" data-elementtype="img" data-zindex="5" elementid="elementId1513253609017352" data-elemandgroup="true" newwindow="false" wqdlink="/home.html" linktype="innerPage">
+							<div class="wqdelementEditBox"><a href="/home.html"><img class="wqd-img" ondragstart="return false;" src="{% static 'landingpage/picture/373013a1961c40a19ebaa6072ae92bb5.jpg' %}"></a></div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731628312840" id="elementid14731628312840" data-zindex="6" style="width: 270px; height: 84px; left: 27px; top: 745px; z-index: 6;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title3" style="visibility: visible;"><h3 class="wqd-text-title3" style="display: block; font-style: normal;">&nbsp;</h3>
+
+								<p class="wqd-text-article3" style="text-align: center; display: block; font-style: normal;"><span style="color:#808080;"><span style="font-size:14px;">Copyright&copy;2015-2017<br>
+											All Rights Reserved&nbsp;</span></span></p>
+							</div>
+							</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementid14731627517800" id="elementid14731627517800" data-zindex="7" style="width: 220px; height: 73px; left: 52.5px; top: 709px; z-index: 7;">
+							<div class="wqdelementEditBox" data-emptytexttemplate="title3" style="visibility: visible;"><h3 class="wqd-text-title3" style="display: block; font-style: normal;">&nbsp;</h3>
+
+								<p class="wqd-text-article3" style="text-align: center; display: block; font-style: normal;"><span style="color:#808080;"><span style="font-size:14px;">打造国内一流教育品牌</span></span></p>
+							</div>
+								</div><div class="wqdelementEdit" data-elementtype="text" data-elemandgroup="true" elementid="elementId1513254765818993" id="elementId1513254765818993" data-zindex="8" style="width: 190px; height: 29px; left: 90.5px; top: 609px; z-index: 8;"> <div class="wqdelementEditBox" data-emptytexttemplate="article1" style="visibility: visible;"><p class="wqd-text-article1"><span style="font-size:12px;">长按二维码添加课程顾问</span></p>
+	</div> </div><div class="wqdelementEdit" data-elementtype="button" data-elemandgroup="true" elementid="elementId1513264949040282" id="elementId1513264949040282" data-zindex="9" style="width: 141px; height: 36px; left: 89px; top: 196px; z-index: 9;" data-conf="_elemBtn_normal"> <div class="wqdelementEditBox"> <a class="wqd-button wqdComponentBtn2 wqd-href wqd-bgclr wqd-brc wqd-brr wqd-brw wqd-brs" wqdbtnborder="false" ondragstart="return false;" href="http://cn.mikecrm.com/Xt8L0y0" target="_blank"> <em class="wqd-tc wqd-clr wqd-fs wqd-ff wqd-fw wqd-fst wqd-lh wqd-ta">立即免费预约</em> </a> </div> </div></section></div></div><div class="yzmoveContent"><div class="wqdSectiondiv" data-type="wqdSectiondiv" sortid="12" partid="wqd1473161435616serial" commonpartid="10638" id="wqd1473161435616serial" sectionname="13" partcategoryid="10757"><section class="wqd1449130515471css wqdBkEditos sectionV2 moveMainArea elementsContainer" style="height: 0px; margin: 0px auto; position: relative;" wqdimgurlos="http" wqdbgcoloros="#eee" data-maxzindex="3" bac_position="1" wqdwidthlimit="0" wqdbgcolor="#dbd4d1" wqdheight="-37"></section></div></div></div></div>
+	<div class="wqdView wqdIphoneView"><div class="wqdAreaView"></div></div>
+	
+	<script type="text/javascript" src="{% static 'landingpage/js/jquery-1.11.2.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/vue.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdformdate.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/jquery.qrcode.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdprogress.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdnumberprogress.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdanimation.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdcommon.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdiscroll.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/newsartlist.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/require.js' %}" data-main="{% static 'landingpage/js/phone/plugin/reqjs.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/editshopping-m.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdcontainer.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdaccordion.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdmanageinfo.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdvideo.js' %}"></script>
+	<script type="text/javascript" src="{% static 'landingpage/js/wqdvideobackground.js' %}"></script>
+	
+	<!--  -->
+	<!--  -->
+	<div style="display:none"></div>
+</body>
+</html>

@@ -2,27 +2,38 @@
 
 {% block body %}
 <header class="am-topbar am-topbar-inverse admin-header">
-  <div class="am-topbar-brand">
-    <strong>洋光教育</strong> <small>辅导系统</small>
-  </div>
+	<div class="am-topbar-brand">
+		<strong>洋光教育</strong> <small>辅导系统</small>
+	</div>
 </header>
 
 
 <div class="am-cf admin-main">
-  <!-- content start -->
-  <div class="admin-content">
-    <div class="admin-content-body">
-		<div class="am-u-lg-4 am-u-md-6 am-u-sm-centered" style="margin-top:100px;">
-			{% block panel %}
-			{% endblock %}
-		</div>
+	<!-- content start -->
+	<div class="admin-content">
+		<div class="admin-content-body login-background">
+			<div class="am-u-lg-4 am-u-md-6 am-u-sm-centered" style="margin-top:100px;z-index: 2;">
+				{% block panel %}
+				{% endblock %}
+			</div>
 
+			<ul class="login-bg-bubbles">
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+		</div>
 		<footer class="admin-content-footer" style="position: fixed; bottom: 0px; margin-bottom: 0px; width:100%;">
-			<hr>
 			<p class="am-padding-left">© 2017 北京洋光教育咨询有限公司</p>
 		</footer>
+		<!-- content end -->
 	</div>
-	<!-- content end -->
-</div>
 
-{% endblock %}
+	{% endblock %}

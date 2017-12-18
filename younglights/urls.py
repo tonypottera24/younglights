@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
+from landingpage import views
 
 urlpatterns = [
+    url(r'^$', views.mobile, name='mobile'),
     url(r'^dashboard/', include('dashboard.urls')),
     url(r'^admin/', admin.site.urls),
 ]
