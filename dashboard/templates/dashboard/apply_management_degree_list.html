@@ -1,0 +1,142 @@
+{% extends 'dashboard/apply_management.html' %}
+{% block tab_content %}
+{% load humanize %}
+
+<form class="am-form" method="get" action="">
+	<div class="am-g">
+		<div class="am-u-sm-12">
+			<div class="am-scrollable-horizontal">
+				<table class="am-table am-table-striped am-table-hover table-main am-text-nowrap am-table-compact">
+					<thead>
+						<tr>
+							<th>
+								{% if request.user.groups.first.name == "管理员" %}
+								<a class="am-btn am-btn-xs am-btn-default" href="{{ page_add }}"><span class="am-icon-plus"></span> 新增</a>
+								{% endif %}
+							</th>
+							<th></th>
+							<th>
+								<select name="apply_country_id" placeholder="筛选" multiple data-am-selected="{btnWidth: '99%', btnSize: 'sm', searchBox: 1, maxHeight: 100}" onChange="form.submit();">
+									<option value="cancel" {% if 'cancel' in apply_country_id %}selected="selected"{% endif %}>取消筛选</option>
+									{% for c in query_apply_country %}
+									<option value="{{c.id}}" {% if c.id|slugify in apply_country_id %}selected="selected"{% endif %}>{{ c.chinese_name }}</option>
+									{% endfor %}
+								</select>
+							</th>
+							<th>
+								<select name="apply_school_id" placeholder="筛选" multiple data-am-selected="{btnWidth: '99%', btnSize: 'sm', searchBox: 1, maxHeight: 100}" onChange="form.submit();">
+									<option value="cancel" {% if 'cancel' in apply_school_id %}selected="selected"{% endif %}>取消筛选</option>
+									{% for c in query_apply_school %}
+									<option value="{{c.id}}" {% if c.id|slugify in apply_school_id %}selected="selected"{% endif %}>{{ c.chinese_name }}</option>
+									{% endfor %}
+								</select>
+							</th>
+							<th>
+								<select name="apply_college_id" placeholder="筛选" multiple data-am-selected="{btnWidth: '99%', btnSize: 'sm', searchBox: 1, maxHeight: 100}" onChange="form.submit();">
+									<option value="cancel" {% if 'cancel' in apply_college_id %}selected="selected"{% endif %}>取消筛选</option>
+									{% for c in query_apply_college %}
+									<option value="{{c.id}}" {% if c.id|slugify in apply_college_id %}selected="selected"{% endif %}>{{ c.chinese_name }}</option>
+									{% endfor %}
+								</select>
+							</th>
+							<th>
+								<select name="apply_major_id" placeholder="筛选" multiple data-am-selected="{btnWidth: '99%', btnSize: 'sm', searchBox: 1, maxHeight: 100}" onChange="form.submit();">
+									<option value="cancel" {% if 'cancel' in apply_major_id %}selected="selected"{% endif %}>取消筛选</option>
+									{% for c in query_apply_major %}
+									<option value="{{c.id}}" {% if c.id|slugify in apply_major_id %}selected="selected"{% endif %}>{{ c.chinese_name }}</option>
+									{% endfor %}
+								</select>
+							</th>
+						</tr>
+						<tr>
+							<th>操作</th>
+							<th>US NEWS</th>
+							<th>国家</th>
+							<th>学校</th>
+							<th>学院</th>
+							<th>专业</th>
+							<th>种类</th>
+							<th>可申请学期</th>
+							<th>截止日期</th>
+							<th>学费(USD)</th>
+							<th>GPA</th>
+							<th>TOEFL</th>
+							<th>GRE</th>
+							<th>GRE科目</th>
+							<th>IELTS</th>
+							<th>GMAT</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for object in object_list %}
+						<tr>
+							<td>
+								<div class="am-btn-toolbar">
+									<div class="am-btn-group-xs">
+										<a class="am-btn am-btn-default am-btn-xs" href="{% url 'dashboard:ApplyManagementDegreeDetailView' object.id %}"><span class="am-icon-search"></span></a>
+										<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:ApplyManagementDegreeUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span></a>
+										<a class="am-btn am-btn-default am-btn-xs am-text-danger" href="{% url 'dashboard:ApplyManagementDegreeDeleteView' object.id %}"><span class="am-icon-trash-o"></span></a>
+									</div>
+								</div>
+							</td>
+							<td>{{ object.usnews_rank }}</td>
+							<td>{{ object.apply_country.chinese_name }}</td>
+							<td>{{ object.apply_school.chinese_name }}</td>
+							<td>{{ object.apply_college.chinese_name }}</td>
+							<td>{{ object.apply_major.chinese_name }}</td>
+							<td>{% for s in object.apply_degree_type.all %}{{ s.chinese_name }} {% endfor %}</td>
+							<td>{% for s in object.apply_semester.all %}{{ s.chinese_name }} {% endfor %}</td>
+							<td>{{ object.deadline }}</td>
+							<td>${{ object.tuition | intcomma:False }}</td>
+							<td>
+								{% if object.gpa_required %}
+								{% if object.gpa == 0 %}有要求{% else %}
+								{% if object.gpa < 1 %}{% widthratio object.gpa 1 100 %}%
+								{% else %}{{ object.gpa }}{% endif %}{% endif %}
+								{% else %}无要求{% endif %}
+							</td>
+							<td>
+								{% if object.toefl_required %}
+								{% if object.toefl == 0 %}有要求{% else %}
+								{% if object.toefl < 1 %}{% widthratio object.toefl 1 100 %}%
+								{% else %}{{ object.toefl }}{% endif %}{% endif %}
+								{% else %}无要求{% endif %}
+							</td>
+							<td>
+								{% if object.gre_required %}
+								{% if object.gre == 0 %}有要求{% else %}
+								{% if object.gre < 1 %}{% widthratio object.gre 1 100 %}%
+								{% else %}{{ object.gre }}{% endif %}{% endif %}
+								{% else %}无要求{% endif %}
+							</td>
+							<td>
+								{% if object.gre_subject.all %}
+								{% for s in object.gre_subject.all %}{{ s.chinese_name }} {% endfor %}
+								{% else %}
+								无要求
+								{% endif %}
+							</td>
+							<td>
+								{% if object.ielts_required %}
+								{% if object.ielts == 0 %}有要求{% else %}
+								{% if object.ielts < 1 %}{% widthratio object.ielts 1 100 %}%
+								{% else %}{{ object.ielts }}{% endif %}{% endif %}
+								{% else %}无要求{% endif %}
+							</td>
+							<td>
+								{% if object.gmat_required %}
+								{% if object.gmat == 0 %}有要求{% else %}
+								{% if object.gmat < 1 %}{% widthratio object.gmat 1 100 %}%
+								{% else %}{{ object.gmat }}{% endif %}{% endif %}
+								{% else %}无要求{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+			{% include "dashboard/paginator.html" %}
+		</div>
+	</div>
+</form>
+{% endblock %}

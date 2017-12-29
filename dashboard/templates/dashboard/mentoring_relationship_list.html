@@ -4,7 +4,9 @@
 	<div class="am-u-sm-12 am-u-md-6">
 		<div class="am-btn-toolbar">
 			<div class="am-btn-group am-btn-group-xs">
+				{% if request.user.groups.first.name == "管理员" %}
 				<a class="am-btn am-btn-default" href="{{ page_add }}"><span class="am-icon-plus"></span> 新增</a>
+				{% endif %}
 			</div>
 		</div>
 	</div>
@@ -25,9 +27,23 @@
 		<table class="am-table am-table-striped am-table-hover table-main">
 			<thead>
 				<tr>
+					{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "学生" %}
 					<th>导师姓名</th>
+					<th>导师分数</th>
+					{% endif %}
+					{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
 					<th>学生姓名</th>
-					<th class="am-hide-sm-only">备注</th>
+					<th>学生分数</th>
+					{% endif %}
+					{% if request.user.groups.first.name == "管理员" %}
+					<th class="am-hide-sm-only">管理员备注</th>
+					{% endif %}
+					{% if request.user.groups.first.name == "导师" %}
+					<th class="am-hide-sm-only">导师备注</th>
+					{% endif %}
+					{% if request.user.groups.first.name == "学生" %}
+					<th class="am-hide-sm-only">学生备注</th>
+					{% endif %}
 					<th class="am-hide-sm-only">輔導状态</th>
 					<th class="am-hide-sm-only">创建日期</th>
 					<th>操作</th>
@@ -36,16 +52,32 @@
 			<tbody>
 				{% for object in object_list %}
 				<tr>
+					{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "学生" %}
 					<td>{{ object.teacher.last_name }} {{ object.teacher.first_name }}</td>
+					<td>{{ object.teacher_score }}</td>
+					{% endif %}
+					{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
 					<td>{{ object.student.last_name }} {{ object.student.first_name }}</td>
-					<td class="am-hide-sm-only">{{ object.comment|truncatechars:15 }}</td>
+					<td>{{ object.student_score }}</td>
+					{% endif %}
+					{% if request.user.groups.first.name == "管理员" %}
+					<td class="am-hide-sm-only">{{ object.administrator_comment|truncatechars:15 }}</td>
+					{% endif %}
+					{% if request.user.groups.first.name == "导师" %}
+					<td class="am-hide-sm-only">{{ object.teacher_comment|truncatechars:15 }}</td>
+					{% endif %}
+					{% if request.user.groups.first.name == "学生" %}
+					<td class="am-hide-sm-only">{{ object.student_comment|truncatechars:15 }}</td>
+					{% endif %}
 					<td class="am-hide-sm-only">{{ object.relationship_status }}</td>
 					<td class="am-hide-sm-only">{{ object.added_datetime }}</td>
 					<td>
 						<div class="am-btn-toolbar">
 							<div class="am-btn-group am-btn-group-xs">
 								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:MentoringRelationshipUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+								{% if request.user.groups.first.name == "管理员" %}
 								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:MentoringRelationshipDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+								{% endif %}
 							</div>
 						</div>
 					</td>

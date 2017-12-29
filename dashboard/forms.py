@@ -3,12 +3,206 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from .myforms import MyBasicField
 from .models import MentoringRelationship, MentoringRecord, Mission
+from .models import ApplyCountry, ApplySchool, ApplyCollege, ApplyMajor, ApplyDegree
+
+class ApplyManagementDegreeCreationForm(ModelForm):
+    class Meta:
+        model = ApplyDegree
+        fields = ['apply_country', 'apply_school', 'apply_college', 'apply_major', 'apply_degree_type', 'apply_semester', 'deadline', 'tuition', 'usnews_rank',
+                'gpa_required', 'gpa', 'toefl_required', 'toefl', 'gre_required', 'gre', 'gre_subject', 'ielts_required', 'ielts', 'gmat_required', 'gmat', 
+                'apply_comment', 'apply_course', 'apply_link']
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        if 'instance' in kwargs:
+            self.old_instance = kwargs['instance']
+        else:
+            self.old_instance = None
+        super(ApplyManagementDegreeCreationForm, self).__init__(*args, **kwargs)
+        MyBasicField.add_field_info(self, None)
+        self.fields['apply_country'].queryset = self.fields['apply_country'].queryset.order_by('-updated_datetime')
+        self.fields['apply_school'].queryset = self.fields['apply_school'].queryset.order_by('-updated_datetime')
+        self.fields['apply_college'].queryset = self.fields['apply_college'].queryset.order_by('-updated_datetime')
+        self.fields['apply_major'].queryset = self.fields['apply_major'].queryset.order_by('-updated_datetime')
+
+    def clean_apply_degree_type(self):
+        apply_country = self.cleaned_data.get("apply_country")
+        apply_school = self.cleaned_data.get("apply_school")
+        apply_college = self.cleaned_data.get("apply_college")
+        apply_major = self.cleaned_data.get("apply_major")
+        apply_degree_type = self.cleaned_data.get("apply_degree_type")
+        if apply_country and apply_school and apply_college and apply_major and apply_degree_type:
+            if self.old_instance:
+                if apply_country == self.old_instance.apply_country and apply_school == self.old_instance.apply_school and apply_college == self.old_instance.apply_college and apply_major == self.old_instance.apply_major and apply_degree_type == self.old_instance.apply_degree_type:
+                    return apply_degree_type
+            dg = ApplyDegree.objects.all()
+            for adt in apply_degree_type:
+                d = dg.filter(apply_country = apply_country, apply_school = apply_school, apply_college = apply_college, apply_major = apply_major, apply_degree_type = adt)
+                if len(d) > 0:
+                    raise forms.ValidationError("已存在")
+        return apply_degree_type
+
+class ApplyManagementCountryCreationForm(ModelForm):
+    class Meta:
+        model = ApplyCountry
+        fields = ['name', 'chinese_name']
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        if 'instance' in kwargs:
+            self.old_instance = kwargs['instance']
+        else:
+            self.old_instance = None
+        super(ApplyManagementCountryCreationForm, self).__init__(*args, **kwargs)
+        MyBasicField.add_field_info(self, None)
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        if name:
+            if self.old_instance:
+                if name == self.old_instance.name:
+                    return name
+            ac = ApplyCountry.objects.all()
+            try:
+                a = ac.get(name = name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return name
+    def clean_chinese_name(self):
+        chinese_name = self.cleaned_data.get("chinese_name")
+        if chinese_name:
+            if self.old_instance:
+                if chinese_name == self.old_instance.chinese_name:
+                    return chinese_name
+            ac = ApplyCountry.objects.all()
+            try:
+                a = ac.get(chinese_name = chinese_name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return chinese_name
+
+class ApplyManagementSchoolCreationForm(ModelForm):
+    class Meta:
+        model = ApplySchool
+        fields = ['name', 'chinese_name']
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        if 'instance' in kwargs:
+            self.old_instance = kwargs['instance']
+        else:
+            self.old_instance = None
+        super(ApplyManagementSchoolCreationForm, self).__init__(*args, **kwargs)
+        MyBasicField.add_field_info(self, None)
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        if name:
+            if self.old_instance:
+                if name == self.old_instance.name:
+                    return name
+            ac = ApplySchool.objects.all()
+            try:
+                a = ac.get(name = name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return name
+    def clean_chinese_name(self):
+        chinese_name = self.cleaned_data.get("chinese_name")
+        if chinese_name:
+            if self.old_instance:
+                if chinese_name == self.old_instance.chinese_name:
+                    return chinese_name
+            ac = ApplySchool.objects.all()
+            try:
+                a = ac.get(chinese_name = chinese_name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return chinese_name
+
+class ApplyManagementCollegeCreationForm(ModelForm):
+    class Meta:
+        model = ApplyCollege
+        fields = ['name', 'chinese_name']
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        if 'instance' in kwargs:
+            self.old_instance = kwargs['instance']
+        else:
+            self.old_instance = None
+        super(ApplyManagementCollegeCreationForm, self).__init__(*args, **kwargs)
+        MyBasicField.add_field_info(self, None)
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        if name:
+            if self.old_instance:
+                if name == self.old_instance.name:
+                    return name
+            ac = ApplyCollege.objects.all()
+            try:
+                a = ac.get(name = name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return name
+    def clean_chinese_name(self):
+        chinese_name = self.cleaned_data.get("chinese_name")
+        if chinese_name:
+            if self.old_instance:
+                if chinese_name == self.old_instance.chinese_name:
+                    return chinese_name
+            ac = ApplyCollege.objects.all()
+            try:
+                a = ac.get(chinese_name = chinese_name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return chinese_name
+
+class ApplyManagementMajorCreationForm(ModelForm):
+    class Meta:
+        model = ApplyMajor
+        fields = ['name', 'chinese_name']
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        if 'instance' in kwargs:
+            self.old_instance = kwargs['instance']
+        else:
+            self.old_instance = None
+        super(ApplyManagementMajorCreationForm, self).__init__(*args, **kwargs)
+        MyBasicField.add_field_info(self, None)
+    def clean_name(self):
+        name = self.cleaned_data.get("name")
+        if name:
+            if self.old_instance:
+                if name == self.old_instance.name:
+                    return name
+            ac = ApplyMajor.objects.all()
+            try:
+                a = ac.get(name = name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return name
+    def clean_chinese_name(self):
+        chinese_name = self.cleaned_data.get("chinese_name")
+        if chinese_name:
+            if self.old_instance:
+                if chinese_name == self.old_instance.chinese_name:
+                    return chinese_name
+            ac = ApplyMajor.objects.all()
+            try:
+                a = ac.get(chinese_name = chinese_name)
+                raise forms.ValidationError("已存在")
+            except ac.model.DoesNotExist:
+                pass
+        return chinese_name
 
 class MentoringRelationshipCreationForm(ModelForm):
     class Meta:
         model = MentoringRelationship
-        fields = ['teacher', 'student', 'relationship_status', 'comment']
+        fields = ['teacher', 'student', 'relationship_status', 'teacher_score', 'student_score', 'administrator_comment', 'teacher_comment', 'student_comment']
     def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
         if 'instance' in kwargs:
             self.old_instance = kwargs['instance']
         else:
@@ -17,6 +211,26 @@ class MentoringRelationshipCreationForm(ModelForm):
         self.fields['teacher'].queryset = User.objects.filter(groups__name="导师")
         self.fields['student'].queryset = User.objects.filter(groups__name="学生")
         MyBasicField.add_field_info(self, None)
+        if self.request.user.groups.first().name == "导师":
+            self.fields['teacher'].disabled = True
+            self.fields['student'].disabled = True
+            self.fields['relationship_status'].disabled = True
+            self.fields['teacher_score'].disabled = True
+            self.fields.pop('teacher_score')
+            self.fields['administrator_comment'].disabled = True
+            self.fields.pop('administrator_comment')
+            self.fields['student_comment'].disabled = True
+            self.fields.pop('student_comment')
+        if self.request.user.groups.first().name == "学生":
+            self.fields['teacher'].disabled = True
+            self.fields['student'].disabled = True
+            self.fields['relationship_status'].disabled = True
+            self.fields['student_score'].disabled = True
+            self.fields.pop('student_score')
+            self.fields['administrator_comment'].disabled = True
+            self.fields.pop('administrator_comment')
+            self.fields['teacher_comment'].disabled = True
+            self.fields.pop('teacher_comment')
     def clean_student(self):
         teacher = self.cleaned_data.get("teacher")
         student = self.cleaned_data.get("student")

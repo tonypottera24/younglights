@@ -10,6 +10,12 @@ from .user_views import SelfUpdateView
 from .views import MentoringRelationshipListView, MentoringRelationshipCreationView, MentoringRelationshipUpdateView, MentoringRelationshipDeleteView
 from .views import MentoringRecordListView, MentoringRecordCreationView, MentoringRecordUpdateView, MentoringRecordDeleteView
 from .views import MissionListView, MissionCreationView, MissionUpdateView, MissionDetailView, MissionDeleteView
+from .views import ApplyManagementCountryListView, ApplyManagementCountryCreationView, ApplyManagementCountryUpdateView, ApplyManagementCountryDeleteView
+from .views import ApplyManagementSchoolListView, ApplyManagementSchoolCreationView, ApplyManagementSchoolUpdateView, ApplyManagementSchoolDeleteView
+from .views import ApplyManagementCollegeListView, ApplyManagementCollegeCreationView, ApplyManagementCollegeUpdateView, ApplyManagementCollegeDeleteView
+from .views import ApplyManagementMajorListView, ApplyManagementMajorCreationView, ApplyManagementMajorUpdateView, ApplyManagementMajorDeleteView
+from .views import ApplyManagementDegreeListView, ApplyManagementDegreeCreationView, ApplyManagementDegreeUpdateView, ApplyManagementDegreeDeleteView
+from .views import ApplyManagementDegreeDetailView
 
 app_name = 'dashboard'
 urlpatterns = [
@@ -99,6 +105,74 @@ urlpatterns = [
     url(r'mission/(?P<pk>[0-9]+)/delete/$', 
         permission_required('dashboard.delete_mission')(MissionDeleteView.as_view()), 
         name='MissionDeleteView'),
+
+    url(r'apply/management/country/$', 
+        permission_required('dashboard.view_applycountry')(ApplyManagementCountryListView.as_view()), 
+        name='ApplyManagementCountryListView'),
+    url(r'apply/management/country/creation/$', 
+        permission_required('dashboard.add_applycountry')(ApplyManagementCountryCreationView.as_view()), 
+        name='ApplyManagementCountryCreationView'),
+    url(r'apply/management/country/(?P<pk>[0-9]+)/update/$', 
+        permission_required('dashboard.change_applycountry')(ApplyManagementCountryUpdateView.as_view()), 
+        name='ApplyManagementCountryUpdateView'),
+    url(r'apply/management/country/(?P<pk>[0-9]+)/delete/$', 
+        permission_required('dashboard.delete_applycountry')(ApplyManagementCountryDeleteView.as_view()), 
+        name='ApplyManagementCountryDeleteView'),
+
+    url(r'apply/management/school/$', 
+        permission_required('dashboard.view_applyschool')(ApplyManagementSchoolListView.as_view()), 
+        name='ApplyManagementSchoolListView'),
+    url(r'apply/management/school/creation/$', 
+        permission_required('dashboard.add_applyschool')(ApplyManagementSchoolCreationView.as_view()), 
+        name='ApplyManagementSchoolCreationView'),
+    url(r'apply/management/school/(?P<pk>[0-9]+)/update/$', 
+        permission_required('dashboard.change_applyschool')(ApplyManagementSchoolUpdateView.as_view()), 
+        name='ApplyManagementSchoolUpdateView'),
+    url(r'apply/management/school/(?P<pk>[0-9]+)/delete/$', 
+        permission_required('dashboard.delete_applyschool')(ApplyManagementSchoolDeleteView.as_view()), 
+        name='ApplyManagementSchoolDeleteView'),
+
+    url(r'apply/management/college/$', 
+        permission_required('dashboard.view_applycollege')(ApplyManagementCollegeListView.as_view()), 
+        name='ApplyManagementCollegeListView'),
+    url(r'apply/management/college/creation/$', 
+        permission_required('dashboard.add_applycollege')(ApplyManagementCollegeCreationView.as_view()), 
+        name='ApplyManagementCollegeCreationView'),
+    url(r'apply/management/college/(?P<pk>[0-9]+)/update/$', 
+        permission_required('dashboard.change_applycollege')(ApplyManagementCollegeUpdateView.as_view()), 
+        name='ApplyManagementCollegeUpdateView'),
+    url(r'apply/management/college/(?P<pk>[0-9]+)/delete/$', 
+        permission_required('dashboard.delete_applycollege')(ApplyManagementCollegeDeleteView.as_view()), 
+        name='ApplyManagementCollegeDeleteView'),
+    
+    url(r'apply/management/major/$', 
+        permission_required('dashboard.view_applymajor')(ApplyManagementMajorListView.as_view()), 
+        name='ApplyManagementMajorListView'),
+    url(r'apply/management/major/creation/$', 
+        permission_required('dashboard.add_applymajor')(ApplyManagementMajorCreationView.as_view()), 
+        name='ApplyManagementMajorCreationView'),
+    url(r'apply/management/major/(?P<pk>[0-9]+)/update/$', 
+        permission_required('dashboard.change_applymajor')(ApplyManagementMajorUpdateView.as_view()), 
+        name='ApplyManagementMajorUpdateView'),
+    url(r'apply/management/major/(?P<pk>[0-9]+)/delete/$', 
+        permission_required('dashboard.delete_applymajor')(ApplyManagementMajorDeleteView.as_view()), 
+        name='ApplyManagementMajorDeleteView'),
+    
+    url(r'apply/management/degree/$', 
+        permission_required('dashboard.view_applydegree')(ApplyManagementDegreeListView.as_view()), 
+        name='ApplyManagementDegreeListView'),
+    url(r'apply/management/degree/(?P<pk>[0-9]+)/detail/$', 
+        permission_required('dashboard.view_applydegree')(ApplyManagementDegreeDetailView.as_view()), 
+        name='ApplyManagementDegreeDetailView'),
+    url(r'apply/management/degree/creation/$', 
+        permission_required('dashboard.add_applydegree')(ApplyManagementDegreeCreationView.as_view()), 
+        name='ApplyManagementDegreeCreationView'),
+    url(r'apply/management/degree/(?P<pk>[0-9]+)/update/$', 
+        permission_required('dashboard.change_applydegree')(ApplyManagementDegreeUpdateView.as_view()), 
+        name='ApplyManagementDegreeUpdateView'),
+    url(r'apply/management/degree/(?P<pk>[0-9]+)/delete/$', 
+        permission_required('dashboard.delete_applydegree')(ApplyManagementDegreeDeleteView.as_view()), 
+        name='ApplyManagementDegreeDeleteView'),
 
     url(r'settings/$', 
         SelfUpdateView.as_view(), 

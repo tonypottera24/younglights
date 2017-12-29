@@ -65,7 +65,22 @@ class MentoringRelationship(models.Model):
             ('辅导完成', '辅导完成'),
             )
     relationship_status = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0])
-    comment = models.TextField(max_length=1000)
+
+    SCORE_CHOICES = (
+            (-1, '未评分'),
+            (5, '五颗星'),
+            (4, '四颗星'),
+            (3, '三颗星'),
+            (2, '两颗星'),
+            (1, '一颗星'),
+            )
+    teacher_score = models.IntegerField(choices=SCORE_CHOICES, default=SCORE_CHOICES[0][0])
+    student_score = models.IntegerField(choices=SCORE_CHOICES, default=SCORE_CHOICES[0][0])
+
+    administrator_comment = models.TextField(max_length=1000, default='')
+    teacher_comment = models.TextField(max_length=1000, default='')
+    student_comment = models.TextField(max_length=1000, default='')
+    
     added_datetime = models.DateTimeField(auto_now_add=True)
     updated_datetime = models.DateTimeField(auto_now=True)
 
@@ -131,4 +146,135 @@ class Mission(models.Model):
     class Meta:
         permissions = (
             ("view_mission", "Can view mission"),
+        )
+
+class ApplyCountry(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+    class Meta:
+        permissions = (
+            ("view_applycountry", "Can view apply country"),
+        )
+
+class ApplySchool(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+    class Meta:
+        permissions = (
+            ("view_applyschool", "Can view apply school"),
+        )
+
+class ApplyCollege(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+    class Meta:
+        permissions = (
+            ("view_applycollege", "Can view apply college"),
+        )
+
+class ApplyMajor(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+    class Meta:
+        permissions = (
+            ("view_applymajor", "Can view apply major"),
+        )
+
+class ApplyDegreeType(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+class ApplySemester(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+class ApplyGRESubject(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+class ApplyDegree(models.Model):
+    apply_country = models.ForeignKey(ApplyCountry, on_delete=models.CASCADE)
+    apply_school = models.ForeignKey(ApplySchool, on_delete=models.CASCADE)
+    apply_college = models.ForeignKey(ApplyCollege, on_delete=models.CASCADE)
+    apply_major = models.ForeignKey(ApplyMajor, on_delete=models.CASCADE)
+
+    apply_degree_type = models.ManyToManyField(ApplyDegreeType)
+    apply_semester = models.ManyToManyField(ApplySemester)
+    deadline = models.DateField()
+    tuition = models.IntegerField(default = 0)
+
+    usnews_rank = models.IntegerField(default = 0)
+    
+    gpa = models.FloatField(default = 0)
+    gpa_required = models.BooleanField(default=False)
+    toefl = models.FloatField(default = 0)
+    toefl_required = models.BooleanField(default=False)
+    ielts = models.FloatField(default = 0)
+    ielts_required = models.BooleanField(default=False)
+    gre = models.FloatField(default = 0)
+    gre_required = models.BooleanField(default=False)
+    gre_subject = models.ManyToManyField(ApplyGRESubject, blank=True)
+    gmat = models.FloatField(default = 0)
+    gmat_required = models.BooleanField(default=False)
+
+
+    apply_comment = models.TextField(max_length = 5000, blank=True, default = '')
+    apply_course = models.TextField(max_length = 5000, blank=True, default = '')
+    apply_link = models.TextField(max_length = 5000, blank=True, default = '')
+
+    added_datetime = models.DateTimeField(auto_now_add = True)
+    updated_datetime = models.DateTimeField(auto_now = True)
+
+    def __str__(self):
+        return ("%s %s %s %s " % (self.apply_country.chinese_name, self.apply_school.chinese_name, self.apply_college.chinese_name, self.apply_major.chinese_name)) + " ".join(i.chinese_name for i in self.apply_degree_type.all())
+
+    class Meta:
+        permissions = (
+            ("view_applydegree", "Can view apply degree"),
         )

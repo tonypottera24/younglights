@@ -1,0 +1,145 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block content %}
+{% load humanize %}
+
+<div class="am-g">
+	<div class="am-u-sm-2 am-u-md-2">
+		<ul class="am-tree" id="applyDegreeTree">
+			<li class="am-tree-branch" data-template="treebranch">
+				<div class="am-tree-branch-header">
+					<button class="am-tree-branch-name">
+						<span class="am-tree-icon am-tree-icon-folder"></span>
+						<span class="am-tree-label">321</span>
+					</button>
+				</div>
+				<ul class="am-tree-branch-children"></ul>
+				<div class="am-tree-loader"><span class="am-icon-spin am-icon-spinner"></span></div>
+			</li>
+			<li class="am-tree-item" data-template="treeitem">
+				<button class="am-tree-item-name">
+					<span class="am-tree-icon am-tree-icon-item"></span>
+					<span class="am-tree-label">123</span>
+				</button>
+			</li>
+		</ul>
+		<script>
+			$('#applyDegreeTree').tree()
+		</script>
+	</div>
+	<div class="am-u-sm-10 am-u-md-6">
+		<article class="am-article">
+			<div class="am-article-hd">
+				<h1 class="am-article-title">{{ object.apply_major }}</h1>
+			</div>
+
+			<div class="am-article-bd">
+				<h3>申请说明</h3>
+				{{ object.apply_comment|linebreaks }}
+				<hr class="am-article-divider">
+				<h3>课程设置</h3>
+				{{ object.apply_course|linebreaks }}
+				<hr class="am-article-divider">
+				<h3>快捷链接</h3>
+				{{ object.apply_link|linebreaks }}
+				<hr class="am-article-divider">
+			</div>
+			<div class="am-form-group">
+				<a class="am-btn am-btn-default am-fl" href={{ page_cancel }}>返 回</a>
+			</div>
+		</article>
+	</div>
+	<div class="am-u-sm-12 am-u-md-4">
+		<table class="am-table am-table-bordered am-table-striped am-table-centered">
+			<thead>
+				<tr><th colspan="3">基本信息</th></tr>
+			</thead>
+			<tr>
+				<td>国家</td>
+				<td>{{ object.apply_country.name }}<br>{{ object.apply_country.chinese_name }}</td>
+			</tr>
+			<tr>
+				<td>学校</td>
+				<td>{{ object.apply_school.name }}<br>{{ object.apply_school.chinese_name }}</td>
+			</tr>
+			<tr>
+				<td>学院</td>
+				<td>{{ object.apply_college.name }}<br>{{ object.apply_college.chinese_name }}</td>
+			</tr>
+			<tr>
+				<td>学位</td><td>{% for s in object.apply_degree_type.all %}{{ s.chinese_name }}{% endfor %}</td>
+			</tr>
+			<tr>
+				<td>USNEWS</td><td>{{ object.usnews_rank }}</td>
+			</tr>
+			<tr>
+				<td>截止日期</td><td>{{ object.deadline }}</td>
+			</tr>
+			<tr>
+				<td>可申请学期</td><td>{% for s in object.apply_semester.all %}{{ s.chinese_name }} {% endfor %}</td>
+			</tr>
+			<tr>
+				<td>学费</td><td>${{ object.tuition | intcomma:False }} USD</td>
+			</tr>
+		</table>
+		<table class="am-table am-table-bordered am-table-striped am-table-centered">
+			<thead>
+				<tr><th colspan="2">英语能力</th></tr>
+			</thead>
+			<tr>
+				<td>GPA</td><td>
+					{% if object.gpa_required %}
+					{% if object.gpa == 0 %}有要求{% else %}
+					{% if object.gpa < 1 %}{% widthratio object.gpa 1 100 %}%
+					{% else %}{{ object.gpa }}{% endif %}{% endif %}
+					{% else %}无要求{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>TOEFL</td><td>
+					{% if object.toefl_required %}
+					{% if object.toefl == 0 %}有要求{% else %}
+					{% if object.toefl < 1 %}{% widthratio object.toefl 1 100 %}%
+					{% else %}{{ object.toefl }}{% endif %}{% endif %}
+					{% else %}无要求{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>GRE</td><td>
+					{% if object.gre_required %}
+					{% if object.gre == 0 %}有要求{% else %}
+					{% if object.gre < 1 %}{% widthratio object.gre 1 100 %}%
+					{% else %}{{ object.gre }}{% endif %}{% endif %}
+					{% else %}无要求{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>GRE科目</td><td>
+					{% if object.gre_subject.all %}
+					{% for s in object.gre_subject.all %}{{ s.chinese_name }} {% endfor %}
+					{% else %}
+					无要求
+					{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>IELTS</td><td>
+					{% if object.ielts_required %}
+					{% if object.ielts == 0 %}有要求{% else %}
+					{% if object.ielts < 1 %}{% widthratio object.ielts 1 100 %}%
+					{% else %}{{ object.ielts }}{% endif %}{% endif %}
+					{% else %}无要求{% endif %}
+				</td>
+			</tr>
+			<tr>
+				<td>GMAT</td><td>
+					{% if object.gmat_required %}
+					{% if object.gmat == 0 %}有要求{% else %}
+					{% if object.gmat < 1 %}{% widthratio object.gmat 1 100 %}%
+					{% else %}{{ object.gmat }}{% endif %}{% endif %}
+					{% else %}无要求{% endif %}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{% endblock %}

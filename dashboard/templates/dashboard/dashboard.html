@@ -52,7 +52,6 @@
 					</a>
 				</li>
 				{% endif %}
-				{% if request.user.groups.first.name == "管理员" %}
 				<li>
 					<a href="{% url 'dashboard:MentoringRelationshipListView' %}">
 						{% if page_title == "导生关系" %}<strong class="am-text-primary">{% endif %}
@@ -60,7 +59,6 @@
 						{% if page_title == "导生关系" %}</strong>{% endif %}
 					</a>
 				</li>
-				{% endif %}
 				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
 				<li>
 					<a href="{% url 'dashboard:StudentListView' %}">
@@ -85,6 +83,15 @@
 						{% if page_title == "管理员" %}<strong class="am-text-primary">{% endif %}
 						<span class="am-icon-fw am-icon-android"></span> 管理员列表
 						{% if page_title == "管理员" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" %}
+				<li>
+					<a href="{% url 'dashboard:ApplyManagementCountryListView' %}">
+						{% if page_title == "院校申请信息管理" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-info-circle"></span> 院校申请信息管理
+						{% if page_title == "院校申请信息管理" %}</strong>{% endif %}
 					</a>
 				</li>
 				{% endif %}

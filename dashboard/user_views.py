@@ -38,7 +38,7 @@ class MyUserListView(LoginRequiredMixin, ListView):
         order_by = self.request.GET.get('order_by', 'username')
         users = User.objects.filter(groups__name = self.groups_name)
         if self.request.user.groups.first().name == "导师":
-            rs = MentoringRelationship.objects.filter(teacher__id = self.request.user.id)
+            rs = MentoringRelationship.objects.filter(teacher__id = self.request.user.id, relationship_status = '辅导中')
             users = users.filter(MentoringRelationship_student__in = rs)
         query = Q(username__icontains = search_text)
         query.add(Q(email__icontains = search_text), Q.OR)
@@ -79,7 +79,7 @@ class StudentDetailView(LoginRequiredMixin, DetailView):
     def dispatch(self, *args, **kwargs):
         if self.request.user.groups.first().name == "导师":
             try:
-                rs = MentoringRelationship.objects.get(teacher = self.request.user, student__id = self.kwargs['pk'])
+                rs = MentoringRelationship.objects.get(teacher = self.request.user, student__id = self.kwargs['pk'], relationship_status='辅导中')
             except MentoringRelationship.model.DoesNotExist:
                 raise Http404(_("No %(verbose_name)s found matching the query") %
                             {'verbose_name': missions.model._meta.verbose_name})

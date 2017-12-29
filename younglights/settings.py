@@ -33,6 +33,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '39.104.51.181', 'younglights.cn', 's
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.humanize',
     'landingpage.apps.LandingpageConfig',
     'dashboard.apps.DashboardConfig',
     'django.contrib.admin',
@@ -121,7 +122,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
@@ -129,4 +129,3 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 LOGIN_URL = reverse_lazy('dashboard:login')
 LOGIN_REDIRECT_URL = reverse_lazy('dashboard:overview')
-#DATE_INPUT_FORMATS = ['%Y年%m月%d日']
