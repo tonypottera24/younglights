@@ -1,0 +1,23 @@
+{% extends 'dashboard/school_application.html' %}
+{% block tab_content %}
+
+<div class="am-u-sm-6 am-u-sm-centered">
+	<div class="am-panel am-panel-primary">
+		<div class="am-panel-hd"><h3 class="am-panel-title">{{page_subtitle}}</h3></div>
+		<div class="am-panel-bd">
+			<form class="am-form" method="POST" action="">
+				{% csrf_token %}
+				<p>{{ page_h1 }}</p>
+				<ul>
+					<li>{{ object }}</li>
+				</ul>
+				<p></p>
+				<div class="am-cf">
+					<a class="am-btn am-btn-default am-fl" href={{ page_cancel }}>返 回</a>
+					<input class="am-btn am-btn-primary am-fr" type="submit" value="确 定">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

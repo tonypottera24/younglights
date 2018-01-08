@@ -85,12 +85,12 @@ class MyBasicField():
             self.fields['thesis_experience'].label = '论文经验 / Thesis Experience'
             self.fields['thesis_experience'].required = False
         if 'teacher' in self.fields:
-            self.fields['teacher'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['teacher'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['teacher'].widget.attrs['placeholder'] = '请选择导师 / Teacher'
             self.fields['teacher'].label = '导师 / Teacher'
             self.fields['teacher'].required = True
         if 'student' in self.fields:
-            self.fields['student'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['student'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['student'].widget.attrs['placeholder'] = '请选择学生 / Student'
             self.fields['student'].label = '学生 / Student'
             self.fields['student'].required = True
@@ -118,7 +118,7 @@ class MyBasicField():
             self.fields['mentoring_date'].required = True
         if 'mentoring_time' in self.fields:
             self.fields['mentoring_time'].widget.attrs['placeholder'] = '请选择亲的辅导时长'
-            self.fields['mentoring_time'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['mentoring_time'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['mentoring_time'].label = '辅导时长 / Mentoring time'
             self.fields['mentoring_time'].required = True
         if 'title' in self.fields:
@@ -162,22 +162,22 @@ class MyBasicField():
             self.fields['chinese_name'].label = '中文名称 / Chinese Name'
             self.fields['chinese_name'].required = True
         if 'apply_country' in self.fields:
-            self.fields['apply_country'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['apply_country'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['apply_country'].widget.attrs['placeholder'] = '请选择国家 / Country'
             self.fields['apply_country'].label = '国家 / Country'
             self.fields['apply_country'].required = True
         if 'apply_school' in self.fields:
-            self.fields['apply_school'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['apply_school'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['apply_school'].widget.attrs['placeholder'] = '请选择学校 / School'
             self.fields['apply_school'].label = '学校 / School'
             self.fields['apply_school'].required = True
         if 'apply_college' in self.fields:
-            self.fields['apply_college'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['apply_college'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['apply_college'].widget.attrs['placeholder'] = '请选择学院 / College'
             self.fields['apply_college'].label = '学院 / College'
             self.fields['apply_college'].required = True
         if 'apply_major' in self.fields:
-            self.fields['apply_major'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%'}"
+            self.fields['apply_major'].widget.attrs['data-am-selected']="{searchBox: 1, btnWidth: '100%', maxHeight: 300}"
             self.fields['apply_major'].widget.attrs['placeholder'] = '请选择专业 / Major'
             self.fields['apply_major'].label = '专业 / Major'
             self.fields['apply_major'].required = True
@@ -251,10 +251,10 @@ class MyBasicField():
             self.fields['apply_comment'].widget.attrs['placeholder'] = '请输入申请说明 / Comment'
             self.fields['apply_comment'].label = '申请说明 / Comment'
             self.fields['apply_comment'].required = False
-        if 'apply_course' in self.fields:
-            self.fields['apply_course'].widget.attrs['placeholder'] = '请输入课程设置 / Course'
-            self.fields['apply_course'].label = '课程设置 / Course'
-            self.fields['apply_course'].required = False
+        if 'apply_curriculum' in self.fields:
+            self.fields['apply_curriculum'].widget.attrs['placeholder'] = '请输入课程设置 / Curriculum'
+            self.fields['apply_curriculum'].label = '课程设置 / Curriculum'
+            self.fields['apply_curriculum'].required = False
         if 'apply_link' in self.fields:
             self.fields['apply_link'].widget.attrs['placeholder'] = '请输入相关连结 / Links'
             self.fields['apply_link'].label = '相关连结 / Links'

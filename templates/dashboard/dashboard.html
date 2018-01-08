@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block body %}
+<header class="am-topbar am-topbar-inverse admin-header">
+	<div class="am-topbar-brand">
+		<img src="{% static 'static_shared/img/logo_light.svg' %}" height="30px"><strong>洋光教育</strong> <small>辅导系统</small>
+	</div>
+
+	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
+
+	<div class="am-collapse am-topbar-collapse" id="topbar-collapse">
+		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
+			<li class="am-dropdown" data-am-dropdown>
+				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
+					<span class="am-icon-user"></span> {{ request.user.userprofile.chinese_name }} {{ request.user.groups.first.name }} <span class="am-icon-caret-down"></span>
+				</a>
+				<ul class="am-dropdown-content">
+					<li><a href="{% url 'dashboard:logout' %}"><span class="am-icon-sign-out"></span> 退出</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</header>
+
+<div class="am-cf admin-main">
+	<!-- sidebar start -->
+	<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
+		<div class="am-offcanvas-bar admin-offcanvas-bar">
+			<ul class="am-list admin-sidebar-list">
+				<li>
+					<a href="{% url 'dashboard:overview' %}">
+						{% if page_title == "总览" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-home"></span> 总览
+						{% if page_title == "总览" %}</strong>{% endif %}
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'dashboard:MissionListView' %}">
+						{% if page_title == "任务" %}<strong class="am-text-primary">{% endif %}
+							<span class="am-icon-fw am-icon-folder-open"></span> 任务列表
+						{% if page_title == "任务" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
+				<li>
+					<a href="{% url 'dashboard:MentoringRecordListView' %}">
+						{% if page_title == "辅导纪录" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-calendar"></span> 辅导纪录
+						{% if page_title == "辅导纪录" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				<li>
+					<a href="{% url 'dashboard:MentoringRelationshipListView' %}">
+						{% if page_title == "导生关系" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-exchange"></span> 导生关系
+						{% if page_title == "导生关系" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
+				<li>
+					<a href="{% url 'dashboard:StudentListView' %}">
+						{% if page_title == "学生" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-user"></span> 学生列表
+						{% if page_title == "学生" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" %}
+				<li>
+					<a href="{% url 'dashboard:TeacherListView' %}">
+						{% if page_title == "导师" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-graduation-cap"></span> 导师列表
+						{% if page_title == "导师" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" %}
+				<li>
+					<a href="{% url 'dashboard:AdministratorListView' %}">
+						{% if page_title == "管理员" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-android"></span> 管理员列表
+						{% if page_title == "管理员" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				<li>
+					<a href="{% url 'dashboard:SchoolApplicationDegreeListView' %}">
+						{% if page_title == "院校申请信息" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-info-circle"></span> 院校申请信息
+						{% if page_title == "院校申请信息" %}</strong>{% endif %}
+					</a>
+				</li>
+				<li>
+					<a href="{% url 'dashboard:SelfUpdateView' %}">
+						{% if page_title == "修改信息" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-cog"></span> 修改信息
+						{% if page_title == "修改信息" %}</strong>{% endif %}
+					</a>
+				</li>
+			</ul>
+
+			<div class="am-panel am-panel-default admin-sidebar-panel">
+				<div class="am-panel-bd">
+					<p><span class="am-icon-bookmark"></span> 励志</p>
+					<p>不在沉默中爆发，就在沉默中灭亡。—— 鲁迅</p>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- sidebar end -->
+
+	<!-- content start -->
+	<div class="admin-content">
+		<div class="admin-content-body">
+			<div class="am-cf am-padding am-padding-bottom-0">
+				<div class="am-fl am-cf">
+					<a href="{{ page_cancel }}">
+						<strong class="am-text-primary am-text-lg">{{page_title}}</strong>
+					</a> / <small>{{page_subtitle}}</small>
+				</div>
+			</div>
+			<hr/>
+			{% block content %}
+			{% endblock %}
+		</div>
+
+		<footer class="admin-content-footer">
+			<hr>
+			<p class="am-padding-left">© 2017 北京洋光教育咨询有限公司</p>
+		</footer>
+	</div>
+	<!-- content end -->
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+{% endblock %}

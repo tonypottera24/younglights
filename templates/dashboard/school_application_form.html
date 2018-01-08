@@ -1,0 +1,27 @@
+{% extends 'dashboard/school_application.html' %}
+{% block tab_content %}
+
+<div class="am-g">
+	<div class="am-u-sm-12 am-u-md-10">
+		<form class="am-form am-form-horizontal" novalidate method="POST" action="">
+			{% csrf_token %}
+			{% for field in form %}
+			<div class="am-form-group">
+				<label class="am-u-sm-4 am-form-label">{{ field.label_tag }}</label>
+				<div class="am-u-sm-8 {% if field.errors %}am-form-error{% endif %}">
+					{{ field }}
+					{% if field.errors %}<div class="am-alert am-alert-danger">{{ field.errors }}</div>{% endif %}
+				</div>
+			</div>
+			{% endfor %}
+			<div class="am-form-group">
+				<div class="am-u-sm-8 am-u-sm-offset-4">
+					<input type="submit" value="保 存" class="am-btn am-btn-primary am-fr">
+					<a class="am-btn am-btn-default am-fl" href={{ page_cancel }}>返 回</a>
+				</div>
+			</div>
+		</form>
+		{{ form.media }}
+	</div>
+</div>
+{% endblock %}

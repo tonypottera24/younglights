@@ -1,0 +1,58 @@
+{% extends 'dashboard/school_application.html' %}
+{% block tab_content %}
+
+<div class="am-g">
+	<div class="am-u-sm-12 am-u-md-6">
+		<div class="am-btn-toolbar">
+			<div class="am-btn-group am-btn-group-xs">
+				{% if request.user.groups.first.name == "管理员" %}
+				<a class="am-btn am-btn-default" href="{{ page_add }}"><span class="am-icon-plus"></span> 新增</a>
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="am-u-sm-12 am-u-md-3">
+		<form class="am-form" method="get" action="">
+			<div class="am-input-group am-input-group-sm">
+				<input type="text" class="am-form-field" value="{{search_text}}" name="search_text">
+				<span class="am-input-group-btn">
+					<input class="am-btn am-btn-default" type="submit" name="submit" value="搜索"/>
+				</span>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div class="am-g">
+	<div class="am-u-sm-12">
+		<table class="am-table am-table-striped am-table-hover table-main">
+			<thead>
+				<tr>
+					<th>名称</th>
+					<th>中文名称</th>
+					<th>修改日期</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for object in object_list %}
+				<tr>
+					<td>{{ object.name }}</td>
+					<td>{{ object.chinese_name }}</td>
+					<td class="am-hide-sm-only">{{ object.updated_datetime }}</td>
+					<td>
+						<div class="am-btn-toolbar">
+							<div class="am-btn-group am-btn-group-xs">
+								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:SchoolApplicationCountryUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:SchoolApplicationCountryDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+							</div>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% include "dashboard/paginator.html" %}
+	</div>
+</div>
+{% endblock %}

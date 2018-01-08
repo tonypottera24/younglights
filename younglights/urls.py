@@ -15,10 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from landingpage import views
+from django.urls import reverse, reverse_lazy
+from django.views.generic import RedirectView
 
 urlpatterns = [
-    url(r'^$', views.mobile, name='mobile'),
+    url(r'^$', RedirectView.as_view(url=reverse_lazy('index:about_us'))),
+    url(r'^index/', include('index.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
+
+    url(r'^markdownx/', include('markdownx.urls')),
     url(r'^admin/', admin.site.urls),
 ]

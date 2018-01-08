@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 import datetime
+from markdownx.models import MarkdownxField
+from markdownx.utils import markdownify
 
 # Create your models here.
 
@@ -21,11 +23,9 @@ class UserProfile(models.Model):
     research_field = models.TextField(max_length=1000, null=True, blank=True, default='')
     research_experience = models.TextField(max_length=10000, null=True, blank=True, default='')
     thesis_experience = models.TextField(max_length=10000, null=True, blank=True, default='')
-
     def save( self, *args, **kw ):
         self.chinese_name = self.user.last_name + self.user.first_name
         super( UserProfile, self ).save( *args, **kw )
-
     def __str__(self):
         if len(self.user.groups.all()) > 0:
             return self.chinese_name + " " + self.user.groups.first().name
@@ -148,7 +148,17 @@ class Mission(models.Model):
             ("view_mission", "Can view mission"),
         )
 
-class ApplyCountry(models.Model):
+class ApplyDegreeType(models.Model):
+    name = models.CharField(max_length=64)
+    chinese_name = models.CharField(max_length=64)
+
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "%s %s" % (self.name, self.chinese_name)
+
+class ApplyMajor(models.Model):
     name = models.CharField(max_length=64)
     chinese_name = models.CharField(max_length=64)
 
@@ -160,22 +170,7 @@ class ApplyCountry(models.Model):
 
     class Meta:
         permissions = (
-            ("view_applycountry", "Can view apply country"),
-        )
-
-class ApplySchool(models.Model):
-    name = models.CharField(max_length=64)
-    chinese_name = models.CharField(max_length=64)
-
-    added_datetime = models.DateTimeField(auto_now_add=True)
-    updated_datetime = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return "%s %s" % (self.name, self.chinese_name)
-
-    class Meta:
-        permissions = (
-            ("view_applyschool", "Can view apply school"),
+            ("view_applymajor", "Can view apply major"),
         )
 
 class ApplyCollege(models.Model):
@@ -193,7 +188,7 @@ class ApplyCollege(models.Model):
             ("view_applycollege", "Can view apply college"),
         )
 
-class ApplyMajor(models.Model):
+class ApplySchool(models.Model):
     name = models.CharField(max_length=64)
     chinese_name = models.CharField(max_length=64)
 
@@ -205,10 +200,10 @@ class ApplyMajor(models.Model):
 
     class Meta:
         permissions = (
-            ("view_applymajor", "Can view apply major"),
+            ("view_applyschool", "Can view apply school"),
         )
 
-class ApplyDegreeType(models.Model):
+class ApplyCountry(models.Model):
     name = models.CharField(max_length=64)
     chinese_name = models.CharField(max_length=64)
 
@@ -217,6 +212,11 @@ class ApplyDegreeType(models.Model):
 
     def __str__(self):
         return "%s %s" % (self.name, self.chinese_name)
+
+    class Meta:
+        permissions = (
+            ("view_applycountry", "Can view apply country"),
+        )
 
 class ApplySemester(models.Model):
     name = models.CharField(max_length=64)
@@ -243,8 +243,8 @@ class ApplyDegree(models.Model):
     apply_school = models.ForeignKey(ApplySchool, on_delete=models.CASCADE)
     apply_college = models.ForeignKey(ApplyCollege, on_delete=models.CASCADE)
     apply_major = models.ForeignKey(ApplyMajor, on_delete=models.CASCADE)
-
     apply_degree_type = models.ManyToManyField(ApplyDegreeType)
+
     apply_semester = models.ManyToManyField(ApplySemester)
     deadline = models.DateField()
     tuition = models.IntegerField(default = 0)
@@ -263,10 +263,18 @@ class ApplyDegree(models.Model):
     gmat = models.FloatField(default = 0)
     gmat_required = models.BooleanField(default=False)
 
-
-    apply_comment = models.TextField(max_length = 5000, blank=True, default = '')
-    apply_course = models.TextField(max_length = 5000, blank=True, default = '')
-    apply_link = models.TextField(max_length = 5000, blank=True, default = '')
+    apply_comment = MarkdownxField(max_length = 5000, blank=True, default = '')
+    @property
+    def apply_comment_markdown(self):
+        return markdownify(self.apply_comment)
+    apply_curriculum = MarkdownxField(max_length = 5000, blank=True, default = '')
+    @property
+    def apply_curriculum_markdown(self):
+        return markdownify(self.apply_curriculum)
+    apply_link = MarkdownxField(max_length = 5000, blank=True, default = '')
+    @property
+    def apply_link_markdown(self):
+        return markdownify(self.apply_link)
 
     added_datetime = models.DateTimeField(auto_now_add = True)
     updated_datetime = models.DateTimeField(auto_now = True)

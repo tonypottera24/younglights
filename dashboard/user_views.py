@@ -13,11 +13,10 @@ from .user_forms import AdministratorCreationForm, AdministratorChangeForm
 from .user_forms import TeacherCreationForm, TeacherChangeForm
 from .user_forms import StudentCreationForm, StudentChangeForm
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext as _
 from django.http import Http404
 
-class MyUserListView(LoginRequiredMixin, ListView):
+class MyUserListView(ListView):
     groups_name = ""
     page_subtitle = "列表"
     model = User
@@ -70,7 +69,7 @@ class StudentListView(MyUserListView):
     page_add = reverse_lazy('dashboard:StudentCreationView')
     success_url = reverse_lazy('dashboard:StudentListView')
 
-class StudentDetailView(LoginRequiredMixin, DetailView):
+class StudentDetailView(DetailView):
     page_title = "学生"
     page_subtitle = "详细信息"
     success_url = reverse_lazy('dashboard:StudentListView')
@@ -91,7 +90,7 @@ class StudentDetailView(LoginRequiredMixin, DetailView):
         context['page_cancel'] = self.success_url
         return context
 
-class MyUserCreationView(LoginRequiredMixin, FormView):
+class MyUserCreationView(FormView):
     groups_name = ""
     page_subtitle = "增加"
     template_name = "dashboard/form.html"
@@ -130,7 +129,7 @@ class StudentCreationView(MyUserCreationView):
     form_class = StudentCreationForm
     success_url = reverse_lazy('dashboard:StudentListView')
 
-class MyUserUpdateView(LoginRequiredMixin, FormView):
+class MyUserUpdateView(FormView):
     self_pk = None
     groups_name = ""
     page_subtitle = "编辑"
@@ -212,7 +211,7 @@ class SelfUpdateView(MyUserUpdateView):
         context['page_title'] = "修改信息"
         return context
 
-class MyUserDeleteView(LoginRequiredMixin, DeleteView):
+class MyUserDeleteView(DeleteView):
     groups_name = ""
     page_subtitle = "删除"
     page_h1 = "请问亲是否确定要删除"

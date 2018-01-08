@@ -7,33 +7,32 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
 from .models import MentoringRelationship, MentoringRecord, Mission
-from .models import ApplyCountry, ApplySchool, ApplyCollege, ApplyMajor, ApplyDegree
+from .models import ApplyCountry, ApplySchool, ApplyCollege, ApplyMajor, ApplyDegree, ApplyDegreeType, ApplySemester
 from .user_forms import AdministratorCreationForm, AdministratorChangeForm
 from .user_forms import TeacherCreationForm, TeacherChangeForm
 from .user_forms import StudentCreationForm, StudentChangeForm
 from .forms import MentoringRelationshipCreationForm, MentoringRecordCreationForm, MissionCreationForm
-from .forms import ApplyManagementCountryCreationForm, ApplyManagementSchoolCreationForm, ApplyManagementCollegeCreationForm, ApplyManagementMajorCreationForm, ApplyManagementDegreeCreationForm
+from .forms import SchoolApplicationCountryCreationForm, SchoolApplicationSchoolCreationForm, SchoolApplicationCollegeCreationForm, SchoolApplicationMajorCreationForm, SchoolApplicationDegreeCreationForm
 from django.db.models import Q
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import Http404
 from django.utils.translation import gettext as _
 import datetime
+import json
 
 # Create your views here.
 
-@login_required
 def overview(request):
     return redirect(reverse('dashboard:MissionListView'))
 
-class ApplyManagementDegreeListView(LoginRequiredMixin, ListView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationDegreeListView(ListView):
+    page_title = "院校申请信息"
     page_subtitle = "列表"
-    page_tab = "学位"
-    template_name = "dashboard/apply_management_degree_list.html"
-    page_add = reverse_lazy('dashboard:ApplyManagementDegreeCreationView')
-    success_url = reverse_lazy('dashboard:ApplyManagementDegreeListView')
+    page_tab = "学位比较"
+    template_name = "dashboard/school_application_degree_list.html"
+    page_add = reverse_lazy('dashboard:SchoolApplicationDegreeCreationView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationDegreeListView')
     model = ApplyDegree
-    paginate_by = 40
+    paginate_by = 20
     def try_list_int(self, l):
         for i in l:
             if i != 'cancel':
@@ -53,6 +52,8 @@ class ApplyManagementDegreeListView(LoginRequiredMixin, ListView):
         apply_school_ids = self.get_apply_ids('apply_school_id')
         apply_college_ids = self.get_apply_ids('apply_college_id')
         apply_major_ids = self.get_apply_ids('apply_major_id')
+        apply_degree_type_ids = self.get_apply_ids('apply_degree_type_id')
+        apply_semester_ids = self.get_apply_ids('apply_semester_id')
         apply_degree = ApplyDegree.objects.all()
         if len(apply_country_ids) > 0:
             apply_degree = apply_degree.filter(apply_country__id__in = apply_country_ids)
@@ -62,9 +63,13 @@ class ApplyManagementDegreeListView(LoginRequiredMixin, ListView):
             apply_degree = apply_degree.filter(apply_college__id__in = apply_college_ids)
         if len(apply_major_ids) > 0:
             apply_degree = apply_degree.filter(apply_major__id__in = apply_major_ids)
+        if len(apply_degree_type_ids) > 0:
+            apply_degree = apply_degree.filter(apply_degree_type__id__in = apply_degree_type_ids)
+        if len(apply_semester_ids) > 0:
+            apply_degree = apply_degree.filter(apply_semester__id__in = apply_semester_ids)
         return apply_degree
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementDegreeListView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationDegreeListView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -75,29 +80,29 @@ class ApplyManagementDegreeListView(LoginRequiredMixin, ListView):
         context['apply_school_id'] = self.get_apply_ids('apply_school_id')
         context['apply_college_id'] = self.get_apply_ids('apply_college_id')
         context['apply_major_id'] = self.get_apply_ids('apply_major_id')
+        context['apply_degree_type_id'] = self.get_apply_ids('apply_degree_type_id')
+        context['apply_semester_id'] = self.get_apply_ids('apply_semester_id')
         context['query_apply_country'] = ApplyCountry.objects.all()
         context['query_apply_school'] = ApplySchool.objects.all()
         context['query_apply_college'] = ApplyCollege.objects.all()
         context['query_apply_major'] = ApplyMajor.objects.all()
+        context['query_apply_degree_type'] = ApplyDegreeType.objects.all()
+        context['query_apply_semester'] = ApplySemester.objects.all()
         return context
     def get_queryset(self):
-        search_text = self.request.GET.get('search_text', '')
         order_by = self.request.GET.get('order_by', 'usnews_rank')
-        c = self.get_apply_degree()
-        query = Q(apply_country__chinese_name__icontains = search_text)
-        query.add(Q(apply_school__chinese_name__icontains = search_text), Q.OR)
-        new_context = c.filter(query).order_by(order_by)
+        new_context = self.get_apply_degree().order_by(order_by)
         return new_context
 
-class ApplyManagementDegreeCreationView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationDegreeCreationView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "增加"
-    page_tab = "学位"
-    template_name = "dashboard/apply_management_form.html"
-    form_class = ApplyManagementDegreeCreationForm
-    success_url = reverse_lazy('dashboard:ApplyManagementDegreeListView')
+    page_tab = "学位比较"
+    template_name = "dashboard/school_application_form.html"
+    form_class = SchoolApplicationDegreeCreationForm
+    success_url = reverse_lazy('dashboard:SchoolApplicationDegreeListView')
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementDegreeCreationView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationDegreeCreationView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -105,19 +110,19 @@ class ApplyManagementDegreeCreationView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementDegreeCreationView, self).form_valid(form)
+        return super(SchoolApplicationDegreeCreationView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementDegreeCreationView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationDegreeCreationView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementDegreeUpdateView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationDegreeUpdateView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "编辑"
-    page_tab = "学位"
-    form_class = ApplyManagementDegreeCreationForm
-    template_name = "dashboard/apply_management_form.html"
-    success_url = reverse_lazy('dashboard:ApplyManagementDegreeListView')
+    page_tab = "学位比较"
+    form_class = SchoolApplicationDegreeCreationForm
+    template_name = "dashboard/school_application_form.html"
+    success_url = reverse_lazy('dashboard:SchoolApplicationDegreeListView')
     def dispatch(self, *args, **kwargs):
         ac = ApplyDegree.objects.all()
         try:
@@ -125,9 +130,9 @@ class ApplyManagementDegreeUpdateView(LoginRequiredMixin, FormView):
         except ac.model.DoesNotExist:
             raise Http404(_("No %(verbose_name)s found matching the query") %
                         {'verbose_name': ac.model._meta.verbose_name})
-        return super(ApplyManagementDegreeUpdateView, self).dispatch(*args, **kwargs)
+        return super(SchoolApplicationDegreeUpdateView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementDegreeUpdateView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationDegreeUpdateView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -135,34 +140,84 @@ class ApplyManagementDegreeUpdateView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementDegreeUpdateView, self).form_valid(form)
+        return super(SchoolApplicationDegreeUpdateView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementDegreeUpdateView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationDegreeUpdateView, self).get_form_kwargs()
         r = ApplyDegree.objects.get(id = self.kwargs['pk'])
         kwargs['instance'] = r
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementDegreeDetailView(LoginRequiredMixin, DetailView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationDegreeDetailView(DetailView):
+    page_title = "院校申请信息"
     page_subtitle = "详细信息"
-    page_tab = "学位"
-    success_url = reverse_lazy('dashboard:ApplyManagementDegreeListView')
+    page_tab = "学位探索"
+    success_url = reverse_lazy('dashboard:SchoolApplicationDegreeListView')
     model = ApplyDegree
-    template_name = "dashboard/apply_management_degree_detail.html"
+    template_name = "dashboard/school_application_degree_detail.html"
     def dispatch(self, *args, **kwargs):
+        if int(self.kwargs['pk']) == 0:
+            return redirect(reverse_lazy('dashboard:SchoolApplicationDegreeDetailView', kwargs={'pk': ApplyDegree.objects.first().pk}))
         ad = ApplyDegree.objects.all()
         try:
             a =ad.get(id=self.kwargs['pk'])
-        except ApplyDegree.model.DoesNotExist:
+        except ad.model.DoesNotExist:
             raise Http404(_("No %(verbose_name)s found matching the query") %
-                        {'verbose_name': ApplyDegree.model._meta.verbose_name})
-        return super(ApplyManagementDegreeDetailView, self).dispatch(*args, **kwargs)
+                        {'verbose_name': ad.model._meta.verbose_name})
+        return super(SchoolApplicationDegreeDetailView, self).dispatch(*args, **kwargs)
     def get_apply_degree_json(self):
-        country = ApplyCountry.objects.all()
-
+        current_apply_degree = ApplyDegree.objects.get(id = self.kwargs['pk'])
+        data = []
+        apply_countries = ApplyCountry.objects.all()
+        apply_schools = ApplySchool.objects.all()
+        apply_colleges = ApplyCollege.objects.all()
+        apply_majors = ApplyMajor.objects.all()
+        for apply_country in apply_countries:
+            if len(ApplyDegree.objects.filter(apply_country = apply_country)) > 0:
+                d_country = {}
+                d_country['title'] = apply_country.chinese_name
+                d_country['type'] = 'folder'
+                if apply_country == current_apply_degree.apply_country:
+                    d_country['attr'] = {'id': 'apply_country_' + str(current_apply_degree.id)}
+                d_country['child'] = []
+                for apply_school in apply_schools:
+                    if len(ApplyDegree.objects.filter(apply_country = apply_country, apply_school = apply_school)) > 0:
+                        d_school = {}
+                        d_school['title'] = apply_school.chinese_name
+                        d_school['type'] = 'folder'
+                        if apply_school == current_apply_degree.apply_school:
+                            d_school['attr'] = {'id': 'apply_school_' + str(current_apply_degree.id)}
+                        d_school['child'] = []
+                        for apply_college in apply_colleges:
+                            if len(ApplyDegree.objects.filter(apply_country = apply_country, apply_school = apply_school, apply_college = apply_college)) > 0:
+                                d_college = {}
+                                d_college['title'] = apply_college.chinese_name
+                                d_college['type'] = 'folder'
+                                if apply_college == current_apply_degree.apply_college:
+                                    d_college['attr'] = {'id': 'apply_college_' + str(current_apply_degree.id)}
+                                d_college['child'] = []
+                                for apply_major in apply_majors:
+                                    apply_degrees = ApplyDegree.objects.filter(apply_country = apply_country, apply_school = apply_school, apply_college = apply_college, apply_major = apply_major)
+                                    if len(apply_degrees) > 0:
+                                        d_major = {}
+                                        d_major['title'] = apply_major.chinese_name
+                                        d_major['type'] = 'folder'
+                                        if apply_major == current_apply_degree.apply_major:
+                                            d_major['attr'] = {'id': 'apply_major_' + str(current_apply_degree.id)}
+                                        d_major['child'] = []
+                                        for apply_degree in apply_degrees:
+                                            d_degree = {}
+                                            d_degree['title'] = " ".join(a.chinese_name for a in apply_degree.apply_degree_type.all())
+                                            d_degree['type'] = 'item'
+                                            d_degree['attr'] = {'id': 'apply_degree_' + str(apply_degree.id)}
+                                            d_major['child'].append(d_degree)
+                                        d_college['child'].append(d_major)
+                                d_school['child'].append(d_college)
+                        d_country['child'].append(d_school)
+                data.append(d_country)
+        return str(json.dumps(data))
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementDegreeDetailView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationDegreeDetailView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -170,32 +225,32 @@ class ApplyManagementDegreeDetailView(LoginRequiredMixin, DetailView):
         context['apply_degree_json'] = self.get_apply_degree_json()
         return context
 
-class ApplyManagementDegreeDeleteView(LoginRequiredMixin, DeleteView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationDegreeDeleteView(DeleteView):
+    page_title = "院校申请信息"
     page_subtitle = "删除"
-    page_tab = "学位"
-    success_url = reverse_lazy('dashboard:ApplyManagementDegreeListView')
+    page_tab = "学位比较"
+    success_url = reverse_lazy('dashboard:SchoolApplicationDegreeListView')
     model = ApplyDegree
-    template_name = "dashboard/apply_management_panel.html"
+    template_name = "dashboard/school_application_panel.html"
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementDegreeDeleteView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationDegreeDeleteView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
         context['page_cancel'] = self.success_url
         return context
 
-class ApplyManagementCountryListView(LoginRequiredMixin, ListView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCountryListView(ListView):
+    page_title = "院校申请信息"
     page_subtitle = "列表"
     page_tab = "国家"
-    template_name = "dashboard/apply_management_country_list.html"
-    page_add = reverse_lazy('dashboard:ApplyManagementCountryCreationView')
-    success_url = reverse_lazy('dashboard:ApplyManagementCountryListView')
+    template_name = "dashboard/school_application_country_list.html"
+    page_add = reverse_lazy('dashboard:SchoolApplicationCountryCreationView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationCountryListView')
     model = ApplyCountry
     paginate_by = 10
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCountryListView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCountryListView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -212,15 +267,15 @@ class ApplyManagementCountryListView(LoginRequiredMixin, ListView):
         new_context = c.filter(query).order_by(order_by)
         return new_context
 
-class ApplyManagementCountryCreationView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCountryCreationView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "增加"
     page_tab = "国家"
-    template_name = "dashboard/apply_management_form.html"
-    form_class = ApplyManagementCountryCreationForm
-    success_url = reverse_lazy('dashboard:ApplyManagementCountryListView')
+    template_name = "dashboard/school_application_form.html"
+    form_class = SchoolApplicationCountryCreationForm
+    success_url = reverse_lazy('dashboard:SchoolApplicationCountryListView')
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCountryCreationView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCountryCreationView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -228,19 +283,19 @@ class ApplyManagementCountryCreationView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementCountryCreationView, self).form_valid(form)
+        return super(SchoolApplicationCountryCreationView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementCountryCreationView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationCountryCreationView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementCountryUpdateView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCountryUpdateView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "编辑"
     page_tab = "国家"
-    form_class = ApplyManagementCountryCreationForm
-    template_name = "dashboard/apply_management_form.html"
-    success_url = reverse_lazy('dashboard:ApplyManagementCountryListView')
+    form_class = SchoolApplicationCountryCreationForm
+    template_name = "dashboard/school_application_form.html"
+    success_url = reverse_lazy('dashboard:SchoolApplicationCountryListView')
     def dispatch(self, *args, **kwargs):
         ac = ApplyCountry.objects.all()
         try:
@@ -248,9 +303,9 @@ class ApplyManagementCountryUpdateView(LoginRequiredMixin, FormView):
         except ac.model.DoesNotExist:
             raise Http404(_("No %(verbose_name)s found matching the query") %
                         {'verbose_name': ac.model._meta.verbose_name})
-        return super(ApplyManagementCountryUpdateView, self).dispatch(*args, **kwargs)
+        return super(SchoolApplicationCountryUpdateView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCountryUpdateView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCountryUpdateView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -258,40 +313,40 @@ class ApplyManagementCountryUpdateView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementCountryUpdateView, self).form_valid(form)
+        return super(SchoolApplicationCountryUpdateView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementCountryUpdateView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationCountryUpdateView, self).get_form_kwargs()
         r = ApplyCountry.objects.get(id = self.kwargs['pk'])
         kwargs['instance'] = r
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementCountryDeleteView(LoginRequiredMixin, DeleteView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCountryDeleteView(DeleteView):
+    page_title = "院校申请信息"
     page_subtitle = "删除"
     page_tab = "国家"
-    success_url = reverse_lazy('dashboard:ApplyManagementCountryListView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationCountryListView')
     model = ApplyCountry
-    template_name = "dashboard/apply_management_panel.html"
+    template_name = "dashboard/school_application_panel.html"
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCountryDeleteView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCountryDeleteView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
         context['page_cancel'] = self.success_url
         return context
 
-class ApplyManagementSchoolListView(LoginRequiredMixin, ListView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationSchoolListView(ListView):
+    page_title = "院校申请信息"
     page_subtitle = "列表"
     page_tab = "学校"
-    template_name = "dashboard/apply_management_school_list.html"
-    page_add = reverse_lazy('dashboard:ApplyManagementSchoolCreationView')
-    success_url = reverse_lazy('dashboard:ApplyManagementSchoolListView')
+    template_name = "dashboard/school_application_school_list.html"
+    page_add = reverse_lazy('dashboard:SchoolApplicationSchoolCreationView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationSchoolListView')
     model = ApplySchool
     paginate_by = 10
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementSchoolListView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationSchoolListView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -308,15 +363,15 @@ class ApplyManagementSchoolListView(LoginRequiredMixin, ListView):
         new_context = c.filter(query).order_by(order_by)
         return new_context
 
-class ApplyManagementSchoolCreationView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationSchoolCreationView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "增加"
     page_tab = "学校"
-    template_name = "dashboard/apply_management_form.html"
-    form_class = ApplyManagementSchoolCreationForm
-    success_url = reverse_lazy('dashboard:ApplyManagementSchoolListView')
+    template_name = "dashboard/school_application_form.html"
+    form_class = SchoolApplicationSchoolCreationForm
+    success_url = reverse_lazy('dashboard:SchoolApplicationSchoolListView')
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementSchoolCreationView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationSchoolCreationView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -324,19 +379,19 @@ class ApplyManagementSchoolCreationView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementSchoolCreationView, self).form_valid(form)
+        return super(SchoolApplicationSchoolCreationView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementSchoolCreationView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationSchoolCreationView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementSchoolUpdateView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationSchoolUpdateView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "编辑"
     page_tab = "学校"
-    form_class = ApplyManagementSchoolCreationForm
-    template_name = "dashboard/apply_management_form.html"
-    success_url = reverse_lazy('dashboard:ApplyManagementSchoolListView')
+    form_class = SchoolApplicationSchoolCreationForm
+    template_name = "dashboard/school_application_form.html"
+    success_url = reverse_lazy('dashboard:SchoolApplicationSchoolListView')
     def dispatch(self, *args, **kwargs):
         ac = ApplySchool.objects.all()
         try:
@@ -344,9 +399,9 @@ class ApplyManagementSchoolUpdateView(LoginRequiredMixin, FormView):
         except ac.model.DoesNotExist:
             raise Http404(_("No %(verbose_name)s found matching the query") %
                         {'verbose_name': ac.model._meta.verbose_name})
-        return super(ApplyManagementSchoolUpdateView, self).dispatch(*args, **kwargs)
+        return super(SchoolApplicationSchoolUpdateView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementSchoolUpdateView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationSchoolUpdateView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -354,40 +409,40 @@ class ApplyManagementSchoolUpdateView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementSchoolUpdateView, self).form_valid(form)
+        return super(SchoolApplicationSchoolUpdateView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementSchoolUpdateView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationSchoolUpdateView, self).get_form_kwargs()
         r = ApplySchool.objects.get(id = self.kwargs['pk'])
         kwargs['instance'] = r
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementSchoolDeleteView(LoginRequiredMixin, DeleteView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationSchoolDeleteView(DeleteView):
+    page_title = "院校申请信息"
     page_subtitle = "删除"
     page_tab = "学校"
-    success_url = reverse_lazy('dashboard:ApplyManagementSchoolListView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationSchoolListView')
     model = ApplySchool
-    template_name = "dashboard/apply_management_panel.html"
+    template_name = "dashboard/school_application_panel.html"
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementSchoolDeleteView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationSchoolDeleteView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
         context['page_cancel'] = self.success_url
         return context
 
-class ApplyManagementCollegeListView(LoginRequiredMixin, ListView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCollegeListView(ListView):
+    page_title = "院校申请信息"
     page_subtitle = "列表"
     page_tab = "学院"
-    template_name = "dashboard/apply_management_college_list.html"
-    page_add = reverse_lazy('dashboard:ApplyManagementCollegeCreationView')
-    success_url = reverse_lazy('dashboard:ApplyManagementCollegeListView')
+    template_name = "dashboard/school_application_college_list.html"
+    page_add = reverse_lazy('dashboard:SchoolApplicationCollegeCreationView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationCollegeListView')
     model = ApplyCollege
     paginate_by = 10
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCollegeListView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCollegeListView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -404,15 +459,15 @@ class ApplyManagementCollegeListView(LoginRequiredMixin, ListView):
         new_context = c.filter(query).order_by(order_by)
         return new_context
 
-class ApplyManagementCollegeCreationView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCollegeCreationView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "增加"
     page_tab = "学院"
-    template_name = "dashboard/apply_management_form.html"
-    form_class = ApplyManagementCollegeCreationForm
-    success_url = reverse_lazy('dashboard:ApplyManagementCollegeListView')
+    template_name = "dashboard/school_application_form.html"
+    form_class = SchoolApplicationCollegeCreationForm
+    success_url = reverse_lazy('dashboard:SchoolApplicationCollegeListView')
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCollegeCreationView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCollegeCreationView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -420,19 +475,19 @@ class ApplyManagementCollegeCreationView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementCollegeCreationView, self).form_valid(form)
+        return super(SchoolApplicationCollegeCreationView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementCollegeCreationView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationCollegeCreationView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementCollegeUpdateView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCollegeUpdateView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "编辑"
     page_tab = "学院"
-    form_class = ApplyManagementCollegeCreationForm
-    template_name = "dashboard/apply_management_form.html"
-    success_url = reverse_lazy('dashboard:ApplyManagementCollegeListView')
+    form_class = SchoolApplicationCollegeCreationForm
+    template_name = "dashboard/school_application_form.html"
+    success_url = reverse_lazy('dashboard:SchoolApplicationCollegeListView')
     def dispatch(self, *args, **kwargs):
         ac = ApplyCollege.objects.all()
         try:
@@ -440,9 +495,9 @@ class ApplyManagementCollegeUpdateView(LoginRequiredMixin, FormView):
         except ac.model.DoesNotExist:
             raise Http404(_("No %(verbose_name)s found matching the query") %
                         {'verbose_name': ac.model._meta.verbose_name})
-        return super(ApplyManagementCollegeUpdateView, self).dispatch(*args, **kwargs)
+        return super(SchoolApplicationCollegeUpdateView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCollegeUpdateView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCollegeUpdateView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -450,40 +505,40 @@ class ApplyManagementCollegeUpdateView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementCollegeUpdateView, self).form_valid(form)
+        return super(SchoolApplicationCollegeUpdateView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementCollegeUpdateView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationCollegeUpdateView, self).get_form_kwargs()
         r = ApplyCollege.objects.get(id = self.kwargs['pk'])
         kwargs['instance'] = r
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementCollegeDeleteView(LoginRequiredMixin, DeleteView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationCollegeDeleteView(DeleteView):
+    page_title = "院校申请信息"
     page_subtitle = "删除"
     page_tab = "学院"
-    success_url = reverse_lazy('dashboard:ApplyManagementCollegeListView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationCollegeListView')
     model = ApplyCollege
-    template_name = "dashboard/apply_management_panel.html"
+    template_name = "dashboard/school_application_panel.html"
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementCollegeDeleteView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationCollegeDeleteView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
         context['page_cancel'] = self.success_url
         return context
 
-class ApplyManagementMajorListView(LoginRequiredMixin, ListView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationMajorListView(ListView):
+    page_title = "院校申请信息"
     page_subtitle = "列表"
     page_tab = "专业"
-    template_name = "dashboard/apply_management_major_list.html"
-    page_add = reverse_lazy('dashboard:ApplyManagementMajorCreationView')
-    success_url = reverse_lazy('dashboard:ApplyManagementMajorListView')
+    template_name = "dashboard/school_application_major_list.html"
+    page_add = reverse_lazy('dashboard:SchoolApplicationMajorCreationView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationMajorListView')
     model = ApplyMajor
     paginate_by = 10
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementMajorListView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationMajorListView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -500,15 +555,15 @@ class ApplyManagementMajorListView(LoginRequiredMixin, ListView):
         new_context = c.filter(query).order_by(order_by)
         return new_context
 
-class ApplyManagementMajorCreationView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationMajorCreationView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "增加"
     page_tab = "专业"
-    template_name = "dashboard/apply_management_form.html"
-    form_class = ApplyManagementMajorCreationForm
-    success_url = reverse_lazy('dashboard:ApplyManagementMajorListView')
+    template_name = "dashboard/school_application_form.html"
+    form_class = SchoolApplicationMajorCreationForm
+    success_url = reverse_lazy('dashboard:SchoolApplicationMajorListView')
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementMajorCreationView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationMajorCreationView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -516,19 +571,19 @@ class ApplyManagementMajorCreationView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementMajorCreationView, self).form_valid(form)
+        return super(SchoolApplicationMajorCreationView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementMajorCreationView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationMajorCreationView, self).get_form_kwargs()
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementMajorUpdateView(LoginRequiredMixin, FormView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationMajorUpdateView(FormView):
+    page_title = "院校申请信息"
     page_subtitle = "编辑"
     page_tab = "专业"
-    form_class = ApplyManagementMajorCreationForm
-    template_name = "dashboard/apply_management_form.html"
-    success_url = reverse_lazy('dashboard:ApplyManagementMajorListView')
+    form_class = SchoolApplicationMajorCreationForm
+    template_name = "dashboard/school_application_form.html"
+    success_url = reverse_lazy('dashboard:SchoolApplicationMajorListView')
     def dispatch(self, *args, **kwargs):
         ac = ApplyMajor.objects.all()
         try:
@@ -536,9 +591,9 @@ class ApplyManagementMajorUpdateView(LoginRequiredMixin, FormView):
         except ac.model.DoesNotExist:
             raise Http404(_("No %(verbose_name)s found matching the query") %
                         {'verbose_name': ac.model._meta.verbose_name})
-        return super(ApplyManagementMajorUpdateView, self).dispatch(*args, **kwargs)
+        return super(SchoolApplicationMajorUpdateView, self).dispatch(*args, **kwargs)
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementMajorUpdateView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationMajorUpdateView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
@@ -546,30 +601,30 @@ class ApplyManagementMajorUpdateView(LoginRequiredMixin, FormView):
         return context
     def form_valid(self, form):
         form.save()
-        return super(ApplyManagementMajorUpdateView, self).form_valid(form)
+        return super(SchoolApplicationMajorUpdateView, self).form_valid(form)
     def get_form_kwargs(self):
-        kwargs = super(ApplyManagementMajorUpdateView, self).get_form_kwargs()
+        kwargs = super(SchoolApplicationMajorUpdateView, self).get_form_kwargs()
         r = ApplyMajor.objects.get(id = self.kwargs['pk'])
         kwargs['instance'] = r
         kwargs['request'] = self.request
         return kwargs
 
-class ApplyManagementMajorDeleteView(LoginRequiredMixin, DeleteView):
-    page_title = "院校申请信息管理"
+class SchoolApplicationMajorDeleteView(DeleteView):
+    page_title = "院校申请信息"
     page_subtitle = "删除"
     page_tab = "专业"
-    success_url = reverse_lazy('dashboard:ApplyManagementMajorListView')
+    success_url = reverse_lazy('dashboard:SchoolApplicationMajorListView')
     model = ApplyMajor
-    template_name = "dashboard/apply_management_panel.html"
+    template_name = "dashboard/school_application_panel.html"
     def get_context_data(self, **kwargs):
-        context = super(ApplyManagementMajorDeleteView, self).get_context_data(**kwargs)
+        context = super(SchoolApplicationMajorDeleteView, self).get_context_data(**kwargs)
         context['page_title'] = self.page_title
         context['page_subtitle'] = self.page_subtitle
         context['page_tab'] = self.page_tab
         context['page_cancel'] = self.success_url
         return context
 
-class MentoringRelationshipListView(LoginRequiredMixin, ListView):
+class MentoringRelationshipListView(ListView):
     page_title = "导生关系"
     page_subtitle = "列表"
     template_name = "dashboard/mentoring_relationship_list.html"
@@ -600,7 +655,7 @@ class MentoringRelationshipListView(LoginRequiredMixin, ListView):
         new_context = m.filter(query).order_by(order_by)
         return new_context
 
-class MentoringRelationshipCreationView(LoginRequiredMixin, FormView):
+class MentoringRelationshipCreationView(FormView):
     page_title = "导生关系"
     page_subtitle = "增加"
     template_name = "dashboard/form.html"
@@ -620,7 +675,7 @@ class MentoringRelationshipCreationView(LoginRequiredMixin, FormView):
         kwargs['request'] = self.request
         return kwargs
 
-class MentoringRelationshipUpdateView(LoginRequiredMixin, FormView):
+class MentoringRelationshipUpdateView(FormView):
     page_title = "导生关系"
     page_subtitle = "编辑"
     form_class = MentoringRelationshipCreationForm
@@ -655,7 +710,7 @@ class MentoringRelationshipUpdateView(LoginRequiredMixin, FormView):
         kwargs['request'] = self.request
         return kwargs
 
-class MentoringRelationshipDeleteView(LoginRequiredMixin, DeleteView):
+class MentoringRelationshipDeleteView(DeleteView):
     page_title = "导生关系"
     page_subtitle = "删除"
     success_url = reverse_lazy('dashboard:MentoringRelationshipListView')
@@ -668,7 +723,7 @@ class MentoringRelationshipDeleteView(LoginRequiredMixin, DeleteView):
         context['page_cancel'] = self.success_url
         return context
 
-class MentoringRecordListView(LoginRequiredMixin, ListView):
+class MentoringRecordListView(ListView):
     page_title = "辅导纪录"
     page_subtitle = "列表"
     template_name = "dashboard/mentoring_record_list.html"
@@ -758,7 +813,7 @@ class MentoringRecordListView(LoginRequiredMixin, ListView):
         new_context = m.filter(query).order_by(order_by)
         return new_context
 
-class MentoringRecordCreationView(LoginRequiredMixin, FormView):
+class MentoringRecordCreationView(FormView):
     page_title = "辅导纪录"
     page_subtitle = "增加"
     template_name = "dashboard/form.html"
@@ -778,7 +833,7 @@ class MentoringRecordCreationView(LoginRequiredMixin, FormView):
         kwargs['request'] = self.request
         return kwargs
 
-class MentoringRecordUpdateView(LoginRequiredMixin, FormView):
+class MentoringRecordUpdateView(FormView):
     page_title = "辅导纪录"
     page_subtitle = "编辑"
     form_class = MentoringRecordCreationForm
@@ -811,7 +866,7 @@ class MentoringRecordUpdateView(LoginRequiredMixin, FormView):
         kwargs['request'] = self.request
         return kwargs
 
-class MentoringRecordDeleteView(LoginRequiredMixin, DeleteView):
+class MentoringRecordDeleteView(DeleteView):
     page_title = "辅导纪录"
     page_subtitle = "删除"
     success_url = reverse_lazy('dashboard:MentoringRecordListView')
@@ -835,7 +890,7 @@ class MentoringRecordDeleteView(LoginRequiredMixin, DeleteView):
         context['page_cancel'] = self.success_url
         return context
 
-class MissionListView(LoginRequiredMixin, ListView):
+class MissionListView(ListView):
     page_title = "任务"
     page_subtitle = "列表"
     template_name = "dashboard/mission_list.html"
@@ -867,7 +922,7 @@ class MissionListView(LoginRequiredMixin, ListView):
         new_context = m.filter(query).order_by(order_by)
         return new_context
 
-class MissionCreationView(LoginRequiredMixin, FormView):
+class MissionCreationView(FormView):
     page_title = "任务"
     page_subtitle = "增加"
     template_name = "dashboard/form.html"
@@ -887,7 +942,7 @@ class MissionCreationView(LoginRequiredMixin, FormView):
         kwargs['request'] = self.request
         return kwargs
 
-class MissionUpdateView(LoginRequiredMixin, FormView):
+class MissionUpdateView(FormView):
     page_title = "任务"
     page_subtitle = "编辑"
     form_class = MissionCreationForm
@@ -920,7 +975,7 @@ class MissionUpdateView(LoginRequiredMixin, FormView):
         kwargs['request'] = self.request
         return kwargs
 
-class MissionDetailView(LoginRequiredMixin, DetailView):
+class MissionDetailView(DetailView):
     page_title = "任务"
     page_subtitle = "详细信息"
     success_url = reverse_lazy('dashboard:MissionListView')
@@ -946,7 +1001,7 @@ class MissionDetailView(LoginRequiredMixin, DetailView):
         context['page_cancel'] = self.success_url
         return context
 
-class MissionDeleteView(LoginRequiredMixin, DeleteView):
+class MissionDeleteView(DeleteView):
     page_title = "任务"
     page_subtitle = "删除"
     success_url = reverse_lazy('dashboard:MissionListView')

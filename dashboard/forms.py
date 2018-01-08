@@ -5,19 +5,19 @@ from .myforms import MyBasicField
 from .models import MentoringRelationship, MentoringRecord, Mission
 from .models import ApplyCountry, ApplySchool, ApplyCollege, ApplyMajor, ApplyDegree
 
-class ApplyManagementDegreeCreationForm(ModelForm):
+class SchoolApplicationDegreeCreationForm(ModelForm):
     class Meta:
         model = ApplyDegree
         fields = ['apply_country', 'apply_school', 'apply_college', 'apply_major', 'apply_degree_type', 'apply_semester', 'deadline', 'tuition', 'usnews_rank',
                 'gpa_required', 'gpa', 'toefl_required', 'toefl', 'gre_required', 'gre', 'gre_subject', 'ielts_required', 'ielts', 'gmat_required', 'gmat', 
-                'apply_comment', 'apply_course', 'apply_link']
+                'apply_comment', 'apply_curriculum', 'apply_link']
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')
         if 'instance' in kwargs:
             self.old_instance = kwargs['instance']
         else:
             self.old_instance = None
-        super(ApplyManagementDegreeCreationForm, self).__init__(*args, **kwargs)
+        super(SchoolApplicationDegreeCreationForm, self).__init__(*args, **kwargs)
         MyBasicField.add_field_info(self, None)
         self.fields['apply_country'].queryset = self.fields['apply_country'].queryset.order_by('-updated_datetime')
         self.fields['apply_school'].queryset = self.fields['apply_school'].queryset.order_by('-updated_datetime')
@@ -32,7 +32,7 @@ class ApplyManagementDegreeCreationForm(ModelForm):
         apply_degree_type = self.cleaned_data.get("apply_degree_type")
         if apply_country and apply_school and apply_college and apply_major and apply_degree_type:
             if self.old_instance:
-                if apply_country == self.old_instance.apply_country and apply_school == self.old_instance.apply_school and apply_college == self.old_instance.apply_college and apply_major == self.old_instance.apply_major and apply_degree_type == self.old_instance.apply_degree_type:
+                if apply_country == self.old_instance.apply_country and apply_school == self.old_instance.apply_school and apply_college == self.old_instance.apply_college and apply_major == self.old_instance.apply_major and set(apply_degree_type.all()) == set(self.old_instance.apply_degree_type.all()):
                     return apply_degree_type
             dg = ApplyDegree.objects.all()
             for adt in apply_degree_type:
@@ -41,7 +41,7 @@ class ApplyManagementDegreeCreationForm(ModelForm):
                     raise forms.ValidationError("已存在")
         return apply_degree_type
 
-class ApplyManagementCountryCreationForm(ModelForm):
+class SchoolApplicationCountryCreationForm(ModelForm):
     class Meta:
         model = ApplyCountry
         fields = ['name', 'chinese_name']
@@ -51,7 +51,7 @@ class ApplyManagementCountryCreationForm(ModelForm):
             self.old_instance = kwargs['instance']
         else:
             self.old_instance = None
-        super(ApplyManagementCountryCreationForm, self).__init__(*args, **kwargs)
+        super(SchoolApplicationCountryCreationForm, self).__init__(*args, **kwargs)
         MyBasicField.add_field_info(self, None)
     def clean_name(self):
         name = self.cleaned_data.get("name")
@@ -80,7 +80,7 @@ class ApplyManagementCountryCreationForm(ModelForm):
                 pass
         return chinese_name
 
-class ApplyManagementSchoolCreationForm(ModelForm):
+class SchoolApplicationSchoolCreationForm(ModelForm):
     class Meta:
         model = ApplySchool
         fields = ['name', 'chinese_name']
@@ -90,7 +90,7 @@ class ApplyManagementSchoolCreationForm(ModelForm):
             self.old_instance = kwargs['instance']
         else:
             self.old_instance = None
-        super(ApplyManagementSchoolCreationForm, self).__init__(*args, **kwargs)
+        super(SchoolApplicationSchoolCreationForm, self).__init__(*args, **kwargs)
         MyBasicField.add_field_info(self, None)
     def clean_name(self):
         name = self.cleaned_data.get("name")
@@ -119,7 +119,7 @@ class ApplyManagementSchoolCreationForm(ModelForm):
                 pass
         return chinese_name
 
-class ApplyManagementCollegeCreationForm(ModelForm):
+class SchoolApplicationCollegeCreationForm(ModelForm):
     class Meta:
         model = ApplyCollege
         fields = ['name', 'chinese_name']
@@ -129,7 +129,7 @@ class ApplyManagementCollegeCreationForm(ModelForm):
             self.old_instance = kwargs['instance']
         else:
             self.old_instance = None
-        super(ApplyManagementCollegeCreationForm, self).__init__(*args, **kwargs)
+        super(SchoolApplicationCollegeCreationForm, self).__init__(*args, **kwargs)
         MyBasicField.add_field_info(self, None)
     def clean_name(self):
         name = self.cleaned_data.get("name")
@@ -158,7 +158,7 @@ class ApplyManagementCollegeCreationForm(ModelForm):
                 pass
         return chinese_name
 
-class ApplyManagementMajorCreationForm(ModelForm):
+class SchoolApplicationMajorCreationForm(ModelForm):
     class Meta:
         model = ApplyMajor
         fields = ['name', 'chinese_name']
@@ -168,7 +168,7 @@ class ApplyManagementMajorCreationForm(ModelForm):
             self.old_instance = kwargs['instance']
         else:
             self.old_instance = None
-        super(ApplyManagementMajorCreationForm, self).__init__(*args, **kwargs)
+        super(SchoolApplicationMajorCreationForm, self).__init__(*args, **kwargs)
         MyBasicField.add_field_info(self, None)
     def clean_name(self):
         name = self.cleaned_data.get("name")

@@ -1,0 +1,43 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block content %}
+
+<div class="am-g">
+	<div class="am-u-sm-12">
+		<ul class="am-tabs-nav am-nav am-nav-tabs am-nav-justify">
+			{% if request.user.groups.first.name == "管理员" %}
+			<li {% if page_tab == "国家" %}class="am-active"{% endif %}>
+				<a href="{% url 'dashboard:SchoolApplicationCountryListView' %}">国家</a>
+			</li>
+			{% endif %}
+			{% if request.user.groups.first.name == "管理员" %}
+			<li {% if page_tab == "学校" %}class="am-active"{% endif %}>
+				<a href="{% url 'dashboard:SchoolApplicationSchoolListView' %}">学校</a>
+			</li>
+			{% endif %}
+			{% if request.user.groups.first.name == "管理员" %}
+			<li {% if page_tab == "学院" %}class="am-active"{% endif %}>
+				<a href="{% url 'dashboard:SchoolApplicationCollegeListView' %}">学院</a>
+			</li>
+			{% endif %}
+			{% if request.user.groups.first.name == "管理员" %}
+			<li {% if page_tab == "专业" %}class="am-active"{% endif %}>
+				<a href="{% url 'dashboard:SchoolApplicationMajorListView' %}">专业</a>
+			</li>
+			{% endif %}
+			<li {% if page_tab == "学位比较" %}class="am-active"{% endif %}>
+				<a href="{% url 'dashboard:SchoolApplicationDegreeListView' %}">学位比较</a>
+			</li>
+			<li {% if page_tab == "学位探索" %}class="am-active"{% endif %}>
+				<a href="{% url 'dashboard:SchoolApplicationDegreeDetailView' 0 %}">学位探索</a>
+			</li>
+		</ul>
+		<div class="am-tabs-bd">
+			<div class="am-tab-panel am-active">
+				<br>
+				{% block tab_content %}
+				{% endblock %}
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

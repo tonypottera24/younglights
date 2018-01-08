@@ -1,0 +1,61 @@
+<!doctype html>
+<html class="no-js fixed-layout">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>北京洋光教育咨询有限公司</title>
+		<meta name="description" content="overview">
+		<meta name="keywords" content="overview">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="renderer" content="webkit">
+		<meta http-equiv="Cache-Control" content="no-siteapp" />
+		<meta name="apple-mobile-web-app-title" content="younglights" />
+
+		{% load static %}
+		<link rel="icon" type="image/png" href="{% static 'static_shared/img/favicon.png' %}">
+		<link rel="stylesheet" href="{% static 'static_shared/css/amazeui.css' %}"/>
+		<link rel="stylesheet" href="{% static 'static_shared/css/amazeui.tree.css' %}"/>
+		<link rel="stylesheet" href="{% static 'dashboard/css/admin.css' %}">
+		<link rel="stylesheet" href="{% static 'dashboard/css/login.css' %}">
+	</head>
+	<body>
+		{% block body %}
+		{% endblock %}
+		<script src="{% static 'static_shared/js/jquery.min.js' %}"></script>
+		<script src="{% static 'static_shared/js/amazeui.js' %}"></script>
+		<script src="{% static 'static_shared/js/amazeui.tree.js' %}"></script>
+		<script>
+			{% if form %}
+			$(".datepicker").each(function(){
+				var val = $(this).val();
+				if (val) {
+					val = new Date(val);
+				}
+				else {
+					val = new Date();
+				}
+				$(this).datepicker('setValue', val);
+			});
+{% endif %}
+$('#applyDegreeTree').tree({
+	dataSource: function(options, callback) {
+		callback({data: options.child || data});
+	},
+	multiSelect: false,
+	cacheItems: true,
+	folderSelect: false
+});
+$('#applyDegreeTree').tree('openFolder', $("#apply_country_{{ view.kwargs.pk }}"));
+$('#applyDegreeTree').tree('openFolder', $("#apply_school_{{ view.kwargs.pk }}"));
+$('#applyDegreeTree').tree('openFolder', $("#apply_college_{{ view.kwargs.pk }}"));
+$('#applyDegreeTree').tree('openFolder', $("#apply_major_{{ view.kwargs.pk }}"));
+$('#applyDegreeTree').tree('selectItem', $("#apply_degree_{{ view.kwargs.pk }}"));
+$('#applyDegreeTree').on('selected.tree.amui', function (event, data) {
+	// do something with data: { selected: [array], target: [object] }
+	var url = "{% url 'dashboard:SchoolApplicationDegreeDetailView' 0 %}";
+	url = url.replace(/0/, data.target.attr.id.split('_')[2]);
+	window.location.href = location.protocol + '//' + location.host + url;
+});
+</script>
+</body>
+</html>
