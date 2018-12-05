@@ -3,12 +3,15 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 from . import views
 from .user_views import AdministratorListView, AdministratorCreationView, AdministratorUpdateView, AdministratorDeleteView
+from .user_views import ChannelListView, ChannelCreationView, ChannelUpdateView, ChannelDeleteView
 from .user_views import TeacherListView, TeacherCreationView, TeacherUpdateView, TeacherDeleteView
 from .user_views import StudentListView, StudentCreationView, StudentUpdateView, StudentDeleteView
 from .user_views import StudentDetailView
 from .user_views import SelfUpdateView
+from .views import AdministratorOverview
+from .views import ChannelRelationshipListView, ChannelRelationshipCreationView, ChannelRelationshipUpdateView, ChannelRelationshipDeleteView
 from .views import MentoringRelationshipListView, MentoringRelationshipCreationView, MentoringRelationshipUpdateView, MentoringRelationshipDeleteView
-from .views import MentoringRecordListView, MentoringRecordCreationView, MentoringRecordUpdateView, MentoringRecordDeleteView
+from .views import MentoringRecordListView, MentoringRecordCreationView, MentoringRecordUpdateView, MentoringRecordDetailView, MentoringRecordDeleteView
 from .views import MissionListView, MissionCreationView, MissionUpdateView, MissionDetailView, MissionDeleteView
 from .views import SchoolApplicationCountryListView, SchoolApplicationCountryCreationView, SchoolApplicationCountryUpdateView, SchoolApplicationCountryDeleteView
 from .views import SchoolApplicationSchoolListView, SchoolApplicationSchoolCreationView, SchoolApplicationSchoolUpdateView, SchoolApplicationSchoolDeleteView
@@ -20,7 +23,12 @@ from .views import SchoolApplicationDegreeDetailView
 app_name = 'dashboard'
 urlpatterns = [
     url('^', include('django.contrib.auth.urls')),
-    url(r'^$', views.overview, name='overview'),
+    url(r'^$', login_required(views.overview), name='overview'),
+
+    url(r'overview/administrator/$', 
+        login_required(permission_required('dashboard.view_administrator')(
+            AdministratorOverview.as_view())), 
+        name='AdministratorOverview'),
 
     url(r'administrator/$', 
         login_required(permission_required('dashboard.view_administrator')(
@@ -38,6 +46,23 @@ urlpatterns = [
         login_required(permission_required('dashboard.delete_administrator')(
             AdministratorDeleteView.as_view())), 
         name='AdministratorDeleteView'),
+
+    url(r'channel/$', 
+        login_required(permission_required('dashboard.view_channel')(
+            ChannelListView.as_view())), 
+        name='ChannelListView'),
+    url(r'channel/creation/$', 
+        login_required(permission_required('dashboard.add_channel')(
+            ChannelCreationView.as_view())), 
+        name='ChannelCreationView'),
+    url(r'channel/(?P<pk>[0-9]+)/update/$', 
+        login_required(permission_required('dashboard.change_channel')(
+            ChannelUpdateView.as_view())), 
+        name='ChannelUpdateView'),
+    url(r'channel/(?P<pk>[0-9]+)/delete/$', 
+        login_required(permission_required('dashboard.delete_channel')(
+            ChannelDeleteView.as_view())), 
+        name='ChannelDeleteView'),
 
     url(r'teacher/$', 
         login_required(permission_required('dashboard.view_teacher')(
@@ -77,6 +102,23 @@ urlpatterns = [
             StudentDeleteView.as_view())), 
         name='StudentDeleteView'),
 
+    url(r'channel/relationship/$', 
+        login_required(permission_required('dashboard.view_channelrelationship')(
+            ChannelRelationshipListView.as_view())), 
+        name='ChannelRelationshipListView'),
+    url(r'channel/relationship/creation/$', 
+        login_required(permission_required('dashboard.add_channelrelationship')(
+            ChannelRelationshipCreationView.as_view())), 
+        name='ChannelRelationshipCreationView'),
+    url(r'channel/relationship/(?P<pk>[0-9]+)/update/$', 
+        login_required(permission_required('dashboard.change_channelrelationship')(
+            ChannelRelationshipUpdateView.as_view())), 
+        name='ChannelRelationshipUpdateView'),
+    url(r'channel/relationship/(?P<pk>[0-9]+)/delete/$', 
+        login_required(permission_required('dashboard.delete_channelrelationship')(
+            ChannelRelationshipDeleteView.as_view())), 
+        name='ChannelRelationshipDeleteView'),
+
     url(r'mentoring/relationship/$', 
         login_required(permission_required('dashboard.view_mentoringrelationship')(
             MentoringRelationshipListView.as_view())), 
@@ -106,6 +148,10 @@ urlpatterns = [
         login_required(permission_required('dashboard.change_mentoringrecord')(
             MentoringRecordUpdateView.as_view())), 
         name='MentoringRecordUpdateView'),
+    url(r'mentoring/record/(?P<pk>[0-9]+)/detail/$', 
+        login_required(permission_required('dashboard.view_mentoringrecord')(
+            MentoringRecordDetailView.as_view())), 
+        name='MentoringRecordDetailView'),
     url(r'mentoring/record/(?P<pk>[0-9]+)/delete/$', 
         login_required(permission_required('dashboard.delete_mentoringrecord')(
             MentoringRecordDeleteView.as_view())), 
@@ -181,7 +227,7 @@ urlpatterns = [
     url(r'school_application/college/(?P<pk>[0-9]+)/delete/$', 
         login_required(permission_required('dashboard.delete_applycollege')(
             SchoolApplicationCollegeDeleteView.as_view())), 
-        name='ApplyCollegeDeleteView'),
+        name='SchoolApplicationCollegeDeleteView'),
     
     url(r'school_application/major/$', 
         login_required(permission_required('dashboard.view_applymajor')(

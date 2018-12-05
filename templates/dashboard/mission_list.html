@@ -43,9 +43,9 @@
 					<td>{{ object.title }}</td>
 					<td class="am-hide-sm-only">{{ object.end_date }}</td>
 					{% if request.user.groups.first.name != "学生" %}
-					<td>{{ object.student.last_name }} {{ object.student.first_name }}</td>
+					<td>{{ object.student.userprofile.chinese_name }}</td>
 					{% endif %}
-					<td>{{ object.teacher.last_name }} {{ object.teacher.first_name }}</td>
+					<td>{{ object.teacher.userprofile.chinese_name }}</td>
 					<td class="am-hide-sm-only">{{ object.added_datetime }}</td>
 					<td>
 						<div class="am-btn-toolbar">

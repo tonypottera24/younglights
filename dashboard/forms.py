@@ -2,7 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from .myforms import MyBasicField
-from .models import MentoringRelationship, MentoringRecord, Mission
+from .models import ChannelRelationship, MentoringRelationship, MentoringRecord, Mission
 from .models import ApplyCountry, ApplySchool, ApplyCollege, ApplyMajor, ApplyDegree
 
 class SchoolApplicationDegreeCreationForm(ModelForm):
@@ -196,6 +196,35 @@ class SchoolApplicationMajorCreationForm(ModelForm):
             except ac.model.DoesNotExist:
                 pass
         return chinese_name
+
+class ChannelRelationshipCreationForm(ModelForm):
+    class Meta:
+        model = ChannelRelationship
+        fields = ['channel', 'student']
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request')
+        if 'instance' in kwargs:
+            self.old_instance = kwargs['instance']
+        else:
+            self.old_instance = None
+        super(ChannelRelationshipCreationForm, self).__init__(*args, **kwargs)
+        self.fields['channel'].queryset = User.objects.filter(groups__name="渠道")
+        self.fields['student'].queryset = User.objects.filter(groups__name="学生")
+        MyBasicField.add_field_info(self, None)
+    def clean_student(self):
+        channel = self.cleaned_data.get("channel")
+        student = self.cleaned_data.get("student")
+        if channel and student:
+            if self.old_instance:
+                if channel == self.old_instance.channel and student == self.old_instance.student:
+                    return student
+            cr = ChannelRelationship.objects.all()
+            try:
+                r = cr.get(channel = channel, student = student)
+                raise forms.ValidationError("渠道关系已存在")
+            except cr.model.DoesNotExist:
+                pass
+        return student
 
 class MentoringRelationshipCreationForm(ModelForm):
     class Meta:

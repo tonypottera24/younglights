@@ -6,12 +6,9 @@ from django.views.generic import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.urls import reverse, reverse_lazy
-from .models import MentoringRelationship, MentoringRecord, Mission
+from .models import ChannelRelationship, MentoringRelationship, MentoringRecord, Mission
 from .models import ApplyCountry, ApplySchool, ApplyCollege, ApplyMajor, ApplyDegree, ApplyDegreeType, ApplySemester
-from .user_forms import AdministratorCreationForm, AdministratorChangeForm
-from .user_forms import TeacherCreationForm, TeacherChangeForm
-from .user_forms import StudentCreationForm, StudentChangeForm
-from .forms import MentoringRelationshipCreationForm, MentoringRecordCreationForm, MissionCreationForm
+from .forms import ChannelRelationshipCreationForm, MentoringRelationshipCreationForm, MentoringRecordCreationForm, MissionCreationForm
 from .forms import SchoolApplicationCountryCreationForm, SchoolApplicationSchoolCreationForm, SchoolApplicationCollegeCreationForm, SchoolApplicationMajorCreationForm, SchoolApplicationDegreeCreationForm
 from django.db.models import Q
 from django.http import Http404
@@ -22,7 +19,39 @@ import json
 # Create your views here.
 
 def overview(request):
-    return redirect(reverse('dashboard:MissionListView'))
+    if request.user.groups.first().name == "管理员":
+        return redirect(reverse('dashboard:AdministratorOverview'))
+    else:
+        return redirect(reverse('dashboard:MentoringRecordListView'))
+
+class AdministratorOverview(ListView):
+    page_title = "总览"
+    page_subtitle = "列表"
+    template_name = "dashboard/administrator_overview.html"
+    model = User
+    paginate_by = 10
+    def get_context_data(self, **kwargs):
+        context = super(AdministratorOverview, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        context['page_subtitle'] = self.page_subtitle
+
+        students = User.objects.filter(groups__name = "学生")
+        context['mentoring_student_count'] = len(list(filter(lambda x: x.userprofile.is_mentoring, students)))
+
+        channels = User.objects.filter(groups__name = "渠道")
+        channels = sorted(channels, key=lambda a: a.userprofile.channel_student_count_this_month)
+        context['channels'] = channels
+        d = datetime.date.today() - datetime.timedelta(days=30)
+        cr = ChannelRelationship.objects.filter(added_datetime__gte = d)
+        context['channel_this_month_student_count'] = len(set([r.student.id for r in cr]))
+        cr = ChannelRelationship.objects.all()
+        context['channel_student_count'] = len(set([r.student.id for r in cr]))
+        return context
+    def get_queryset(self):
+        mr = MentoringRelationship.objects.filter(relationship_status = "辅导中")
+        mr1 = list(filter(lambda x: x.last_mentoring_record_date is not None, mr))
+        mr2 = list(filter(lambda x: x.last_mentoring_record_date is None, mr))
+        return sorted(mr1, key=lambda a: a.last_mentoring_record_date) + mr2
 
 class SchoolApplicationDegreeListView(ListView):
     page_title = "院校申请信息"
@@ -624,6 +653,94 @@ class SchoolApplicationMajorDeleteView(DeleteView):
         context['page_cancel'] = self.success_url
         return context
 
+class ChannelRelationshipListView(ListView):
+    page_title = "渠道关系"
+    page_subtitle = "列表"
+    template_name = "dashboard/channel_relationship_list.html"
+    page_add = reverse_lazy('dashboard:ChannelRelationshipCreationView')
+    success_url = reverse_lazy('dashboard:ChannelRelationshipListView')
+    model = ChannelRelationship
+    paginate_by = 10
+    def get_context_data(self, **kwargs):
+        context = super(ChannelRelationshipListView, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        context['page_subtitle'] = self.page_subtitle
+        context['page_add'] = self.page_add
+        context['search_text'] = self.request.GET.get('search_text', '')
+        context['orderby'] = self.request.GET.get('orderby', 'channel')
+        return context
+    def get_queryset(self):
+        search_text = self.request.GET.get('search_text', '')
+        order_by = self.request.GET.get('order_by', 'channel__userprofile__channel_name')
+        m = ChannelRelationship.objects.all()
+        query = Q(channel__userprofile__chinese_name__icontains = search_text)
+        query.add(Q(student__userprofile__chinese_name__icontains = search_text), Q.OR)
+        new_context = m.filter(query).order_by(order_by)
+        return new_context
+
+class ChannelRelationshipCreationView(FormView):
+    page_title = "渠道关系"
+    page_subtitle = "增加"
+    template_name = "dashboard/form.html"
+    form_class = ChannelRelationshipCreationForm
+    success_url = reverse_lazy('dashboard:ChannelRelationshipListView')
+    def get_context_data(self, **kwargs):
+        context = super(ChannelRelationshipCreationView, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        context['page_subtitle'] = self.page_subtitle
+        context['page_cancel'] = self.success_url
+        return context
+    def form_valid(self, form):
+        form.save()
+        return super(ChannelRelationshipCreationView, self).form_valid(form)
+    def get_form_kwargs(self):
+        kwargs = super(ChannelRelationshipCreationView, self).get_form_kwargs()
+        kwargs['request'] = self.request
+        return kwargs
+
+class ChannelRelationshipUpdateView(FormView):
+    page_title = "渠道关系"
+    page_subtitle = "编辑"
+    form_class = ChannelRelationshipCreationForm
+    template_name = "dashboard/form.html"
+    success_url = reverse_lazy('dashboard:ChannelRelationshipListView')
+    def dispatch(self, *args, **kwargs):
+        rs = ChannelRelationship.objects.all()
+        try:
+            r = rs.get(id = self.kwargs['pk'])
+        except rs.model.DoesNotExist:
+            raise Http404(_("No %(verbose_name)s found matching the query") %
+                        {'verbose_name': rs.model._meta.verbose_name})
+        return super(ChannelRelationshipUpdateView, self).dispatch(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(ChannelRelationshipUpdateView, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        context['page_subtitle'] = self.page_subtitle
+        context['page_cancel'] = self.success_url
+        return context
+    def form_valid(self, form):
+        form.save()
+        return super(ChannelRelationshipUpdateView, self).form_valid(form)
+    def get_form_kwargs(self):
+        kwargs = super(ChannelRelationshipUpdateView, self).get_form_kwargs()
+        r = ChannelRelationship.objects.get(id = self.kwargs['pk'])
+        kwargs['instance'] = r
+        kwargs['request'] = self.request
+        return kwargs
+
+class ChannelRelationshipDeleteView(DeleteView):
+    page_title = "渠道关系"
+    page_subtitle = "删除"
+    success_url = reverse_lazy('dashboard:ChannelRelationshipListView')
+    model = ChannelRelationship
+    template_name = "dashboard/panel.html"
+    def get_context_data(self, **kwargs):
+        context = super(ChannelRelationshipDeleteView, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        context['page_subtitle'] = self.page_subtitle
+        context['page_cancel'] = self.success_url
+        return context
+
 class MentoringRelationshipListView(ListView):
     page_title = "导生关系"
     page_subtitle = "列表"
@@ -747,7 +864,25 @@ class MentoringRecordListView(ListView):
 
         teachers = User.objects.filter(groups__name="导师")
         students = User.objects.filter(groups__name="学生")
-        if self.request.user.groups.first().name == "导师":
+        if self.request.user.groups.first().name == "渠道":
+            cr = ChannelRelationship.objects.filter(channel = self.request.user)
+            ss1 = set([r.student.id for r in cr])
+            m = MentoringRecord.objects.filter(student__id__in = ss1)
+            if teacher_id != 'all':
+                try:
+                    teacher = teachers.get(id = teacher_id)
+                    m = m.filter(teacher__id = teacher.id)
+                except teachers.model.DoesNotExist:
+                    raise Http404(_("No %(verbose_name)s found matching the query") %
+                                {'verbose_name': teachers.model._meta.verbose_name})
+            if student_id != 'all':
+                try:
+                    student = students.get(id = student_id)
+                    m = m.filter(student__id = student.id)
+                except students.model.DoesNotExist:
+                    raise Http404(_("No %(verbose_name)s found matching the query") %
+                                {'verbose_name': students.model._meta.verbose_name})
+        elif self.request.user.groups.first().name == "导师":
             m = MentoringRecord.objects.filter(teacher = self.request.user)
             if student_id != 'all':
                 mr = MentoringRelationship.objects.filter(teacher__id = self.request.user.id)
@@ -785,6 +920,13 @@ class MentoringRecordListView(ListView):
         context['orderby'] = self.request.GET.get('orderby', '-mentoring_date')
         teachers = User.objects.filter(groups__name="导师")
         students = User.objects.filter(groups__name="学生")
+        if self.request.user.groups.first().name == "渠道":
+            cr = ChannelRelationship.objects.filter(channel = self.request.user)
+            ss1 = set([r.student.id for r in cr])
+            mr = MentoringRelationship.objects.filter(student__id__in = ss1)
+            tt1 = set([r.teacher.id for r in mr])
+            teachers = teachers.filter(id__in = tt1)
+            students = students.filter(id__in = ss1)
         if self.request.user.groups.first().name == "导师":
             mr = MentoringRelationship.objects.filter(teacher__id = self.request.user.id)
             teachers = teachers.filter(id = self.request.user.id)
@@ -797,11 +939,10 @@ class MentoringRecordListView(ListView):
             t = m.mentoring_time
             dt = datetime.timedelta(0, t.second, 0, 0, t.minute, t.hour)
             time_sum += dt
-        s = time_sum.seconds
-        hour = s // 3600
-        s -= hour * 3600
-        minute = s // 60
-        context['query_mentoring_time'] = "%02d:%02d" % (hour, minute)
+        minute = time_sum.total_seconds() // 60
+        hour = minute // 60
+        minute %= 60
+        context['query_mentoring_time'] = "%d:%02d" % (hour, minute)
         return context
     def get_queryset(self):
         search_text = self.request.GET.get('search_text', '')
@@ -812,6 +953,34 @@ class MentoringRecordListView(ListView):
         m = self.get_mentoring_record()
         new_context = m.filter(query).order_by(order_by)
         return new_context
+
+class MentoringRecordDetailView(DetailView):
+    page_title = "辅导纪录"
+    page_subtitle = "详细信息"
+    success_url = reverse_lazy('dashboard:MentoringRecordListView')
+    model = MentoringRecord
+    template_name = "dashboard/mentoring_record_detail.html"
+    def dispatch(self, *args, **kwargs):
+        if self.request.user.groups.first().name == "渠道":
+            cr = ChannelRelationship.objects.filter(channel = self.request.user)
+            ss1 = set([r.student.id for r in cr])
+            mr = MentoringRecord.objects.filter(student__id__in = ss1)
+        elif self.request.user.groups.first().name == "导师":
+            mr = MentoringRecord.objects.filter(teacher = self.request.user)
+        elif self.request.user.groups.first().name == "管理员":
+            mr = MentoringRecord.objects.all()
+        try:
+            m = mr.get(id=self.kwargs['pk'])
+        except mr.model.DoesNotExist:
+            raise Http404(_("No %(verbose_name)s found matching the query") %
+                        {'verbose_name': mr.model._meta.verbose_name})
+        return super(MentoringRecordDetailView, self).dispatch(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(MentoringRecordDetailView, self).get_context_data(**kwargs)
+        context['page_title'] = self.page_title
+        context['page_subtitle'] = self.page_subtitle
+        context['page_cancel'] = self.success_url
+        return context
 
 class MentoringRecordCreationView(FormView):
     page_title = "辅导纪录"

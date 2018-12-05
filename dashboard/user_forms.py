@@ -22,6 +22,16 @@ class AdministratorCreationForm(MyUserCreationForm):
             'username', 'last_name', 'first_name', 'password1', 'password2', 
             'email', 'phone', 'qq', 'wechat',
         )
+class ChannelCreationForm(MyUserCreationForm):
+    channel_name = MyBasicField.channel_name
+    principal_name = MyBasicField.principal_name
+    contact_name = MyBasicField.contact_name
+    class Meta:
+        model = User
+        fields = (
+            'username', 'channel_name', 'password1', 'password2', 
+            'principal_name', 'email', 'phone', 'qq', 'wechat', 'contact_name',
+        )
 class TeacherCreationForm(MyUserCreationForm):
     school = MyBasicField.school
     college = MyBasicField.college
@@ -102,6 +112,16 @@ class AdministratorChangeForm(MyUserChangeForm):
         fields = (
             'username', 'last_name', 'first_name', 'new_password1', 'new_password2', 
             'email', 'phone', 'qq', 'wechat',
+        )
+class ChannelChangeForm(MyUserChangeForm):
+    channel_name = MyBasicField.channel_name
+    principal_name = MyBasicField.principal_name
+    contact_name = MyBasicField.contact_name
+    class Meta:
+        model = User
+        fields = (
+            'username', 'channel_name', 'new_password1', 'new_password2', 
+            'principal_name', 'email', 'phone', 'qq', 'wechat', 'contact_name',
         )
 class TeacherChangeForm(MyUserChangeForm):
     school = MyBasicField.school

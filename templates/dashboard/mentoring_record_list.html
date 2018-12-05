@@ -2,6 +2,7 @@
 {% block content %}
 <form class="am-form" method="get" action="">
 	<div class="am-g">
+		{% if request.user.groups.first.name == "管理员" %}
 		<div class="am-u-sm-12 am-u-md-6">
 			<div class="am-btn-toolbar">
 				<div class="am-btn-group am-btn-group-xs">
@@ -9,6 +10,7 @@
 				</div>
 			</div>
 		</div>
+		{% endif %}
 		<div class="am-u-sm-12 am-u-md-3">
 			<div class="am-input-group am-input-group-sm">
 				<input type="text" class="am-form-field" value="{{search_text}}" name="search_text">
@@ -31,7 +33,7 @@
 								<option value="all">全部</option>
 								{% endif %}
 								{% for t in query_teachers %}
-								<option value="{{t.id}}" {% if teacher_id == t.id|slugify %}selected="selected"{% endif %}>{{ t.last_name }} {{ t.first_name }}</option>
+								<option value="{{t.id}}" {% if teacher_id == t.id|slugify %}selected="selected"{% endif %}>{{ t.userprofile.chinese_name }}</option>
 								{% endfor %}
 							</select>
 						</th>
@@ -42,7 +44,7 @@
 								<option value="all">全部</option>
 								{% endif %}
 								{% for s in query_students %}
-								<option value="{{s.id}}" {% if student_id == s.id|slugify %}selected="selected"{% endif %}>{{ s.last_name }} {{ s.first_name }}</option>
+								<option value="{{s.id}}" {% if student_id == s.id|slugify %}selected="selected"{% endif %}>{{ s.userprofile.chinese_name }}</option>
 								{% endfor %}
 							</select>
 						</th>
@@ -66,17 +68,20 @@
 					{% for object in object_list %}
 					<tr>
 						{% if request.user.groups.first.name == "管理员" %}
-						<td>{{ object.teacher.last_name }} {{ object.teacher.first_name }}</td>
+						<td>{{ object.teacher.userprofile.chinese_name }}</td>
 						{% endif %}
-						<td>{{ object.student.last_name }} {{ object.student.first_name }}</td>
+						<td>{{ object.student.userprofile.chinese_name }}</td>
 						<td class="am-hide-sm-only">{{ object.content|truncatechars:15 }}</td>
 						<td class="am-hide-sm-only">{{ object.mentoring_date }}</td>
 						<td class="am-hide-sm-only">{{ object.mentoring_time }}</td>
 						<td>
 							<div class="am-btn-toolbar">
 								<div class="am-btn-group am-btn-group-xs">
+									<a class="am-btn am-btn-default am-btn-xs" href="{% url 'dashboard:MentoringRecordDetailView' object.id %}"><span class="am-icon-search"></span> 查看</a>
+									{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
 									<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:MentoringRecordUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
 									<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:MentoringRecordDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+									{% endif %}
 								</div>
 							</div>
 						</td>

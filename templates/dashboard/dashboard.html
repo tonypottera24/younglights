@@ -5,7 +5,9 @@
 {% block body %}
 <header class="am-topbar am-topbar-inverse admin-header">
 	<div class="am-topbar-brand">
+		{% comment %}
 		<img src="{% static 'static_shared/img/logo_light.svg' %}" height="30px"><strong>洋光教育</strong> <small>辅导系统</small>
+		{% endcomment %}
 	</div>
 
 	<button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only" data-am-collapse="{target: '#topbar-collapse'}"><span class="am-sr-only">导航切换</span> <span class="am-icon-bars"></span></button>
@@ -14,7 +16,14 @@
 		<ul class="am-nav am-nav-pills am-topbar-nav am-topbar-right admin-header-list">
 			<li class="am-dropdown" data-am-dropdown>
 				<a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
-					<span class="am-icon-user"></span> {{ request.user.userprofile.chinese_name }} {{ request.user.groups.first.name }} <span class="am-icon-caret-down"></span>
+					<span class="am-icon-user"></span>
+					{% if request.user.groups.first.name == "渠道" %}
+					{{ request.user.userprofile.channel_name }}
+					{% else %}
+					{{ request.user.userprofile.chinese_name }}
+					{% endif %}
+					{{ request.user.groups.first.name }} 
+					<span class="am-icon-caret-down"></span>
 				</a>
 				<ul class="am-dropdown-content">
 					<li><a href="{% url 'dashboard:logout' %}"><span class="am-icon-sign-out"></span> 退出</a></li>
@@ -29,6 +38,7 @@
 	<div class="admin-sidebar am-offcanvas" id="admin-offcanvas">
 		<div class="am-offcanvas-bar admin-offcanvas-bar">
 			<ul class="am-list admin-sidebar-list">
+				{% if request.user.groups.first.name == "管理员" %}
 				<li>
 					<a href="{% url 'dashboard:overview' %}">
 						{% if page_title == "总览" %}<strong class="am-text-primary">{% endif %}
@@ -36,6 +46,17 @@
 						{% if page_title == "总览" %}</strong>{% endif %}
 					</a>
 				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" or request.user.groups.first.name == "渠道" %}
+				<li>
+					<a href="{% url 'dashboard:StudentListView' %}">
+						{% if page_title == "学生" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-user"></span> 学生列表
+						{% if page_title == "学生" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" or request.user.groups.first.name == "学生" %}
 				<li>
 					<a href="{% url 'dashboard:MissionListView' %}">
 						{% if page_title == "任务" %}<strong class="am-text-primary">{% endif %}
@@ -43,28 +64,13 @@
 						{% if page_title == "任务" %}</strong>{% endif %}
 					</a>
 				</li>
-				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" or request.user.groups.first.name == "渠道" %}
 				<li>
 					<a href="{% url 'dashboard:MentoringRecordListView' %}">
 						{% if page_title == "辅导纪录" %}<strong class="am-text-primary">{% endif %}
 						<span class="am-icon-fw am-icon-calendar"></span> 辅导纪录
 						{% if page_title == "辅导纪录" %}</strong>{% endif %}
-					</a>
-				</li>
-				{% endif %}
-				<li>
-					<a href="{% url 'dashboard:MentoringRelationshipListView' %}">
-						{% if page_title == "导生关系" %}<strong class="am-text-primary">{% endif %}
-						<span class="am-icon-fw am-icon-exchange"></span> 导生关系
-						{% if page_title == "导生关系" %}</strong>{% endif %}
-					</a>
-				</li>
-				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
-				<li>
-					<a href="{% url 'dashboard:StudentListView' %}">
-						{% if page_title == "学生" %}<strong class="am-text-primary">{% endif %}
-						<span class="am-icon-fw am-icon-user"></span> 学生列表
-						{% if page_title == "学生" %}</strong>{% endif %}
 					</a>
 				</li>
 				{% endif %}
@@ -77,6 +83,33 @@
 					</a>
 				</li>
 				{% endif %}
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" or request.user.groups.first.name == "学生" %}
+				<li>
+					<a href="{% url 'dashboard:MentoringRelationshipListView' %}">
+						{% if page_title == "导生关系" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-exchange"></span> 导生关系
+						{% if page_title == "导生关系" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" %}
+				<li>
+					<a href="{% url 'dashboard:ChannelListView' %}">
+						{% if page_title == "渠道" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-external-link-square"></span> 渠道列表
+						{% if page_title == "渠道" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
+				{% if request.user.groups.first.name == "管理员" %}
+				<li>
+					<a href="{% url 'dashboard:ChannelRelationshipListView' %}">
+						{% if page_title == "渠道关系" %}<strong class="am-text-primary">{% endif %}
+						<span class="am-icon-fw am-icon-exchange"></span> 渠道关系
+						{% if page_title == "渠道关系" %}</strong>{% endif %}
+					</a>
+				</li>
+				{% endif %}
 				{% if request.user.groups.first.name == "管理员" %}
 				<li>
 					<a href="{% url 'dashboard:AdministratorListView' %}">
@@ -86,6 +119,7 @@
 					</a>
 				</li>
 				{% endif %}
+				{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" or request.user.groups.first.name == "学生" %}
 				<li>
 					<a href="{% url 'dashboard:SchoolApplicationDegreeListView' %}">
 						{% if page_title == "院校申请信息" %}<strong class="am-text-primary">{% endif %}
@@ -93,6 +127,7 @@
 						{% if page_title == "院校申请信息" %}</strong>{% endif %}
 					</a>
 				</li>
+				{% endif %}
 				<li>
 					<a href="{% url 'dashboard:SelfUpdateView' %}">
 						{% if page_title == "修改信息" %}<strong class="am-text-primary">{% endif %}
@@ -130,7 +165,7 @@
 
 		<footer class="admin-content-footer">
 			<hr>
-			<p class="am-padding-left">© 2017 北京洋光教育咨询有限公司</p>
+			<!--<p class="am-padding-left">© 2017 北京洋光教育咨询有限公司</p>-->
 		</footer>
 	</div>
 	<!-- content end -->

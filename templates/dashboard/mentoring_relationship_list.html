@@ -53,11 +53,11 @@
 				{% for object in object_list %}
 				<tr>
 					{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "学生" %}
-					<td>{{ object.teacher.last_name }} {{ object.teacher.first_name }}</td>
+					<td>{{ object.teacher.userprofile.chinese_name }}</td>
 					<td>{{ object.teacher_score }}</td>
 					{% endif %}
 					{% if request.user.groups.first.name == "管理员" or request.user.groups.first.name == "导师" %}
-					<td>{{ object.student.last_name }} {{ object.student.first_name }}</td>
+					<td>{{ object.student.userprofile.chinese_name }}</td>
 					<td>{{ object.student_score }}</td>
 					{% endif %}
 					{% if request.user.groups.first.name == "管理员" %}

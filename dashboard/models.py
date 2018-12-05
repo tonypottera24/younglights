@@ -10,7 +10,11 @@ from markdownx.utils import markdownify
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    chinese_name = models.CharField(max_length=128, default="")
+    chinese_name = models.CharField(max_length=128, default='')
+
+    channel_name = models.CharField(max_length=128, null=True, blank=True, default='')
+    principal_name = models.CharField(max_length=128, null=True, blank=True, default='')
+    contact_name = models.CharField(max_length=128, null=True, blank=True, default='')
 
     school = models.CharField(max_length=100, null=True, blank=True, default='')
     college = models.CharField(max_length=100, null=True, blank=True, default='')
@@ -31,12 +35,52 @@ class UserProfile(models.Model):
             return self.chinese_name + " " + self.user.groups.first().name
         return self.chinese_name
 
+    @property
+    def last_mentoring_record_date(self):
+        m = MentoringRecord.objects.filter(student__id = self.user.id).latest('mentoring_date')
+        return m.mentoring_date
+
+    @property
+    def is_mentoring(self):
+        mr = MentoringRelationship.objects.filter(student__id = self.user.id, relationship_status = "辅导中")
+        return len(mr) > 0
+
+    @property
+    def mentoring_count(self):
+        mr = MentoringRelationship.objects.filter(relationship_status = "辅导中")
+        ss1 = set([m.student.id for m in mr])
+        cr = ChannelRelationship.objects.filter(channel__id = self.user.id)
+        ss2 = set([r.student.id for r in cr])
+        return len(ss1.intersection(ss2))
+
+    def mentoring_completed_count(self):
+        mr = MentoringRelationship.objects.filter(relationship_status = "辅导完成")
+        ss1 = set([m.student.id for m in mr])
+        cr = ChannelRelationship.objects.filter(channel__id = self.user.id)
+        ss2 = set([r.student.id for r in cr])
+        return len(ss1.intersection(ss2))
+
+    @property
+    def channel_student_count(self):
+        cr = ChannelRelationship.objects.filter(channel__id = self.user.id)
+        return len(set([r.student.id for r in cr]))
+
+    @property
+    def channel_student_count_this_month(self):
+        d = datetime.date.today() - datetime.timedelta(days=30)
+        cr = ChannelRelationship.objects.filter(channel__id = self.user.id, added_datetime__gte = d)
+        return len(set([r.student.id for r in cr]))
+
     class Meta:
         permissions = (
             ("view_administrator", "Can view administrator"),
             ("add_administrator", "Can add administrator"),
             ("change_administrator", "Can change administrator"),
             ("delete_administrator", "Can delete administrator"),
+            ("view_channel", "Can view channel"),
+            ("add_channel", "Can add channel"),
+            ("change_channel", "Can change channel"),
+            ("delete_channel", "Can delete channel"),
             ("view_teacher", "Can view teacher"),
             ("add_teacher", "Can add teacher"),
             ("change_teacher", "Can change teacher"),
@@ -55,6 +99,21 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.userprofile.save()
+
+class ChannelRelationship(models.Model):
+    channel = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ChannelRelationship_channel")
+    student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ChannelRelationship_student")
+    
+    added_datetime = models.DateTimeField(auto_now_add=True)
+    updated_datetime = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return "渠道关系：%s（渠道）、%s（学生）" % (self.channel.userprofile.channel_name, self.student.userprofile.chinese_name)
+
+    class Meta:
+        permissions = (
+            ("view_channelrelationship", "Can view channel relationship"),
+        )
 
 class MentoringRelationship(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRelationship_teacher")
@@ -87,6 +146,23 @@ class MentoringRelationship(models.Model):
     def __str__(self):
         return "导生关系：%s（导师）、%s（学生）" % (self.teacher.userprofile.chinese_name, self.student.userprofile.chinese_name)
 
+    @property
+    def last_mentoring_record_date(self):
+        m = MentoringRecord.objects.filter(student__id = self.student.id, teacher__id = self.teacher.id)
+        if len(m) > 0:
+            return m.latest('mentoring_date').mentoring_date
+        else:
+            return None
+
+    @property
+    def last_mentoring_record_date_till_now(self):
+        m = MentoringRecord.objects.filter(student__id = self.student.id, teacher__id = self.teacher.id)
+        if len(m) > 0:
+            delta = datetime.date.today() - m.latest('mentoring_date').mentoring_date
+            return delta.days
+        else:
+            return None
+
     class Meta:
         permissions = (
             ("view_mentoringrelationship", "Can view mentoring relationship"),
@@ -96,8 +172,6 @@ class MentoringRecord(models.Model):
     teacher = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRecord_teacher")
     student = models.ForeignKey(User, on_delete=models.CASCADE, related_name="MentoringRecord_student")
 
-    #teacher_record = models.TextField(max_length=1000)
-    #student_record = models.TextField(max_length=1000)
     content = models.TextField(max_length=1000, default='')
 
     added_datetime = models.DateTimeField(auto_now_add=True)
@@ -117,7 +191,6 @@ class MentoringRecord(models.Model):
             (datetime.time(5, 30), '05:30'),
             )
     mentoring_date = models.DateField('mentoring date')
-    #mentoring_time = models.TimeField('mentoring time')
     mentoring_time = models.TimeField(choices=TIME_CHOICES)
 
     def __str__(self):

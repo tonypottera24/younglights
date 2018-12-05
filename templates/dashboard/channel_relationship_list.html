@@ -25,27 +25,23 @@
 		<table class="am-table am-table-striped am-table-hover table-main">
 			<thead>
 				<tr>
-					<th>姓名</th>
-					<th>电话</th>
-					<th>电邮</th>
-					<th>上次登入</th>
+					<th>渠道</th>
+					<th>学生</th>
+					<th class="am-hide-sm-only">创建日期</th>
 					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
-				{% for user in object_list %}
+				{% for object in object_list %}
 				<tr>
-					<td>{{ user.userprofile.chinese_name }}</td>
-					<td>{{ user.userprofile.phone }}</td>
-					<td class="am-hide-sm-only">{{ user.email }}</td>
-					<td class="am-hide-sm-only">
-						{% if user.last_login %}{{ user.last_login }}{% else %}无{% endif %}
-					</td>
+					<td>{{ object.channel.userprofile.channel_name }}</td>
+					<td>{{ object.student.userprofile.chinese_name }}</td>
+					<td class="am-hide-sm-only">{{ object.added_datetime }}</td>
 					<td>
 						<div class="am-btn-toolbar">
 							<div class="am-btn-group am-btn-group-xs">
-								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:TeacherUpdateView' user.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
-								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:TeacherDeleteView' user.id %}"><span class="am-icon-trash-o"></span> 删除</a>
+								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:ChannelRelationshipUpdateView' object.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
+								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:ChannelRelationshipDeleteView' object.id %}"><span class="am-icon-trash-o"></span> 删除</a>
 							</div>
 						</div>
 					</td>

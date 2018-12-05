@@ -6,10 +6,14 @@ from django.utils.translation import gettext, gettext_lazy as _
 from younglights import settings
 
 class MyBasicField():
+    channel_name = forms.CharField(max_length=128, required = True)
+    principal_name = forms.CharField(max_length=128, required = True)
+    contact_name = forms.CharField(max_length=128, required = True)
+
     new_password1 = forms.CharField(widget=forms.PasswordInput, strip=False, required = False)
     new_password2 = forms.CharField(widget=forms.PasswordInput, strip=False, required = False)
 
-    phone = forms.CharField(max_length = 100, required = True)
+    phone = forms.CharField(max_length = 100, required = False)
     qq = forms.CharField(max_length = 100, required = False) 
     wechat = forms.CharField(max_length = 100, required = False)
 
@@ -24,6 +28,15 @@ class MyBasicField():
         if 'username' in self.fields:
             self.fields['username'].widget.attrs['placeholder'] = '请输入亲的用户名 / Username'
             self.fields['username'].label = '用户名 / Username'
+        if 'channel_name' in self.fields:
+            self.fields['channel_name'].widget.attrs['placeholder'] = '请输入亲的渠道名 / Channel name'
+            self.fields['channel_name'].label = '渠道名 / Channel name'
+        if 'principal_name' in self.fields:
+            self.fields['principal_name'].widget.attrs['placeholder'] = '请输入亲的负责人姓名 / Principal name'
+            self.fields['principal_name'].label = '负责人姓名 / Principal name'
+        if 'contact_name' in self.fields:
+            self.fields['contact_name'].widget.attrs['placeholder'] = '请输入亲的对接人姓名 / Contact name'
+            self.fields['contact_name'].label = '对接人姓名 / Contact name'
         if 'password1' in self.fields:
             self.fields['password1'].widget.attrs['placeholder'] = '请输入亲的密码 / Password'
             self.fields['password1'].label = '密码 / Password'
@@ -47,11 +60,11 @@ class MyBasicField():
         if 'email' in self.fields:
             self.fields['email'].widget.attrs['placeholder'] = '请输入亲的电子邮件地址 / Email address'
             self.fields['email'].label = '电子邮件地址 / Email address'
-            self.fields['email'].required = True
+            self.fields['email'].required = False
         if 'phone' in self.fields:
             self.fields['phone'].widget.attrs['placeholder'] = '请输入亲的电话号码 / Phone'
             self.fields['phone'].label = '电话号码 / Phone'
-            self.fields['phone'].required = True
+            self.fields['phone'].required = False
         if 'qq' in self.fields:
             self.fields['qq'].widget.attrs['placeholder'] = '请输入亲的QQ号码 / QQ'
             self.fields['qq'].label = 'QQ号码 / QQ'

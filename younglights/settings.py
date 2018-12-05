@@ -26,7 +26,7 @@ SECRET_KEY = 'qrh02$e1w^zh6(eqt7(!0)ud8h(ly!ibkh=ekh3%(6m^*i=qnj'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '39.104.51.181', 'younglights.cn', 'study.younglights.net']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '39.104.51.181', 'www.younglights.cn', 'younglights.cn', 'study.younglights.net']
 
 #AUTH_USER_MODEL = 'role.User'
 

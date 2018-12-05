@@ -8,8 +8,10 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, FormView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .models import UserProfile
-from .models import MentoringRelationship
+from .models import ChannelRelationship, MentoringRelationship
+from .models import Mission
 from .user_forms import AdministratorCreationForm, AdministratorChangeForm
+from .user_forms import ChannelCreationForm, ChannelChangeForm
 from .user_forms import TeacherCreationForm, TeacherChangeForm
 from .user_forms import StudentCreationForm, StudentChangeForm
 from django.db.models import Q
@@ -36,12 +38,19 @@ class MyUserListView(ListView):
         search_text = self.request.GET.get('search_text', '')
         order_by = self.request.GET.get('order_by', 'username')
         users = User.objects.filter(groups__name = self.groups_name)
-        if self.request.user.groups.first().name == "导师":
-            rs = MentoringRelationship.objects.filter(teacher__id = self.request.user.id, relationship_status = '辅导中')
+        if self.request.user.groups.first().name == "渠道":
+            cr = ChannelRelationship.objects.filter(channel = self.request.user)
+            ss1 = set([r.student.id for r in cr])
+            users = users.filter(id__in = ss1)
+        elif self.request.user.groups.first().name == "导师":
+            rs = MentoringRelationship.objects.filter(teacher = self.request.user, relationship_status = '辅导中')
             users = users.filter(MentoringRelationship_student__in = rs)
         query = Q(username__icontains = search_text)
         query.add(Q(email__icontains = search_text), Q.OR)
         query.add(Q(userprofile__chinese_name__icontains = search_text), Q.OR)
+        query.add(Q(userprofile__channel_name__icontains = search_text), Q.OR)
+        query.add(Q(userprofile__principal_name__icontains = search_text), Q.OR)
+        query.add(Q(userprofile__contact_name__icontains = search_text), Q.OR)
         query.add(Q(userprofile__school__icontains = search_text), Q.OR)
         query.add(Q(userprofile__college__icontains = search_text), Q.OR)
         query.add(Q(userprofile__major__icontains = search_text), Q.OR)
@@ -56,6 +65,12 @@ class AdministratorListView(MyUserListView):
     template_name = "dashboard/administrator_list.html"
     page_add = reverse_lazy('dashboard:AdministratorCreationView')
     success_url = reverse_lazy('dashboard:AdministratorListView')
+class ChannelListView(MyUserListView):
+    groups_name = "渠道"
+    editable = True
+    template_name = "dashboard/channel_list.html"
+    page_add = reverse_lazy('dashboard:ChannelCreationView')
+    success_url = reverse_lazy('dashboard:ChannelListView')
 class TeacherListView(MyUserListView):
     groups_name = "导师"
     editable = True
@@ -68,6 +83,9 @@ class StudentListView(MyUserListView):
     template_name = "dashboard/student_list.html"
     page_add = reverse_lazy('dashboard:StudentCreationView')
     success_url = reverse_lazy('dashboard:StudentListView')
+    def get_queryset(self):
+        qs = super(StudentListView, self).get_queryset()
+        return sorted(qs, key=lambda m: not m.userprofile.is_mentoring)
 
 class StudentDetailView(DetailView):
     page_title = "学生"
@@ -103,6 +121,9 @@ class MyUserCreationView(FormView):
     def form_valid(self, form):
         user = form.save()
         user.refresh_from_db()  # load the profile instance created by the signal
+        user.userprofile.channel_name = form.cleaned_data.get('channel_name')
+        user.userprofile.principal_name = form.cleaned_data.get('principal_name')
+        user.userprofile.contact_name = form.cleaned_data.get('contact_name')
         user.userprofile.school = form.cleaned_data.get('school')
         user.userprofile.college = form.cleaned_data.get('college')
         user.userprofile.major = form.cleaned_data.get('major')
@@ -120,6 +141,10 @@ class AdministratorCreationView(MyUserCreationView):
     groups_name = "管理员"
     form_class = AdministratorCreationForm
     success_url = reverse_lazy('dashboard:AdministratorListView')
+class ChannelCreationView(MyUserCreationView):
+    groups_name = "渠道"
+    form_class = ChannelCreationForm
+    success_url = reverse_lazy('dashboard:ChannelListView')
 class TeacherCreationView(MyUserCreationView):
     groups_name = "导师"
     form_class = TeacherCreationForm
@@ -147,6 +172,9 @@ class MyUserUpdateView(FormView):
     def form_valid(self, form):
         form.save()
         user = User.objects.get(id=self.self_pk)
+        user.userprofile.channel_name = form.cleaned_data.get('channel_name')
+        user.userprofile.principal_name = form.cleaned_data.get('principal_name')
+        user.userprofile.contact_name = form.cleaned_data.get('contact_name')
         user.userprofile.school = form.cleaned_data.get('school')
         user.userprofile.college = form.cleaned_data.get('college')
         user.userprofile.major = form.cleaned_data.get('major')
@@ -163,6 +191,9 @@ class MyUserUpdateView(FormView):
         user = User.objects.get(id=self.self_pk)
         kwargs['instance'] = user
         kwargs['initial'] = {
+                'channel_name': user.userprofile.channel_name,
+                'principal_name': user.userprofile.principal_name,
+                'contact_name': user.userprofile.contact_name,
                 'school': user.userprofile.school,
                 'college': user.userprofile.college,
                 'major': user.userprofile.major,
@@ -184,6 +215,10 @@ class AdministratorUpdateView(MyUserUpdateView):
     groups_name = "管理员"
     form_class = AdministratorChangeForm
     success_url = reverse_lazy('dashboard:AdministratorListView')
+class ChannelUpdateView(MyUserUpdateView):
+    groups_name = "渠道"
+    form_class = ChannelChangeForm
+    success_url = reverse_lazy('dashboard:ChannelListView')
 class TeacherUpdateView(MyUserUpdateView):
     groups_name = "导师"
     form_class = TeacherChangeForm
@@ -202,6 +237,8 @@ class SelfUpdateView(MyUserUpdateView):
     def get_form_class(self):
         if self.groups_name == "管理员":
             return AdministratorChangeForm
+        elif self.groups_name == "渠道":
+            return ChannelChangeForm
         elif self.groups_name == "导师":
             return TeacherChangeForm
         elif self.groups_name == "学生":
@@ -234,6 +271,9 @@ class MyUserDeleteView(DeleteView):
 class AdministratorDeleteView(MyUserDeleteView):
     groups_name = "管理员"
     success_url = reverse_lazy('dashboard:AdministratorListView')
+class ChannelDeleteView(MyUserDeleteView):
+    groups_name = "渠道"
+    success_url = reverse_lazy('dashboard:ChannelListView')
 class TeacherDeleteView(MyUserDeleteView):
     groups_name = "导师"
     success_url = reverse_lazy('dashboard:TeacherListView')

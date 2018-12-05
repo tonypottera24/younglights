@@ -27,28 +27,31 @@
 		<table class="am-table am-table-striped am-table-hover table-main">
 			<thead>
 				<tr>
-					<th>使用者名称</th>
 					<th>姓名</th>
+					<th>学校</th>
 					<th>电话</th>
 					<th>电邮</th>
-					<th>上次登入</th>
+					<th>辅导状态</th>
+					<th>上次辅导时间</th>
 					<th>操作</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for user in object_list %}
 				<tr>
-					<td>{{ user.username }}</td>
-					<td>{{ user.last_name }} {{ user.first_name }}</td>
+					<td>{{user.userprofile.chinese_name}}</td>
+					<td>{{ user.userprofile.school }}</td>
 					<td>{{ user.userprofile.phone }}</td>
 					<td class="am-hide-sm-only">{{ user.email }}</td>
 					<td class="am-hide-sm-only">
-						{% if user.last_login %}{{ user.last_login }}{% else %}无{% endif %}
+						{% if user.userprofile.is_mentoring %}辅导中{% else %}辅导完成{% endif %}
 					</td>
+					<td class="am-hide-sm-only">{{ user.userprofile.last_mentoring_record_date }}</td>
 					<td>
 						<div class="am-btn-toolbar">
 							<div class="am-btn-group am-btn-group-xs">
-								<a class="am-btn am-btn-default am-btn-xs" href="{% url 'dashboard:StudentDetailView' user.id %}"><span class="am-icon-search"></span> 查看</a>
+								<a class="am-btn am-btn-default am-btn-xs" href="{% url 'dashboard:MentoringRecordListView' %}?student_id={{ user.id }}"><span class="am-icon-calendar"></span> 辅导纪录</a>
+								<a class="am-btn am-btn-default am-btn-xs" href="{% url 'dashboard:StudentDetailView' user.id %}"><span class="am-icon-user"></span> 基本资料</a>
 								{% if request.user.groups.first.name == "管理员" %}
 								<a class="am-btn am-btn-default am-btn-xs am-text-secondary" href="{% url 'dashboard:StudentUpdateView' user.id %}"><span class="am-icon-pencil-square-o"></span> 编辑</a>
 								<a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only" href="{% url 'dashboard:StudentDeleteView' user.id %}"><span class="am-icon-trash-o"></span> 删除</a>

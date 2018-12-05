@@ -1,0 +1,52 @@
+{% extends 'dashboard/dashboard.html' %}
+{% block content %}
+<div class="am-g">
+	<div class="am-u-sm-6">
+		<strong>学生辅导中（{{ mentoring_student_count }}名）</strong>
+		<table class="am-table am-table-striped am-table-hover table-main">
+			<thead>
+				<tr>
+					<th>学生姓名</th>
+					<th>导师姓名</th>
+					<th>上次辅导日期距离今天的天数</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for object in object_list %}
+				<tr>
+					<td>{{ object.student.userprofile.chinese_name }}</td>
+					<td>{{ object.teacher.userprofile.chinese_name }}</td>
+					<td {% if object.last_mentoring_record_date_till_now >= 14 %}class="am-text-danger"{% endif %}>
+						{{ object.last_mentoring_record_date_till_now }}
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		{% include "dashboard/paginator.html" %}
+	</div>
+	<div class="am-u-sm-6">
+		<strong>
+		渠道（本月新增{{ channel_this_month_student_count }}名 / 累积{{ channel_student_count }}名）
+		</strong>
+		<table class="am-table am-table-striped am-table-hover table-main">
+			<thead>
+				<tr>
+					<th>渠道名</th>
+					<th>本月新增学生人数</th>
+					<th>累计学生人数</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for channel in channels %}
+				<tr>
+					<td>{{ channel.userprofile.channel_name }}</td>
+					<td>{{ channel.userprofile.channel_student_count_this_month }}</td>
+					<td>{{ channel.userprofile.channel_student_count }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+{% endblock %}

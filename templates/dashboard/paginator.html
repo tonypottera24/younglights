@@ -5,18 +5,18 @@
 		{% if is_paginated %}
 		<ul class="am-pagination">
 			{% if page_obj.has_previous %}
-			<li><a href="?page={{ page_obj.previous_page_number }}&{{ request.GET.urlencode }}">«</a></li>
+			<li><a href="?page={{ page_obj.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">«</a></li>
 			{% endif %}
 			{% for i in page_obj.paginator.page_range %}
 			{% if page_obj.number == i %}
 			<li class="am-active"><a href="#">{{ page_obj.number }}</a></li>
 			{% else %}
-			<li class="am-inactive"><a href="?page={{ i }}&{{ request.GET.urlencode }}">{{ i }}</a></li>
+			<li class="am-inactive"><a href="?page={{ i }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ i }}</a></li>
 			{% endif %}
 			{% endfor %}
 
 			{% if page_obj.has_next %}
-			<li><a href="?page={{ page_obj.next_page_number }}&&{{ request.GET.urlencode }}">»</a></li>
+			<li><a href="?page={{ page_obj.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">»</a></li>
 			{% endif %}
 		</ul>
 		{% endif %}
